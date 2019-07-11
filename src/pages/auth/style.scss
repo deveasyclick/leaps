@@ -1,0 +1,123 @@
+@import '../../styles/variables.scss';
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid $purple;
+  -webkit-text-fill-color: $purple;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.Login,.Signup,.ForgotPassword{
+    &>.row{
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-wrapper{
+        .row:first-child{
+            .welcome-heading{
+                color: $background-blue;
+            }
+        }
+       
+        
+        .form-group{
+            margin-bottom: 15px;
+
+            @media (min-width:576px){
+                margin-bottom: 20px;
+            }
+            .label{
+                margin-bottom: 0px;
+    
+                @media (min-width:576px){
+                    display: none;
+                }
+            }
+            .form-control{
+                width:100%;
+                padding: 7px 10px;
+                border-radius: 5px;
+                border: none;
+                box-shadow: 0 0 0px 1px $gray;
+        
+                @media (min-width:567px){
+                    box-shadow: none;
+                    border-bottom: solid 2px #cccccc;
+                    border-radius: 0;
+                    padding-bottom: 20px;
+                    padding-left: 0;
+
+                }
+                &:focus{
+                    outline: none;
+                }
+                &::placeholder{
+                    background: $white;
+                }
+            }
+            .forgot-password-link{
+                color:$background-blue;
+                text-decoration: underline;
+                font-weight: bold;
+            }
+        }
+        .form-group-btn{
+            margin-top:10px;
+            outline: none;
+            padding: 6px 0;
+        }
+
+        .error-text{
+            margin-bottom: 0;
+            margin-top: 10px;
+            color: $error-color;
+        }
+        .input-error-text{
+            color:$error-color;
+            margin-bottom: 0;
+        }
+        .success-text{
+            margin-bottom: 0;
+            margin-top: 10px;
+            color: $success-color;
+        }
+        .login-btn,.signup-btn,.forgotpassword-btn{
+            position: relative;
+            min-height: 40px;
+            
+            .preloader-wrapper{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+
+                .preloader{
+                    display: block;
+                }
+            }
+        }
+
+    
+    }
+        .text-muted{display: none;}
+    .right-container{
+        @media (max-width:576px) {
+            display:none;
+        }
+    }
+}

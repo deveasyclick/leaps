@@ -1,0 +1,16 @@
+@import '../../../styles/style.scss';
+
+button{
+    width: 100%;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    background: $background-blue;
+    border-radius: 25px !important;
+    font-weight: bold;
+    outline: none !important;
+
+    &:hover{
+        background: $background-deep-blue;
+    }
+}

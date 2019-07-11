@@ -1,0 +1,53 @@
+@import '../styles/style.scss';
+.Nav{
+    .mobile-nav{
+        position: fixed;
+        width:100%;
+        height: 40px;
+        background: $black;
+        color:$white;
+        .logo-wrapper{
+            text-align: center;
+            .site-nav-logo{
+                color:$white;
+            }
+        }
+        .icon-wrapper{
+            text-align: right;
+        }
+        .three-bars, .user-icon{
+            cursor: pointer;
+        }
+        .site-name{
+            padding-left: 0.25rem;
+            font-weight: bold;
+        }
+        .dropdown{
+            padding: 20px;
+            background: $black;
+            width: 100%;
+            position: fixed;
+            margin-top: 40px;
+            top:0;
+            bottom: 0;
+
+            .dropdown-item{
+                a{
+                    color:inherit;
+                }
+
+                .nav-search{
+                    width:100%;
+                    border: none;
+                    padding: 0.25rem;
+                    border-radius: 3px;
+                    padding-left: 1rem;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        @media (min-width:576px) {
+            display: none !important;
+        }
+    }
+}
