@@ -5,12 +5,12 @@ button{
     border: none;
     padding: 5px 10px;
     color: white;
-    background: $background-blue;
+    background: $app-dominant-color;
     border-radius: 25px !important;
     font-weight: bold;
     outline: none !important;
 
     &:hover{
-        background: $background-deep-blue;
+        background: $app-dominant-color-deep;
     }
 }

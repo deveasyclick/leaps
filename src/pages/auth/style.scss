@@ -25,25 +25,45 @@ select:-webkit-autofill:focus {
     }
     .form-wrapper{
         .row:first-child{
+            .top-login-column, .top-signup-column{
+                margin-bottom: 20px;
+            }
             .welcome-heading{
-                color: $background-blue;
+                color: $app-dominant-color;
+                margin-bottom: 0;
+            }
+            .login-notice,.signup-notice{
+                color:$dark-gray;
             }
         }
-       
         
         .form-group{
             margin-bottom: 15px;
 
-            @media (min-width:576px){
+            @media (min-width:$mobile-min-screen){
                 margin-bottom: 20px;
             }
             .label{
                 margin-bottom: 0px;
     
-                @media (min-width:576px){
+                @media (min-width:$mobile-min-screen){
                     display: none;
                 }
             }
+            .forgot-password{
+                &-link{
+                    color:$dark-gray;
+                    font-weight: bold;
+
+                    &:hover{
+                    text-decoration: underline;
+                    }
+                }
+                @media (max-width:$mobile-max-screen) {
+                    display: none !important;
+                }
+            }
+            
             .form-control{
                 width:100%;
                 padding: 7px 10px;
@@ -51,7 +71,7 @@ select:-webkit-autofill:focus {
                 border: none;
                 box-shadow: 0 0 0px 1px $gray;
         
-                @media (min-width:567px){
+                @media (min-width:$mobile-min-screen){
                     box-shadow: none;
                     border-bottom: solid 2px #cccccc;
                     border-radius: 0;
@@ -66,14 +86,19 @@ select:-webkit-autofill:focus {
                     background: $white;
                 }
             }
-            .forgot-password-link{
-                color:$background-blue;
-                text-decoration: underline;
+            .notice-link{
+                color:$app-dominant-color;
                 font-weight: bold;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+
+            .signup-link{
+                margin-left: 5px;
             }
         }
         .form-group-btn{
-            margin-top:10px;
             outline: none;
             padding: 6px 0;
         }
@@ -116,7 +141,7 @@ select:-webkit-autofill:focus {
     }
         .text-muted{display: none;}
     .right-container{
-        @media (max-width:576px) {
+        @media (max-width:$mobile-max-screen) {
             display:none;
         }
     }

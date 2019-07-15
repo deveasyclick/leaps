@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Button from './components/button';
-import bookLover from '../../assets/illustrations/undraw_book_lover_mkck.svg';
+import bookLover from '../../assets/illustrations/undraw_book_lover.svg';
 import Loader from '../../assets/images/Spinner-1s-200px.svg';
-import { signup } from '../../redux/auth/auth.action';
 import authActionTypes from '../../redux/auth/auth.actionTypes';
+import { signup } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
+import Logo from '../../assets/images/logo-only_mobile.png';
 
 import './style.scss';
 
 
 function printError(type, error) {
   switch (type) {
-    case authActionTypes.SIGNUP_FAILED:
+    case authActionTypes.LOGIN_FAILED:
       return <p className="error-text">{error}</p>;
-    case authActionTypes.SIGNUP_SUCCESS:
+    case authActionTypes.LOGIN_SUCCESS:
       return <p className="success-text">Success!</p>;
     default: return null;
   }
@@ -35,13 +36,6 @@ export class Signup extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(props) {
-    if (props.type === authActionTypes.SIGNUP_SUCCESS) {
-      return <Redirect to="/" />;
-    }
-    return null;
-  }
-
   onSubmit(e) {
     e.preventDefault();
     this.setState({ showInvalid: false });
@@ -50,8 +44,8 @@ export class Signup extends Component {
       return;
     }
     const { toSubmit } = this.state;
-    const { register } = this.props;
-    register(toSubmit);
+    const { signup: loginUser } = this.props;
+    loginUser(toSubmit);
   }
 
   handleInputChange(e) {
@@ -78,6 +72,9 @@ export class Signup extends Component {
   render() {
     const { form, showInvalid } = this.state;
     const { type, error } = this.props;
+    if (type === authActionTypes.LOGIN_SUCCESS) {
+      return <Redirect to="/" />;
+    }
     return (
       <section className="Signup container-fluid">
         <div className="row">
@@ -93,8 +90,12 @@ export class Signup extends Component {
           <div className="col-12 col-md-5 form-wrapper">
             <form className="container" onSubmit={this.onSubmit}>
               <div className="row">
-                <div className="col-12">
-                  <h1 className="h1 welcome-heading">WELCOME TO LEAPS</h1>
+                <div className="col-12 top-signup-column">
+                  <div className="logo-wrapper">
+                    <img src={Logo} alt="Leaps Logo" />
+                  </div>
+                  <h1 className="h1 welcome-heading">WELCOME TO LEAPS,</h1>
+                  <h3 className="h3"><small className="signup-notice">Signup as a Reseacher!</small></h3>
                 </div>
               </div>
               <div className="form-group row">
@@ -111,9 +112,10 @@ export class Signup extends Component {
               <div className="form-group row">
                 <label htmlFor="password" className="col-12 col-md-6 label">
                   Password
+                  {' '}
                 </label>
                 <div className="col-12 col-md-8">
-                  <input type="password" name="password" id="password" className="form-control" placeholder="Password" aria-describedby="passwordId" value={form.password.value} onChange={this.handleInputChange} />
+                  <input type="password" name="password" id="password" className="form-control" onChange={this.handleInputChange} value={form.password.value} placeholder="Password" aria-describedby="passwordId" />
                   {
                     showInvalid && !form.password.valid
                     && <p className="input-error-text">please enter a valid password</p>
@@ -121,6 +123,7 @@ export class Signup extends Component {
                   <small id="passwordId" className="text-muted">Password</small>
                 </div>
               </div>
+
               <div className="form-group form-group-btn row">
                 <div className="col-12 col-md-8">
                   <Button className="signup-btn" type="submit">
@@ -134,11 +137,15 @@ export class Signup extends Component {
                   }
                   </Button>
                   {printError(type, error)}
+
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col-12 col-md-8 d-flex justify-content-center">
-                  <Link className="forgot-password-link" to="/password-reset">Forgot Password?</Link>
+                  <span>
+                    Already a member?
+                    <Link className="notice-link signup-link" to="/login">Login</Link>
+                  </span>
                 </div>
               </div>
             </form>
@@ -149,13 +156,12 @@ export class Signup extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   type: state.auth.type,
   error: state.auth.error,
 });
 const mapDispatchToProps = dispatch => ({
-  register: obj => dispatch(signup(obj)),
+  signup: obj => dispatch(signup(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
