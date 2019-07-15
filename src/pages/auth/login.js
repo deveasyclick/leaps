@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Button from './components/button';
-import bookLover from '../../assets/illustrations/undraw_book_lover_mkck.svg';
+import bookLover from '../../assets/illustrations/undraw_book_lover.svg';
 import Loader from '../../assets/images/Spinner-1s-200px.svg';
 import authActionTypes from '../../redux/auth/auth.actionTypes';
 import { login } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
+import Logo from '../../assets/images/logo-only_mobile.png';
 
 import './style.scss';
 
@@ -89,9 +90,12 @@ export class Login extends Component {
           <div className="col-12 col-md-5 form-wrapper">
             <form className="container" onSubmit={this.onSubmit}>
               <div className="row">
-                <div className="col-12">
-                  <h1 className="h1 welcome-heading">WELCOME TO LEAPS</h1>
-                  <h3 className="h3">Login!</h3>
+                <div className="col-12 top-login-column">
+                  <div className="logo-wrapper">
+                    <img src={Logo} alt="Leaps Logo" />
+                  </div>
+                  <h1 className="h1 welcome-heading">WELCOME TO LEAPS,</h1>
+                  <h3 className="h3"><small className="login-notice">Login as a Reseacher!</small></h3>
                 </div>
               </div>
               <div className="form-group row">
@@ -108,6 +112,10 @@ export class Login extends Component {
               <div className="form-group row">
                 <label htmlFor="password" className="col-12 col-md-6 label">
                   Password
+                  {' '}
+                  <small>
+                    <Link className="notice-link" title="forgot your password?" to="/password-reset">Forgot?</Link>
+                  </small>
                 </label>
                 <div className="col-12 col-md-8">
                   <input type="password" name="password" id="password" className="form-control" onChange={this.handleInputChange} value={form.password.value} placeholder="Password" aria-describedby="passwordId" />
@@ -116,6 +124,11 @@ export class Login extends Component {
                     && <p className="input-error-text">please enter a valid password</p>
                   }
                   <small id="passwordId" className="text-muted">Password</small>
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="forgot-password col-12 d-flex justify-content-center ">
+                  <Link className="forgot-password-link" to="/password-reset">Forgot Password?</Link>
                 </div>
               </div>
               <div className="form-group form-group-btn row">
@@ -136,7 +149,10 @@ export class Login extends Component {
               </div>
               <div className="form-group row">
                 <div className="col-12 col-md-8 d-flex justify-content-center">
-                  <Link className="forgot-password-link" to="/password-reset">Forgot Password?</Link>
+                  <span>
+                    Not a member?
+                    <Link className="notice-link signup-link" to="/signup">Sign up now</Link>
+                  </span>
                 </div>
               </div>
             </form>

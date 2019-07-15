@@ -4,6 +4,7 @@ import { GoThreeBars, GoX } from 'react-icons/go';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toggleNav } from '../redux/nav/nav.action';
+import Logo from '../assets/images/logo-only_mobile.png';
 
 import './nav.scss';
 
@@ -54,16 +55,20 @@ export class Nav extends PureComponent {
     return (
       <section className="Nav container-fluid">
         <div className="mobile-nav row d-flex align-items-center">
-          <div className="menu-wrapper col-3">
+          <div className="menu-wrapper col-4">
             {
                        this.renderNavMenu()
                    }
             <span className="site-name">LEAPS</span>
           </div>
-          <div className="logo-wrapper col-6">
-            <a href="/"><span className="site-nav-logo">LOGO</span></a>
+          <div className="logo-wrapper col-4">
+            <a href="/">
+              <span className="site-nav-logo">
+                <img src={Logo} alt="leaps-logo" width="40" height="40" />
+              </span>
+            </a>
           </div>
-          <div className="icon-wrapper col-3"><FiUser className="user-icon" size={24} /></div>
+          <div className="icon-wrapper col-4"><FiUser className="user-icon" size={24} /></div>
           {this.renderDropdown()}
         </div>
       </section>
