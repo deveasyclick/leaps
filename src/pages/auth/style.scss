@@ -43,7 +43,7 @@ select:-webkit-autofill:focus {
             @media (min-width:$mobile-min-screen){
                 margin-bottom: 20px;
             }
-            .label{
+            .label:not(.country_label){
                 margin-bottom: 0px;
     
                 @media (min-width:$mobile-min-screen){
@@ -70,6 +70,7 @@ select:-webkit-autofill:focus {
                 border-radius: 5px;
                 border: none;
                 box-shadow: 0 0 0px 1px $gray;
+                background: white;
         
                 @media (min-width:$mobile-min-screen){
                     box-shadow: none;
@@ -107,6 +108,7 @@ select:-webkit-autofill:focus {
             margin-bottom: 0;
             margin-top: 10px;
             color: $error-color;
+            text-align:center;
         }
         .input-error-text{
             color:$error-color;
@@ -116,6 +118,7 @@ select:-webkit-autofill:focus {
             margin-bottom: 0;
             margin-top: 10px;
             color: $success-color;
+            text-align:center;
         }
         .login-btn,.signup-btn,.forgotpassword-btn{
             position: relative;

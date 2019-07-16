@@ -8,15 +8,15 @@ import authActionTypes from '../../redux/auth/auth.actionTypes';
 import { signup } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
 import Logo from '../../assets/images/logo-only_mobile.png';
+import countries from '../../json/country-by-abbreviation.json';
 
 import './style.scss';
 
-
 function printError(type, error) {
   switch (type) {
-    case authActionTypes.LOGIN_FAILED:
+    case authActionTypes.SIGNUP_FAILED:
       return <p className="error-text">{error}</p>;
-    case authActionTypes.LOGIN_SUCCESS:
+    case authActionTypes.SIGNUP_SUCCESS:
       return <p className="success-text">Success!</p>;
     default: return null;
   }
@@ -26,7 +26,10 @@ export class Signup extends Component {
     super(props);
     this.state = {
       form: {
-        email: { value: '', valid: false }, password: { value: '', valid: false },
+        email: { value: '', valid: false },
+        country: { value: '', valid: false },
+        username: { value: '', valid: false },
+        password: { value: '', valid: false },
       },
       toSubmit: {},
       showInvalid: false,
@@ -72,7 +75,7 @@ export class Signup extends Component {
   render() {
     const { form, showInvalid } = this.state;
     const { type, error } = this.props;
-    if (type === authActionTypes.LOGIN_SUCCESS) {
+    if (type === authActionTypes.SIGNUP_SUCCESS) {
       return <Redirect to="/" />;
     }
     return (
@@ -99,9 +102,20 @@ export class Signup extends Component {
                 </div>
               </div>
               <div className="form-group row">
+                <label htmlFor="username" className="col-12 label">Username</label>
+                <div className="col-12 col-md-8">
+                  <input type="text" name="username" id="username" className="form-control" placeholder="Username" aria-describedby="usernameId" value={form.username.value} onChange={this.handleInputChange} />
+                  {
+                    showInvalid && !form.username.valid
+                    && <p className="input-error-text">Username cannot be empty</p>
+                  }
+                  <small id="usernameId" className="text-muted">Username</small>
+                </div>
+              </div>
+              <div className="form-group row">
                 <label htmlFor="email" className="col-12 label">Email</label>
                 <div className="col-12 col-md-8">
-                  <input type="text" name="email" id="email" className="form-control" placeholder="Email" aria-describedby="emailId" value={form.email.value} onChange={this.handleInputChange} />
+                  <input type="email" name="email" id="email" className="form-control" placeholder="Email" aria-describedby="emailId" value={form.email.value} onChange={this.handleInputChange} />
                   {
                     showInvalid && !form.email.valid
                     && <p className="input-error-text">Invalid email entered</p>
@@ -112,7 +126,6 @@ export class Signup extends Component {
               <div className="form-group row">
                 <label htmlFor="password" className="col-12 col-md-6 label">
                   Password
-                  {' '}
                 </label>
                 <div className="col-12 col-md-8">
                   <input type="password" name="password" id="password" className="form-control" onChange={this.handleInputChange} value={form.password.value} placeholder="Password" aria-describedby="passwordId" />
@@ -121,6 +134,36 @@ export class Signup extends Component {
                     && <p className="input-error-text">please enter a valid password</p>
                   }
                   <small id="passwordId" className="text-muted">Password</small>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="country" className="col-12 col-md-6 label country_label">
+                  Country
+                </label>
+                <div className="col-12 col-md-8">
+                  <select
+                    name="country"
+                    id="country"
+                    onChange={this.handleInputChange}
+                    value={form.country.value}
+                    className="form-control"
+                    aria-describedby="countryId"
+                  >
+                    {
+                      countries.map((country, ind) => (
+                        <option value={country.country} key={ind}>
+                          {country.abbreviation}
+                        </option>
+                      ))
+                    }
+                  </select>
+                  {
+                    showInvalid && !form.country.valid
+                    && <p className="input-error-text">please select a country</p>
+                  }
+
+
+                  <small id="countryId" className="text-muted">country</small>
                 </div>
               </div>
 
