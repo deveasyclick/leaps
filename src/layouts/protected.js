@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { Header } from '../components/header';
 import authActionTypes from '../redux/auth/auth.actionTypes';
+import navActionTypes from '../redux/nav/nav.action-type';
 import { checkAuth } from '../redux/auth/auth.action';
 import Loading from './loading';
-
 import '../config/firebase';
+
+import Sidebar from './components/sidebar/index';
+import { Header } from './components/header/index';
 
 
 export class ProtectedLayout extends React.Component {
@@ -17,8 +19,16 @@ export class ProtectedLayout extends React.Component {
 
   render() {
     const {
-      component: Component, isAuthenticated, data, type, ...rest
+      component: Component, isAuthenticated, data, type, nav, ...rest
     } = this.props;
+    const layoutStyle = {
+      width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
+      marginLeft: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '20%' : '0',
+      background: '#F8FAFC',
+      height: '100vh',
+      paddingTop: '60px',
+      transition: '1s all',
+    };
     return (
       <Route
         {...rest}
@@ -28,16 +38,20 @@ export class ProtectedLayout extends React.Component {
               <Redirect
                 to={{
                   pathname: '/login',
-                  state: { from: matchProps.location },
+                  states: { from: matchProps.location },
                 }}
               />
             );
           } if (type === authActionTypes.CHECK_AUTH_SUCCESS) {
             return (
               <React.Fragment>
-                <Header />
-                <Component {...matchProps} />
+                <Sidebar />
+                <div style={layoutStyle}>
+                  <Header />
+                  <Component {...matchProps} />
+                </div>
               </React.Fragment>
+
             );
           }
           return <Loading />;
@@ -48,10 +62,11 @@ export class ProtectedLayout extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  type: state.auth.type,
-  isAuthenticated: state.auth.type,
-  data: state.auth.data,
+const mapStateToProps = states => ({
+  type: states.auth.type,
+  isAuthenticated: states.auth.type,
+  data: states.auth.data,
+  nav: states.nav,
 });
 
 const mapDispatchToProps = dispatch => ({

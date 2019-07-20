@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from '../components/header';
+import { Header } from './components/header/index';
 import bouncingBall from '../assets/icons/Ball-1s-200px.svg';
 
 export default function DefaultLayout() {

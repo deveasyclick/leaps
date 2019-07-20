@@ -72,7 +72,7 @@ export class Login extends Component {
   render() {
     const { form, showInvalid } = this.state;
     const { type, error } = this.props;
-    if (type === authActionTypes.LOGIN_SUCCESS) {
+    if (type === authActionTypes.LOGIN_SUCCESS || type === authActionTypes.CHECK_AUTH_SUCCESS) {
       return <Redirect to="/" />;
     }
     return (

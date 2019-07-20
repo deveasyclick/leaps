@@ -150,9 +150,9 @@ export class Signup extends Component {
                     aria-describedby="countryId"
                   >
                     {
-                      countries.map((country, ind) => (
-                        <option value={country.country} key={ind}>
-                          {country.abbreviation}
+                      countries.map((data, ind) => (
+                        <option value={data.country} key={ind}>
+                          {data.country}
                         </option>
                       ))
                     }

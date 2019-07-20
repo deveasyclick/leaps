@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Nav from './nav';
+import Nav from '../nav';
 import './header.scss';
 
 

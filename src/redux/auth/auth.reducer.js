@@ -51,6 +51,27 @@ export default (state = initialState, payload) => {
       };
 
 
+    case authActionTypes.LOGOUT_LOADING:
+      return {
+        ...state,
+        type: authActionTypes.LOGOUT_LOADING,
+      };
+
+    case authActionTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        type: authActionTypes.LOGOUT_SUCCESS,
+        isAuthenticated: true,
+        data: { ...state.data, ...payload.data },
+      };
+    case authActionTypes.LOGOUT_FAILED:
+      return {
+        ...state,
+        type: authActionTypes.LOGOUT_FAILED,
+        error: payload.error,
+        isAuthenticated: false,
+      };
+
     case authActionTypes.CHECK_AUTH_LOADING:
       return {
         ...state,
@@ -62,6 +83,7 @@ export default (state = initialState, payload) => {
         ...state,
         type: authActionTypes.CHECK_AUTH_SUCCESS,
         isAuthenticated: true,
+        data: { ...state.data, ...payload.data },
       };
     case authActionTypes.CHECK_AUTH_FAILED:
       return {

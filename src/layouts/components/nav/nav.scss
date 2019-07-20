@@ -1,0 +1,83 @@
+@import '../../../styles/style.scss';
+.Nav{
+    position: fixed;
+    top: 0;
+    .desktop-nav{
+        background: $white;
+        height: 60px;
+        border-bottom: solid 1px $header-border-color;
+        color:$black;
+
+
+        .logout-icon-wrapper{
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            &:hover{
+                background: $light-gray;
+            }
+        }
+        .search-wrapper{
+            margin-right: 35px;
+            .search{
+                border-radius: 20px;
+                border: none;
+                box-shadow: 0 0 2px 0px grey;
+                padding-left: 10px;
+                outline: none;
+                cursor: pointer;
+                display: none;
+                @media (min-width:$mobile-min-screen){
+                    display: block;
+                }
+            }
+            .search-icon-wrapper{
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: none;
+
+                    &:hover{
+                        background: $light-gray;
+                    }
+                .search-icon{
+                    cursor: pointer;
+                }
+                @media (max-width:$mobile-max-screen) {
+                    display: block;
+                }
+            }
+            
+        }
+        
+        .times-icon-wrapper{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: gray;
+            cursor: pointer;
+            margin-right: 20px;
+
+            &:hover{
+                background:$light-gray;
+            }
+        }
+        .site-section{
+            margin-bottom: 0;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
+}

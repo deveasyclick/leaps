@@ -1,11 +1,13 @@
 
-export const saveToken = (token) => {
-  const data = { token };
+export const saveToken = (obj) => {
+  const data = JSON.parse(localStorage.getItem('leaps')) || {};
+  data.token = obj;
   localStorage.setItem('leaps', JSON.stringify(data));
 };
 
 export const getToken = () => {
-  const { token } = JSON.parse(localStorage.getItem('leaps'));
+  const data = JSON.parse(localStorage.getItem('leaps')) || {};
+  const token = data.token || null;
   return token;
 };
 
