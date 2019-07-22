@@ -16,6 +16,7 @@ export class Dashboard extends Component {
         heading: { value: '', valid: false },
         excerpt: { value: '', valid: false },
         definition: { value: '', valid: false },
+        pdf: { value: '', valid: false },
       },
       toSubmit: {},
       showInvalid: false,
@@ -114,10 +115,10 @@ export class Dashboard extends Component {
             </div>
             <div className="row resources-btn-row">
               <div className="col-8 d-flex btn-wrapper offset-1">
-                <button type="button" className="text-btn btn" onClick={() => this.handleResourceBtnClick('text')}>Texts</button>
-                <button type="button" className="pdf-btn btn" onClick={() => this.handleResourceBtnClick('pdf')}>Pdfs</button>
-                <button type="button" className="image-btn btn" onClick={() => this.handleResourceBtnClick('image')}>Images</button>
-                <button type="button" className="video-btn btn" onClick={() => this.handleResourceBtnClick('video')}>Videos</button>
+                <button type="button" className={`text-btn btn ${activeContent === 'text' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('text')}>Texts</button>
+                <button type="button" className={`pdf-btn btn ${activeContent === 'pdf' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('pdf')}>Pdfs</button>
+                <button type="button" className={`image-btn btn ${activeContent === 'image' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('image')}>Images</button>
+                <button type="button" className={`video-btn btn ${activeContent === 'video' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('video')}>Videos</button>
               </div>
             </div>
             <div className="row content-row">
@@ -142,9 +143,20 @@ export class Dashboard extends Component {
                   <button type="button" className="add-text-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`col-12 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>Pdfs content</div>
-              <div className={`col-12 image-content content ${activeContent === 'image' ? 'show' : ''}`}>Images content</div>
-              <div className={`col-12 video-content content ${activeContent === 'video' ? 'show' : ''}`}>Videos content</div>
+              <div className={`offset-1 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
+                <div className="form-group col-10">
+                  <input
+                    type="file"
+                    value={form.pdf.value}
+                    onChange
+                    placeholder="Select a pdf file"
+                    name="pdf"
+                    className="form-control"
+                  />
+                </div>
+              </div>
+              <div className={`offset-1 col-10 image-content content ${activeContent === 'image' ? 'show' : ''}`}>Images content</div>
+              <div className={`offset-1 col-10 video-content content ${activeContent === 'video' ? 'show' : ''}`}>Videos content</div>
             </div>
             <div className="row upload-btn-row">
               <div className="form-group col-8 offset-1 btn-wrapper">

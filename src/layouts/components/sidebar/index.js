@@ -15,7 +15,9 @@ class Sidebar extends Component {
 
   componentDidMount() {
     const user = storage.getToken();
-    this.setState({ user });
+    if (user) {
+      this.setState({ user });
+    }
   }
 
   render() {
