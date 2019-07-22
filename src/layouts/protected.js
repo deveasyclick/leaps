@@ -9,7 +9,7 @@ import '../config/firebase';
 
 import Sidebar from './components/sidebar/index';
 import { Header } from './components/header/index';
-
+import './style.scss';
 
 export class ProtectedLayout extends React.Component {
   componentDidMount() {
@@ -24,10 +24,6 @@ export class ProtectedLayout extends React.Component {
     const layoutStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
       marginLeft: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '20%' : '0',
-      background: '#F8FAFC',
-      height: '100vh',
-      paddingTop: '60px',
-      transition: '1s all',
     };
     return (
       <Route
@@ -46,9 +42,11 @@ export class ProtectedLayout extends React.Component {
             return (
               <React.Fragment>
                 <Sidebar />
-                <div style={layoutStyle}>
+                <div style={layoutStyle} className="Protected">
                   <Header />
-                  <Component {...matchProps} />
+                  <div style={{ padding: '10px' }}>
+                    <Component {...matchProps} />
+                  </div>
                 </div>
               </React.Fragment>
 

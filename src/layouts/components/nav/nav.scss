@@ -2,6 +2,10 @@
 .Nav{
     position: fixed;
     top: 0;
+    z-index: 1000;
+    @media (max-width:1200px){
+        width: 100% !important;
+    }
     .desktop-nav{
         background: $white;
         height: 60px;

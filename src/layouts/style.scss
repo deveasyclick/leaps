@@ -1,0 +1,13 @@
+@import '../styles/style.scss';
+
+.Protected{
+    background: $white;
+    height: 100vh;
+    padding-top: 60px;
+    transition: 1s all;
+
+    @media (max-width:1200px) {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}

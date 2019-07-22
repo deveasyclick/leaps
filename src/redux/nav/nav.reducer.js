@@ -3,7 +3,7 @@ import navActionType from './nav.action-type';
 
 const initialState = {
   type: navActionType.TOGGLE_NAV,
-  show: false,
+  show: true,
 };
 export default (state = initialState, payload) => {
   switch (payload.type) {
