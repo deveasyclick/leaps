@@ -1,22 +1,33 @@
 @import '../../styles/style.scss';
 
+@mixin button {
+    width: 8rem;
+    border-radius: 5px !important;
+    padding: 0.7rem;
+    font-size: 12px;
+}
+
 .Dashboard {
     .row {
         margin-bottom: 10px;
     }
+    .content-row{
+        margin-bottom: 1rem;
+    }
 
     .form {
-        padding: 15px;
+        margin-top: 2rem;
 
         .form-group {
             margin-bottom: 20px;
 
             .form-control {
                 background: $white;
-                border: solid 1px $gray;
+                box-shadow: 0px 1px 1px #c5c4c4;
                 padding: 7px 15px;
                 outline: none;
-                border-radius: 6px;
+                border-radius: 0px;
+                border: none;
                 cursor: pointer;
                 width: 100%;
             }
@@ -54,33 +65,86 @@
 
     .upload-resources-heading-row {
         margin: 20px 0;
+
         .upload-text {}
     }
 
     .resources-btn-row {
         margin-bottom: 2rem;
 
+        .check {
+            margin-right: 10px;
+        }
+
         .btn-wrapper {
             padding-left: 3rem;
 
-            .btn {
+            .btn{
                 margin-right: 0.625rem;
+                width: 30rem !important;
+                padding: 0.6rem;
             }
-            .btn.active{
-                background:#4a39b9;
+
+            .btn:not(.active){
+                background: none;
+                border: solid 1px $gray;
+                color: $gray;
+            }
+            .btn.active {
+                background: #4a39b9;
             }
         }
     }
 
     .content-row {
         .text-content {
+            padding-left: 0;
             .form-group-btn {
-                text-align: right;
+                text-align: center;
 
                 .btn {
                     width: 8rem;
                     border-radius: 5px !important;
-                    padding: 0.5rem;
+                    padding: 0.7rem;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .pdf-content,.image-content,.video-content {
+            padding-left: 0;
+            .btn-wrapper{
+                text-align: center;
+                .add-image-btn,.add-pdf-btn,.add-video-btn{
+                    @include button;
+                }
+            }
+            .image-wrapper,.pdf-wrapper,.video-wrapper {
+                position: relative;
+                
+                .image-input-control,.pdf-input-control, .video-input-control{
+                    text-align: center;
+                }
+                .file {
+                    display: none;
+                }
+            }
+
+            .add-icon-wrapper {
+                position: absolute;
+                top: 0.4rem;
+                right: 1rem;
+                border: solid 1px $dark-gray;
+                border-radius: 50%;
+                width: 1.5rem;
+                height: 1.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                &:hover {
+                    background: $light-gray;
                 }
             }
         }
@@ -98,8 +162,10 @@
 
     .upload-btn-row {
         .btn-wrapper {
+            text-align: right;
             .btn {
                 margin-left: 1.5rem;
+                @include button;
             }
         }
     }

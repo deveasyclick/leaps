@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { FiPlus, FiCheck, FiPe } from 'react-icons/fi';
 import { validator } from '../../helpers/utils';
 import './index.scss';
-import 'react-tabs/style/react-tabs.css';
 
 
 export class Dashboard extends Component {
@@ -16,16 +15,19 @@ export class Dashboard extends Component {
         heading: { value: '', valid: false },
         excerpt: { value: '', valid: false },
         definition: { value: '', valid: false },
-        pdf: { value: '', valid: false },
+        pdf: { value: '', files: [], valid: false },
+        image: { value: '', files: [], valid: false },
+        video: { value: '', files: [], valid: false },
       },
       toSubmit: {},
       showInvalid: false,
-      activeContent: 'text',
+      activeContent: 'pdf',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.formIsValid = this.formIsValid.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
+    this.file = React.createRef();
   }
 
   formIsValid() {
@@ -36,13 +38,16 @@ export class Dashboard extends Component {
   }
 
   handleInputChange(e) {
-    const { name, value, type } = e.target;
+    const {
+      name, value, type, files,
+    } = e.target;
     this.setState(p => ({
       toSubmit: { ...p.toSubmit, [name]: value },
       form: {
         ...p.form,
         [name]: {
           value,
+          files: type === 'file' ? Array.from(files) : [],
           valid: validator(value, type),
         },
       },
@@ -54,10 +59,10 @@ export class Dashboard extends Component {
   handleResourceBtnClick(type) {
     let activeContent = 'text';
     switch (type) {
-      case 'pdf': activeContent = 'pdf'; break;
       case 'image': activeContent = 'image'; break;
       case 'video': activeContent = 'video'; break;
-      default: activeContent = 'text';
+      case 'text': activeContent = 'text'; break;
+      default: activeContent = 'pdf';
     }
     this.setState({ activeContent });
   }
@@ -68,16 +73,16 @@ export class Dashboard extends Component {
     return (
       <div className="container Dashboard">
         <div className="row">
-          <form className="content offset-2 col-8 form">
+          <form className="content offset-0 offset-md-2 col-md-8 col-12 form">
             <div className="row">
-              <div className="form-group col-6 subject-topic-row">
+              <div className="form-group col-12 col-md-6 subject-topic-row">
                 <select value={form.subject.value} onChange={this.handleInputChange} className="form-control" name="subject" id="subject">
                   <option value="Health Education">Health Education</option>
                   <option value="Civic Studies">Civic Studies</option>
                   <option value="Integrated Science">Integrated Science</option>
                 </select>
               </div>
-              <div className="form-group col-6">
+              <div className="form-group col-md-6 col-12">
                 <label htmlFor="topic" />
                 <input
                   type="text"
@@ -91,10 +96,10 @@ export class Dashboard extends Component {
               </div>
             </div>
             <div className="row tags">
-              <div className="offset-1 col-4">
+              <div className="offset-0 col-12 col-md-4 offset-md-1">
                 <p className="selected-tags">Tags selected for you:</p>
               </div>
-              <div className="col-6 tags-wrapper">
+              <div className="col-12 col-md-6 tags-wrapper">
                 <span className="tag">
                   <span title="delete" className="delete-tag">x</span>
                       Hello
@@ -107,23 +112,35 @@ export class Dashboard extends Component {
             </div>
 
             <div className="row d-flex justify-content-center upload-resources-heading-row">
-              <div className="offset-3 col-9">
+              <div className="offset-0 offset-md-3 col-12 col-md-9">
                 <h3 className="upload-text">
                 Upload Resource content!
                 </h3>
               </div>
             </div>
             <div className="row resources-btn-row">
-              <div className="col-8 d-flex btn-wrapper offset-1">
-                <button type="button" className={`text-btn btn ${activeContent === 'text' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('text')}>Texts</button>
-                <button type="button" className={`pdf-btn btn ${activeContent === 'pdf' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('pdf')}>Pdfs</button>
-                <button type="button" className={`image-btn btn ${activeContent === 'image' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('image')}>Images</button>
-                <button type="button" className={`video-btn btn ${activeContent === 'video' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('video')}>Videos</button>
+              <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+                <button type="button" className={`text-btn btn ${activeContent === 'text' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('text')}>
+                  {activeContent === 'text' ? <FiCheck className="check" /> : ''}
+                  Texts
+                </button>
+                <button type="button" className={`pdf-btn btn ${activeContent === 'pdf' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('pdf')}>
+                  {activeContent === 'pdf' ? <FiCheck className="check" /> : ''}
+                  Pdfs
+                </button>
+                <button type="button" className={`image-btn btn ${activeContent === 'image' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('image')}>
+                  {activeContent === 'image' ? <FiCheck className="check" /> : ''}
+                  Images
+                </button>
+                <button type="button" className={`video-btn btn ${activeContent === 'video' ? 'active' : ''}`} onClick={() => this.handleResourceBtnClick('video')}>
+                  {activeContent === 'video' ? <FiCheck className="check" /> : ''}
+                  Videos
+                </button>
               </div>
             </div>
             <div className="row content-row">
-              <div className={`offset-1 col-10 text-content content ${activeContent === 'text' ? 'show' : ''}`}>
-                <div className="form-group col-10">
+              <div className={`offset-md-2 offset-0 col-md-10 col-12 text-content content ${activeContent === 'text' ? 'show' : ''}`}>
+                <div className="form-group col-md-10 col-12">
                   <input
                     type="text"
                     value={form.heading.value}
@@ -133,33 +150,108 @@ export class Dashboard extends Component {
                     className="form-control"
                   />
                 </div>
-                <div className="form-group col-10">
+                <div className="form-group col-md-10 col-12">
                   <textarea className="form-control" name="excerpt" id="excerpt" rows="3" onChange={this.handleInputChange} placeholder="Excerpt" value={form.excerpt.value} />
                 </div>
-                <div className="form-group col-10">
+                <div className="form-group col-md-10 col-12">
                   <textarea className="form-control" name="definition" id="definition" rows="5" onChange={this.handleInputChange} placeholder="Definition" value={form.definition.value} />
                 </div>
-                <div className="form-group col-10 form-group-btn">
+                <div className="form-group col-md-10 col-12 form-group-btn">
                   <button type="button" className="add-text-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`offset-1 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
+              <div className={`offset-2 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
+
                 <div className="form-group col-10">
-                  <input
-                    type="file"
-                    value={form.pdf.value}
-                    onChange
-                    placeholder="Select a pdf file"
-                    name="pdf"
-                    className="form-control"
-                  />
+                  <div className="pdf-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Select pdf documents"
+                      id="proxy"
+                      className="form-control pdf-input-control"
+                      readOnly
+                      onClick={() => {
+                        this.file.current.click();
+                      }}
+                    />
+                    <div className="add-icon-wrapper">
+                      <FiPlus
+                        size={14}
+                        className="add-icon"
+                        onClick={() => {
+                          this.file.current.click();
+                        }}
+                      />
+                    </div>
+                    <input ref={this.file} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
+                  </div>
+                </div>
+                {form.video.files.forEach}
+                <div className="form-group col-10 form-group-btn btn-wrapper">
+                  <button type="button" className="add-pdf-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`offset-1 col-10 image-content content ${activeContent === 'image' ? 'show' : ''}`}>Images content</div>
-              <div className={`offset-1 col-10 video-content content ${activeContent === 'video' ? 'show' : ''}`}>Videos content</div>
+              <div className={`offset-2 col-10 image-content content ${activeContent === 'image' ? 'show' : ''}`}>
+                <div className="form-group col-10">
+                  <div className="image-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Select images"
+                      id="proxy"
+                      className="form-control image-input-control"
+                      readOnly
+                      onClick={() => {
+                        this.file.current.click();
+                      }}
+                    />
+                    <div className="add-icon-wrapper">
+                      <FiPlus
+                        size={14}
+                        className="add-icon"
+                        onClick={() => {
+                          this.file.current.click();
+                        }}
+                      />
+                    </div>
+                    <input ref={this.file} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
+                  </div>
+                </div>
+                <div className="form-group col-10 form-group-btn btn-wrapper">
+                  <button type="button" className="add-image-btn btn">Add more</button>
+                </div>
+              </div>
+              <div className={`offset-2 col-10 video-content content ${activeContent === 'video' ? 'show' : ''}`}>
+                <div className="form-group col-10">
+                  <div className="video-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Select Videos"
+                      id="proxy"
+                      className="form-control video-input-control"
+                      readOnly
+                      onClick={() => {
+                        this.file.current.click();
+                      }}
+                    />
+                    <div className="add-icon-wrapper">
+                      <FiPlus
+                        size={14}
+                        className="add-icon"
+                        onClick={() => {
+                          this.file.current.click();
+                        }}
+                      />
+                    </div>
+                    <input ref={this.file} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
+                  </div>
+                </div>
+                <div className="form-group col-10 form-group-btn btn-wrapper">
+                  <button type="button" className="add-video-btn btn">Add more</button>
+                </div>
+              </div>
             </div>
             <div className="row upload-btn-row">
-              <div className="form-group col-8 offset-1 btn-wrapper">
+              <div className="form-group col-8 offset-3 btn-wrapper">
                 <button type="submit" className="btn upload-btn">Upload all</button>
               </div>
             </div>
