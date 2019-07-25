@@ -99,9 +99,17 @@
     .content-row {
         .text-content {
             padding-left: 0;
+            .edit-icon{
+                position: absolute;
+                top: 9px;
+                left: 20px;
+                color:$gray;
+            }
+            .form-control{
+                padding:5.5px 1.7rem !important;
+            }
             .form-group-btn {
                 text-align: center;
-
                 .btn {
                     width: 8rem;
                     border-radius: 5px !important;

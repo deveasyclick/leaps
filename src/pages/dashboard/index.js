@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FiPlus, FiCheck, FiPe } from 'react-icons/fi';
+import { FiPlus, FiCheck, FiEdit } from 'react-icons/fi';
 import { validator } from '../../helpers/utils';
 import './index.scss';
 
@@ -27,7 +27,9 @@ export class Dashboard extends Component {
     this.formIsValid = this.formIsValid.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
-    this.file = React.createRef();
+    this.pdfFile = React.createRef();
+    this.imageFile = React.createRef();
+    this.videoFile = React.createRef();
   }
 
   formIsValid() {
@@ -41,13 +43,14 @@ export class Dashboard extends Component {
     const {
       name, value, type, files,
     } = e.target;
+    console.log(files);
     this.setState(p => ({
       toSubmit: { ...p.toSubmit, [name]: value },
       form: {
         ...p.form,
         [name]: {
           value,
-          files: type === 'file' ? Array.from(files) : [],
+          files: type === 'pdfFile' ? Array.from(files) : [],
           valid: validator(value, type),
         },
       },
@@ -141,6 +144,7 @@ export class Dashboard extends Component {
             <div className="row content-row">
               <div className={`offset-md-2 offset-0 col-md-10 col-12 text-content content ${activeContent === 'text' ? 'show' : ''}`}>
                 <div className="form-group col-md-10 col-12">
+                  <FiEdit className="edit-icon" />
                   <input
                     type="text"
                     value={form.heading.value}
@@ -151,9 +155,11 @@ export class Dashboard extends Component {
                   />
                 </div>
                 <div className="form-group col-md-10 col-12">
+                  <FiEdit className="edit-icon" />
                   <textarea className="form-control" name="excerpt" id="excerpt" rows="3" onChange={this.handleInputChange} placeholder="Excerpt" value={form.excerpt.value} />
                 </div>
                 <div className="form-group col-md-10 col-12">
+                  <FiEdit className="edit-icon" />
                   <textarea className="form-control" name="definition" id="definition" rows="5" onChange={this.handleInputChange} placeholder="Definition" value={form.definition.value} />
                 </div>
                 <div className="form-group col-md-10 col-12 form-group-btn">
@@ -171,7 +177,7 @@ export class Dashboard extends Component {
                       className="form-control pdf-input-control"
                       readOnly
                       onClick={() => {
-                        this.file.current.click();
+                        this.pdfFile.current.click();
                       }}
                     />
                     <div className="add-icon-wrapper">
@@ -179,11 +185,11 @@ export class Dashboard extends Component {
                         size={14}
                         className="add-icon"
                         onClick={() => {
-                          this.file.current.click();
+                          this.pdfFile.current.click();
                         }}
                       />
                     </div>
-                    <input ref={this.file} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
+                    <input ref={this.pdfFile} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
                   </div>
                 </div>
                 {form.video.files.forEach}
@@ -201,7 +207,7 @@ export class Dashboard extends Component {
                       className="form-control image-input-control"
                       readOnly
                       onClick={() => {
-                        this.file.current.click();
+                        this.imageFile.current.click();
                       }}
                     />
                     <div className="add-icon-wrapper">
@@ -209,11 +215,11 @@ export class Dashboard extends Component {
                         size={14}
                         className="add-icon"
                         onClick={() => {
-                          this.file.current.click();
+                          this.imageFile.current.click();
                         }}
                       />
                     </div>
-                    <input ref={this.file} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
+                    <input ref={this.imageFile} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
                   </div>
                 </div>
                 <div className="form-group col-10 form-group-btn btn-wrapper">
@@ -230,7 +236,7 @@ export class Dashboard extends Component {
                       className="form-control video-input-control"
                       readOnly
                       onClick={() => {
-                        this.file.current.click();
+                        this.videoFile.current.click();
                       }}
                     />
                     <div className="add-icon-wrapper">
@@ -238,11 +244,11 @@ export class Dashboard extends Component {
                         size={14}
                         className="add-icon"
                         onClick={() => {
-                          this.file.current.click();
+                          this.videoFile.current.click();
                         }}
                       />
                     </div>
-                    <input ref={this.file} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
+                    <input ref={this.videoFile} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
                   </div>
                 </div>
                 <div className="form-group col-10 form-group-btn btn-wrapper">
