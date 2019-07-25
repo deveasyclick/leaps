@@ -8,6 +8,7 @@
 }
 
 .Dashboard {
+    font-size: 14px;
     .row {
         margin-bottom: 10px;
     }
@@ -31,34 +32,44 @@
                 cursor: pointer;
                 width: 100%;
             }
-
-            input.form-control {
-                padding: 5.5px 15px;
-            }
-
         }
     }
 
     .tags {
         .selected-tags {
             text-align: right;
+            @media (max-width:$mobile-max-screen) {
+                text-align:center;
+                font-size: 20px;
+            }
         }
 
         .tags-wrapper {
             .tag {
-                background: $light-gray;
-                padding: 5px 6px;
-                border-radius: 5px;
+                background: #dcdbdb;
+                padding: 5px 8px;
+                border-radius: 20px;
                 margin-right: 5px;
                 position: relative;
+                margin-right: 1rem;
+
+                .tag-text{
+                    display: inline-block;
+                }
             }
 
             .delete-tag {
                 margin-right: 0.5rem;
-                font-size: 1rem;
-                color: darkred;
                 cursor: pointer;
                 font-weight: bold;
+                background: $light-black;
+                border-radius: 100%;
+                color: $light-gray;
+                width: 1rem;
+                height: 1rem;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
             }
         }
     }
@@ -66,7 +77,16 @@
     .upload-resources-heading-row {
         margin: 20px 0;
 
-        .upload-text {}
+        .upload-text {
+            margin-bottom:2rem;
+            font-weight: bolder;
+            font-size: 1.5rem;
+
+            @media (max-width:$mobile-max-screen){
+                font-size: 1.3rem;
+                margin-top: 2rem;
+            }
+        }
     }
 
     .resources-btn-row {
@@ -74,15 +94,21 @@
 
         .check {
             margin-right: 10px;
+            @media (max-width:$mobile-max-screen){
+                display: none;
+             }
         }
 
         .btn-wrapper {
             padding-left: 3rem;
+            @media (max-width:$mobile-max-screen){
+               padding-left: 1rem;
+            }
 
             .btn{
                 margin-right: 0.625rem;
                 width: 30rem !important;
-                padding: 0.6rem;
+                padding: 0.4rem;
             }
 
             .btn:not(.active){
@@ -91,7 +117,7 @@
                 color: $gray;
             }
             .btn.active {
-                background: #4a39b9;
+                background: $app-dominant-color;
             }
         }
     }
@@ -105,7 +131,7 @@
                 left: 20px;
                 color:$gray;
             }
-            .form-control{
+            .text-form-control{
                 padding:5.5px 1.7rem !important;
             }
             .form-group-btn {
@@ -121,6 +147,11 @@
 
         .pdf-content,.image-content,.video-content {
             padding-left: 0;
+            .or{
+                @media (max-width:$mobile-max-screen){
+                    text-align: center;
+                }
+            }
             .btn-wrapper{
                 text-align: center;
                 .add-image-btn,.add-pdf-btn,.add-video-btn{
@@ -131,7 +162,7 @@
                 position: relative;
                 
                 .image-input-control,.pdf-input-control, .video-input-control{
-                    text-align: center;
+                    text-align: left;
                 }
                 .file {
                     display: none;

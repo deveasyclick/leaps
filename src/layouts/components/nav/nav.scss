@@ -36,7 +36,7 @@
                 cursor: pointer;
                 display: none;
                 @media (min-width:$mobile-min-screen){
-                    display: block;
+                    display: flex;
                 }
             }
             .search-icon-wrapper{
@@ -56,7 +56,7 @@
                     cursor: pointer;
                 }
                 @media (max-width:$mobile-max-screen) {
-                    display: block;
+                    display: flex;
                 }
             }
             

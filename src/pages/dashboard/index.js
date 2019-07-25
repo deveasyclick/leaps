@@ -105,11 +105,15 @@ export class Dashboard extends Component {
               <div className="col-12 col-md-6 tags-wrapper">
                 <span className="tag">
                   <span title="delete" className="delete-tag">x</span>
+                  <span className="tag-text">
                       Hello
+                  </span>
                 </span>
                 <span className="tag">
                   <span title="delete" className="delete-tag">x</span>
+                  <span className="tag-text">
                       How far
+                  </span>
                 </span>
               </div>
             </div>
@@ -151,16 +155,16 @@ export class Dashboard extends Component {
                     onChange
                     placeholder="Heading"
                     name="heading"
-                    className="form-control"
+                    className="form-control text-form-control"
                   />
                 </div>
                 <div className="form-group col-md-10 col-12">
                   <FiEdit className="edit-icon" />
-                  <textarea className="form-control" name="excerpt" id="excerpt" rows="3" onChange={this.handleInputChange} placeholder="Excerpt" value={form.excerpt.value} />
+                  <textarea className="form-control text-form-control" name="excerpt" id="excerpt" rows="3" onChange={this.handleInputChange} placeholder="Excerpt" value={form.excerpt.value} />
                 </div>
                 <div className="form-group col-md-10 col-12">
                   <FiEdit className="edit-icon" />
-                  <textarea className="form-control" name="definition" id="definition" rows="5" onChange={this.handleInputChange} placeholder="Definition" value={form.definition.value} />
+                  <textarea className="form-control text-form-control" name="definition" id="definition" rows="5" onChange={this.handleInputChange} placeholder="Definition" value={form.definition.value} />
                 </div>
                 <div className="form-group col-md-10 col-12 form-group-btn">
                   <button type="button" className="add-text-btn btn">Add more</button>
@@ -168,7 +172,7 @@ export class Dashboard extends Component {
               </div>
               <div className={`offset-2 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
 
-                <div className="form-group col-10">
+                <div className="form-group col-md-9 col-12">
                   <div className="pdf-wrapper">
                     <input
                       type="text"
@@ -197,58 +201,90 @@ export class Dashboard extends Component {
                   <button type="button" className="add-pdf-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`offset-2 col-10 image-content content ${activeContent === 'image' ? 'show' : ''}`}>
-                <div className="form-group col-10">
-                  <div className="image-wrapper">
+              <div className={`offset-1 col-10 image-content content ${activeContent === 'image' ? 'show' : ''}`}>
+                <div className="row">
+                  <div className="form-group offset-md-1 col-md-5 col-12">
                     <input
                       type="text"
-                      placeholder="Select images"
+                      placeholder="Url"
                       id="proxy"
-                      className="form-control image-input-control"
-                      readOnly
-                      onClick={() => {
-                        this.imageFile.current.click();
-                      }}
+                      className="form-control"
+                      name="video"
+                      value={form.video.value}
+                      onChange={this.handleInputChange}
                     />
-                    <div className="add-icon-wrapper">
-                      <FiPlus
-                        size={14}
-                        className="add-icon"
+                  </div>
+                  <div className="col-md-1 col-12">
+                    <p className="or">OR</p>
+                  </div>
+                  <div className="form-group col-md-5 col-12">
+                    <div className="image-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Select images"
+                        id="proxy"
+                        className="form-control image-input-control"
+                        readOnly
                         onClick={() => {
                           this.imageFile.current.click();
                         }}
                       />
+                      <div className="add-icon-wrapper">
+                        <FiPlus
+                          size={14}
+                          className="add-icon"
+                          onClick={() => {
+                            this.imageFile.current.click();
+                          }}
+                        />
+                      </div>
+                      <input ref={this.imageFile} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
                     </div>
-                    <input ref={this.imageFile} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
                   </div>
                 </div>
                 <div className="form-group col-10 form-group-btn btn-wrapper">
                   <button type="button" className="add-image-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`offset-2 col-10 video-content content ${activeContent === 'video' ? 'show' : ''}`}>
-                <div className="form-group col-10">
-                  <div className="video-wrapper">
+              <div className={`offset-1 col-10 video-content content ${activeContent === 'video' ? 'show' : ''}`}>
+                <div className="row">
+                  <div className="form-group offset-md-1 col-md-5 col-12">
                     <input
                       type="text"
-                      placeholder="Select Videos"
+                      placeholder="Url"
                       id="proxy"
-                      className="form-control video-input-control"
-                      readOnly
-                      onClick={() => {
-                        this.videoFile.current.click();
-                      }}
+                      className="form-control"
+                      name="video"
+                      value={form.video.value}
+                      onChange={this.handleInputChange}
                     />
-                    <div className="add-icon-wrapper">
-                      <FiPlus
-                        size={14}
-                        className="add-icon"
+                  </div>
+                  <div className="col-md-1 col-12">
+                    <p className="or">OR</p>
+                  </div>
+                  <div className="form-group col-md-5 col-12">
+                    <div className="video-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Select Videos"
+                        id="proxy"
+                        className="form-control video-input-control"
+                        readOnly
                         onClick={() => {
                           this.videoFile.current.click();
                         }}
                       />
+                      <div className="add-icon-wrapper">
+                        <FiPlus
+                          size={14}
+                          className="add-icon"
+                          onClick={() => {
+                            this.videoFile.current.click();
+                          }}
+                        />
+                      </div>
+                      <input ref={this.videoFile} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
                     </div>
-                    <input ref={this.videoFile} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
                   </div>
                 </div>
                 <div className="form-group col-10 form-group-btn btn-wrapper">
