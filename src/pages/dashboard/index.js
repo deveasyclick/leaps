@@ -21,7 +21,7 @@ export class Dashboard extends Component {
       },
       toSubmit: {},
       showInvalid: false,
-      activeContent: 'pdf',
+      activeContent: 'text',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.formIsValid = this.formIsValid.bind(this);
