@@ -10,7 +10,7 @@ export class Dashboard extends Component {
     super(props);
     this.state = {
       form: {
-        subject: { value: '', valid: false },
+        subject: { value: 'Health Education', valid: true },
         topic: { value: '', valid: false },
         heading: { value: '', valid: false },
         excerpt: { value: '', valid: false },
@@ -43,6 +43,10 @@ export class Dashboard extends Component {
     return validCount === formKeys.length;
   }
 
+  componentDidUpdate() {
+    console.log(this.state.form);
+  }
+
   handleInputChange(e) {
     const {
       name, value, type, files,
@@ -54,7 +58,7 @@ export class Dashboard extends Component {
         form: {
           ...p.form,
           [name]: {
-            value,
+            value: '',
             files: docFiles,
             valid: validator(value, type) && docFiles.length > 0,
           },
@@ -225,8 +229,8 @@ export class Dashboard extends Component {
                       placeholder="Url"
                       id="proxy"
                       className="form-control"
-                      name="video"
-                      value={form.video.value}
+                      name="pdf"
+                      value={form.pdf.value}
                       onChange={this.handleInputChange}
                     />
                   </div>
@@ -254,7 +258,7 @@ export class Dashboard extends Component {
                           }}
                         />
                       </div>
-                      <input ref={this.pdfFile} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
+                      <input ref={this.pdfFile} type="file" name="pdf" className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
                     </div>
 
                   </div>
@@ -271,8 +275,8 @@ export class Dashboard extends Component {
                       placeholder="Url"
                       id="proxy"
                       className="form-control"
-                      name="video"
-                      value={form.video.value}
+                      name="image"
+                      value={form.image.value}
                       onChange={this.handleInputChange}
                     />
                   </div>
@@ -300,7 +304,7 @@ export class Dashboard extends Component {
                           }}
                         />
                       </div>
-                      <input ref={this.imageFile} type="file" name="image" value={form.image.value} className="file" onChange={this.handleInputChange} multiple accept="image/*" />
+                      <input ref={this.imageFile} type="file" name="image" className="file" onChange={this.handleInputChange} multiple accept="image/*" />
                     </div>
                   </div>
                 </div>
@@ -345,7 +349,7 @@ export class Dashboard extends Component {
                           }}
                         />
                       </div>
-                      <input ref={this.videoFile} type="file" name="image" value={form.video.value} className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
+                      <input ref={this.videoFile} type="file" name="video" className="file" onChange={this.handleInputChange} multiple accept="video/mp4,video/x-m4v,video/*" />
                     </div>
                   </div>
                 </div>

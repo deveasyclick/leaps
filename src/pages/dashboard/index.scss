@@ -24,7 +24,7 @@
 
             .form-control {
                 background: $white;
-                box-shadow: 0px 1px 1px #c5c4c4;
+                box-shadow: 0px 1px 1px $box-shadow-colo-1;
                 padding: 7px 15px;
                 outline: none;
                 border-radius: 0px;
@@ -80,16 +80,16 @@
     }
 
     .upload-resources-heading-row {
-        margin: 20px 0;
+        margin-bottom: 2rem;
 
         .upload-text {
-            margin-bottom:2rem;
+            padding: 1rem;
             font-weight: bolder;
             font-size: 1.5rem;
 
             @media (max-width:$mobile-max-screen){
                 font-size: 1.3rem;
-                margin-top: 2rem;
+                text-align: center;
             }
         }
     }
