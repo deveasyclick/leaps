@@ -7,7 +7,7 @@
         width: 100% !important;
     }
     .desktop-nav{
-        background: $light-gray;
+        background: $white;
         height: 60px;
         border-bottom: solid 1px $header-border-color;
         color:$black;
@@ -21,6 +21,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            color:$sidebar-color;
             &:hover{
                 background: $light-gray;
             }

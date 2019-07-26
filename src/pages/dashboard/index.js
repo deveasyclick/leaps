@@ -22,11 +22,15 @@ export class Dashboard extends Component {
       toSubmit: {},
       showInvalid: false,
       activeContent: 'text',
+      documents: [],
+      tags: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.formIsValid = this.formIsValid.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
+    this.onAddMore = this.onAddMore.bind(this);
+    this.setTags = this.setTags.bind(this);
     this.pdfFile = React.createRef();
     this.imageFile = React.createRef();
     this.videoFile = React.createRef();
@@ -43,19 +47,56 @@ export class Dashboard extends Component {
     const {
       name, value, type, files,
     } = e.target;
-    console.log(files);
-    this.setState(p => ({
-      toSubmit: { ...p.toSubmit, [name]: value },
-      form: {
-        ...p.form,
-        [name]: {
-          value,
-          files: type === 'pdfFile' ? Array.from(files) : [],
-          valid: validator(value, type),
+    const docFiles = files ? Array.from(files) : [];
+    if (type === 'file') {
+      this.setState(p => ({
+        toSubmit: { ...p.toSubmit, [name]: value },
+        form: {
+          ...p.form,
+          [name]: {
+            value,
+            files: docFiles,
+            valid: validator(value, type) && docFiles.length > 0,
+          },
         },
-      },
-    }));
+      }));
+    } else {
+      this.setState(p => ({
+        toSubmit: { ...p.toSubmit, [name]: value },
+        form: {
+          ...p.form,
+          [name]: {
+            value,
+            valid: validator(value, type),
+          },
+        },
+      }));
+    }
   }
+
+  setTags(ev, check = false) {
+    let { form, tags } = this.state;
+    const { value: topic } = form.topic;
+    if (check && tags.length < 10) {
+      tags = topic.split(' ').filter((tag) => {
+        if (tag.length > 2) {
+          return tag;
+        }
+        return false;
+      });
+      this.setState({ tags });
+    } else if (ev.which === 32 && tags.length < 10) {
+      tags = topic.split(' ').filter((tag) => {
+        if (tag.length > 2) {
+          return tag;
+        }
+        return false;
+      });
+      this.setState({ tags });
+    }
+  }
+
+  onAddMore() {}
 
   onSubmit(e) {}
 
@@ -71,10 +112,12 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { form, showInvalid, activeContent } = this.state;
+    const {
+      form, showInvalid, activeContent, tags,
+    } = this.state;
     // const { type, error } = this.props;
     return (
-      <div className="container Dashboard">
+      <div className="container-fluid Dashboard">
         <div className="row">
           <form className="content offset-0 offset-md-2 col-md-8 col-12 form">
             <div className="row">
@@ -95,28 +138,32 @@ export class Dashboard extends Component {
                   placeholder="Topic"
                   value={form.topic.value}
                   onChange={this.handleInputChange}
+                  onKeyPress={this.setTags}
+                  onBlur={(e) => {
+                    this.setTags(e, true);
+                  }}
                 />
               </div>
             </div>
-            <div className="row tags">
-              <div className="offset-0 col-12 col-md-4 offset-md-1">
-                <p className="selected-tags">Tags selected for you:</p>
+            {
+              tags.length > 0 && (
+              <div className="row tags-row">
+                <div className="offset-0 col-12 selected-tags-wrapper">
+                  <h3 className="selected-tags">Tags selected for you</h3>
+                </div>
+                <div className="col-12 tags-wrapper">
+                  {tags.map((tag, index) => (
+                    <span className="tag" key={index}>
+                      <span title="delete" className="delete-tag">x</span>
+                      <span className="tag-text">
+                        {tag}
+                      </span>
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="col-12 col-md-6 tags-wrapper">
-                <span className="tag">
-                  <span title="delete" className="delete-tag">x</span>
-                  <span className="tag-text">
-                      Hello
-                  </span>
-                </span>
-                <span className="tag">
-                  <span title="delete" className="delete-tag">x</span>
-                  <span className="tag-text">
-                      How far
-                  </span>
-                </span>
-              </div>
-            </div>
+              )
+            }
 
             <div className="row d-flex justify-content-center upload-resources-heading-row">
               <div className="offset-0 offset-md-3 col-12 col-md-9">
@@ -147,22 +194,22 @@ export class Dashboard extends Component {
             </div>
             <div className="row content-row">
               <div className={`offset-md-2 offset-0 col-md-10 col-12 text-content content ${activeContent === 'text' ? 'show' : ''}`}>
-                <div className="form-group col-md-10 col-12">
+                <div className="text-content-form-group form-group col-md-11 col-12">
                   <FiEdit className="edit-icon" />
                   <input
                     type="text"
                     value={form.heading.value}
-                    onChange
+                    onChange={this.handleInputChange}
                     placeholder="Heading"
                     name="heading"
                     className="form-control text-form-control"
                   />
                 </div>
-                <div className="form-group col-md-10 col-12">
+                <div className="text-content-form-group form-group col-md-11 col-12">
                   <FiEdit className="edit-icon" />
                   <textarea className="form-control text-form-control" name="excerpt" id="excerpt" rows="3" onChange={this.handleInputChange} placeholder="Excerpt" value={form.excerpt.value} />
                 </div>
-                <div className="form-group col-md-10 col-12">
+                <div className="form-group text-content-form-group  col-md-11 col-12">
                   <FiEdit className="edit-icon" />
                   <textarea className="form-control text-form-control" name="definition" id="definition" rows="5" onChange={this.handleInputChange} placeholder="Definition" value={form.definition.value} />
                 </div>
@@ -170,33 +217,48 @@ export class Dashboard extends Component {
                   <button type="button" className="add-text-btn btn">Add more</button>
                 </div>
               </div>
-              <div className={`offset-2 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
-
-                <div className="form-group col-md-9 col-12">
-                  <div className="pdf-wrapper">
+              <div className={`offset-1 col-10 pdf-content content ${activeContent === 'pdf' ? 'show' : ''}`}>
+                <div className="row">
+                  <div className="form-group offset-md-1 col-md-5 col-12">
                     <input
                       type="text"
-                      placeholder="Select pdf documents"
+                      placeholder="Url"
                       id="proxy"
-                      className="form-control pdf-input-control"
-                      readOnly
-                      onClick={() => {
-                        this.pdfFile.current.click();
-                      }}
+                      className="form-control"
+                      name="video"
+                      value={form.video.value}
+                      onChange={this.handleInputChange}
                     />
-                    <div className="add-icon-wrapper">
-                      <FiPlus
-                        size={14}
-                        className="add-icon"
+                  </div>
+                  <div className="col-md-1 col-12">
+                    <p className="or">OR</p>
+                  </div>
+                  <div className="form-group col-md-5 col-12">
+                    <div className="pdf-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Select pdf documents"
+                        id="proxy"
+                        className="form-control pdf-input-control"
+                        readOnly
                         onClick={() => {
                           this.pdfFile.current.click();
                         }}
                       />
+                      <div className="add-icon-wrapper">
+                        <FiPlus
+                          size={14}
+                          className="add-icon"
+                          onClick={() => {
+                            this.pdfFile.current.click();
+                          }}
+                        />
+                      </div>
+                      <input ref={this.pdfFile} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
                     </div>
-                    <input ref={this.pdfFile} type="file" name="pdf" value={form.pdf.value} className="file" onChange={this.handleInputChange} multiple accept="application/pdf,.doc" />
+
                   </div>
                 </div>
-                {form.video.files.forEach}
                 <div className="form-group col-10 form-group-btn btn-wrapper">
                   <button type="button" className="add-pdf-btn btn">Add more</button>
                 </div>

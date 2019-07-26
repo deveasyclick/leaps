@@ -7,9 +7,10 @@
     left: 0;
     border-right: solid 1px $header-border-color;
     transition: 1s all;
-    background: $light-gray;
+    background: $white;
     left: 0px;
     z-index: 100;
+    color:$sidebar-color;
 
     .header {
         height: 60px;
