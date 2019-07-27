@@ -45,6 +45,7 @@ export class Dashboard extends Component {
     this.pdfFile = React.createRef();
     this.imageFile = React.createRef();
     this.videoFile = React.createRef();
+    this.deleteTag = this.deleteTag.bind(this);
   }
 
   handleInputChange(e) {
@@ -77,6 +78,14 @@ export class Dashboard extends Component {
         },
       }));
     }
+  }
+
+  deleteTag(index) {
+    const { documents } = this.state;
+    const { tags } = documents;
+    tags.splice(index, 1);
+    documents.tags = tags;
+    this.setState({ documents });
   }
 
   setTags(ev, check = false) {
@@ -210,7 +219,7 @@ export class Dashboard extends Component {
                 <div className="col-12 tags-wrapper">
                   {documents.tags.map((tag, index) => (
                     <span className="tag" key={index}>
-                      <span title="delete" className="delete-tag">x</span>
+                      <span onClick={e => this.deleteTag(index)} title="delete" className="delete-tag">x</span>
                       <span className="tag-text">
                         {tag}
                       </span>
