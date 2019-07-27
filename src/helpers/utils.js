@@ -1,17 +1,26 @@
-export const validator = (val, type) => {
+import { isURL } from 'validator';
+
+export const validator = (val, type, name = '') => {
+  let isValid = false;
   switch (type) {
     case 'email':
-      return !!(val
+      isValid = !!(val
           && val !== ''
           && val.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)); // returns a boolean
-
+      break;
     case 'password':
-      return val && val !== '' && val.length >= 6;
-
+      isValid = val && val !== '' && val.length >= 6;
+      break;
     case 'tel':
-      return !!(val && val !== '' && val.length > 5 && val.match(/^[+]?\d+$/)); // returns a boolean
-
+      isValid = !!(val && val !== '' && val.length > 5 && val.match(/^[+]?\d+$/)); // returns a boolean
+      break;
     default:
-      return !!(val && val !== '' && val.match(/\S+/));
+      isValid = !!(val && val !== '' && val.match(/\S+/));
   }
+
+  if (name === 'pdf' || name === 'image' || name === 'video') {
+    isValid = isURL(val);
+  }
+
+  return isValid;
 };

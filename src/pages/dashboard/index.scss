@@ -27,7 +27,7 @@
                 box-shadow: 0px 1px 1px $box-shadow-colo-1;
                 padding: 7px 15px;
                 outline: none;
-                border-radius: 0px;
+                border-radius: 5px;
                 border: none;
                 cursor: pointer;
                 width: 100%;
@@ -134,6 +134,11 @@
             &-form-group{
                 padding-left: 0;
             }
+            .btn{
+                &:disabled{
+                    background: darkgray;
+                }
+            }
             .edit-icon{
                 position: absolute;
                 top: 9px;
@@ -150,7 +155,7 @@
                     border-radius: 5px !important;
                     padding: 0.7rem;
                     font-size: 12px;
-                }
+                                    }
             }
         }
 
@@ -165,6 +170,9 @@
                 text-align: center;
                 .add-image-btn,.add-pdf-btn,.add-video-btn{
                     @include button;
+                    &:disabled{
+                        background: darkgray;
+                    }
                 }
             }
             .image-wrapper,.pdf-wrapper,.video-wrapper {
@@ -213,7 +221,22 @@
             text-align: right;
             .btn {
                 margin-left: 1.5rem;
+                margin-bottom: 10px;
                 @include button;
+
+                &:disabled{
+                    background: darkgray;
+                }
+            }
+            .upload-success,.upload-error{
+                font-weight: bold;
+                font-size: 13px;
+            }
+            .upload-success{
+                color: green;
+            }
+            .upload-error{
+                color:$error-color;
             }
         }
     }

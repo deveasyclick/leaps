@@ -4,7 +4,6 @@
     <list default="true" id="b6aa8c50-ab6a-4e7b-9399-3e8529218702" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/variables.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/node_modules/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -17,12 +16,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pages/dashboard/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="246">
-              <caret line="60" column="18" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
+              <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -100,6 +99,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -132,15 +132,15 @@
       <updated>1564139686499</updated>
       <workItem from="1564139691978" duration="1010000" />
       <workItem from="1564140883936" duration="2001000" />
+      <workItem from="1564168680068" duration="385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3011000" />
+    <option name="totallyTimeSpent" value="3396000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1366" height="701" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18106061" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -175,7 +175,7 @@
     <entry file="file://$PROJECT_DIR$/src/pages/dashboard/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
-          <caret line="60" column="18" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
+          <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
