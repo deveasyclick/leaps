@@ -8,6 +8,7 @@ import Login from './pages/auth/login';
 import Signup from './pages/auth/signup';
 import ForgotPassword from './pages/auth/forgot-password';
 import Dashboard from './pages/dashboard/index';
+import Account from './pages/account/index';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <ProtectedLayout exact path="/" component={Dashboard} />
+          <ProtectedLayout exact path="/account" component={Account} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/password-reset" component={ForgotPassword} />

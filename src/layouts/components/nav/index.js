@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
-import { FiSearch, FiMenu } from 'react-icons/fi';
+import {
+  FiSearch, FiMenu, FiLogOut,
+} from 'react-icons/fi';
 import { GoThreeBars, GoX } from 'react-icons/go';
-import { IoMdTime, IoMdPower } from 'react-icons/io';
+import { IoMdTime } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import * as navActions from '../../../redux/nav/nav.action';
@@ -82,8 +84,8 @@ export class Nav extends PureComponent {
             </div>
 
 
-            <div className="logout-icon-wrapper" onClick={() => logout()}>
-              <IoMdPower size={21} className="logout-icon" />
+            <div title="logout" className="logout-icon-wrapper" onClick={() => logout()}>
+              <FiLogOut size={21} className="logout-icon" />
             </div>
           </div>
         </div>

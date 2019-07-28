@@ -28,7 +28,7 @@ export const uploadResources = docs => async (dispatch) => {
         return Promise.all(pdfs.map(async (pdf) => {
           pdfRef = storageRef.child(`pdfs/${pdf.name}`);
           await pdfRef.put(pdf);
-          return db.collection('pdfs').add(
+          return db.collection('pdf').add(
             {
               tags: docs.tags,
               isPending: true,
@@ -43,7 +43,7 @@ export const uploadResources = docs => async (dispatch) => {
           );
         }));
       }
-      return db.collection('pdfs').add(
+      return db.collection('pdf').add(
         {
           tags: docs.tags,
           isPending: true,
@@ -57,7 +57,6 @@ export const uploadResources = docs => async (dispatch) => {
         },
       );
     }));
-
 
 
     await Promise.all(docs.image.map(async (images) => {

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './sidebar.scss';
-import { FiUser, FiGrid } from 'react-icons/fi';
+import { FiUser, FiArchive, FiCommand } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo-only_mobile.png';
 import * as storage from '../../../helpers/token';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 
+
+const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: FiArchive, path: '/account' }];
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: { name: '', category: '' } };
+    this.state = { user: { name: '', category: '' }, activeLink: 0 };
   }
 
   componentDidMount() {
@@ -21,7 +23,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { user } = this.state;
+    const { user, activeLink } = this.state;
     const { nav } = this.props;
     const sidebarStyle = { left: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '0' : '-300px' };
     return (
@@ -47,16 +49,28 @@ class Sidebar extends Component {
         </div>
         <div className="menu-wrapper">
           <ul className="menu">
-            <Link to="/" className="link">
-              <li className="menu-item active">
-                <div className="icon">
-                  <FiGrid size={21} />
-                </div>
-                <div className="menu-name">
-                  <span className="link">Dashboard</span>
-                </div>
-              </li>
-            </Link>
+            {
+              navs.map((navItem, index) => {
+                const { icon: Icon } = navItem;
+                return (
+                  <Link to={navItem.path} className="link" ref={index}>
+                    <li
+                      onClick={() => {
+                        this.setState({ activeLink: index });
+                      }}
+                      className={`menu-item ${index === activeLink ? 'active' : ''}`}
+                    >
+                      <div className="icon">
+                        <Icon size={21} />
+                      </div>
+                      <div className="menu-name">
+                        <span className="link">{navItem.name}</span>
+                      </div>
+                    </li>
+                  </Link>
+                );
+              })
+            }
           </ul>
         </div>
       </div>
