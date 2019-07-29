@@ -13,8 +13,8 @@ class AccountComponent extends React.Component {
               <div className="card-body container-fluid">
                 <div className="row name-container">
                   <div className="col-7 name-wrapper">
-                    <h3>Adeniyi yusuf</h3>
-                    <strong>Nigeria</strong>
+                    <h3 className="name">Adeniyi yusuf</h3>
+                    <strong className="address">Nigeria</strong>
                   </div>
                   <div className="col-5 image-container">
                     <div className="user-icon-wrapper">
@@ -33,27 +33,30 @@ class AccountComponent extends React.Component {
             </div>
           </div>
           <div className="col-8 form-column">
-            <div className="row">
-              <p>Profile</p>
-              <small>The information can be edited</small>
+            <div className="row header d-flex align-items-center">
+              <p className="profile">Profile</p>
+              <small className="notice">The information can be edited</small>
             </div>
-            <form className="row">
-              <div className="form-group col-12">
-                <div className="label">Name *</div>
-                <div>
+            <form className="row form">
+              <div className="inputs-wrapper">
+                <div className="form-group col-12">
+                  <div className="label">Name *</div>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group col-12">
+                  <div className="label">Email *</div>
+                  <input type="text" className="form-control" />
+                </div>
+                <div className="form-group col-12">
+                  <input type="text" className="form-control" placeholder="Phone Number" />
+                </div>
+                <div className="form-group col-12">
+                  <div className="label">Country *</div>
                   <input type="text" className="form-control" />
                 </div>
               </div>
-              <div className="form-group col-12">
-                <div className="label">Email *</div>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="form-group col-12">
-                <input type="text" className="form-control" placeholder="Phone Number" />
-              </div>
-              <div className="form-group col-12">
-                <div className="label">Country *</div>
-                <input type="text" className="form-control" />
+              <div className="form-group col-12 btn-wrapper">
+                <button type="submit" className="btn save-details-btn">SAVE DETAILS</button>
               </div>
             </form>
           </div>
