@@ -309,7 +309,7 @@ export class Dashboard extends Component {
             </div>
             <div className="row content-row">
               <div
-                className={`offset-md-2 offset-0 col-md-10 col-12 text-content content ${
+                className={`offset-md-1 offset-0 col-md-11 col-12 text-content content ${
                   activeContent === 'text' ? 'show' : ''
                 }`}
               >
@@ -366,7 +366,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group offset-md-1 col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-9 col-10">
                     <input
                       type="text"
                       id="proxy"
@@ -378,7 +378,7 @@ export class Dashboard extends Component {
                       placeholder="http://"
                     />
                   </div>
-                  <div className="form-group col-md-2 col-2">
+                  <div className="form-group d-flex justify-content-end col-md-2 col-2 icon-container">
                     <div className="pdf-wrapper">
                       <div className="add-icon-wrapper">
                         <div
@@ -430,7 +430,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group offset-md-1 col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-9 col-10">
                     <input
                       type="text"
                       id="proxy"
@@ -443,7 +443,7 @@ export class Dashboard extends Component {
                     />
                   </div>
 
-                  <div className="form-group col-md-2 col-2">
+                  <div className="form-group d-flex justify-content-end col-md-2 col-2 icon-container">
                     <div className="image-wrapper">
                       <div className="add-icon-wrapper">
                         <div
@@ -495,7 +495,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group offset-md-1 col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-9 col-10">
                     <input
                       type="text"
                       placeholder="http://"
@@ -508,7 +508,7 @@ export class Dashboard extends Component {
                     />
                   </div>
 
-                  <div className="form-group col-md-2 col-2">
+                  <div className="form-group d-flex justify-content-end col-md-2 col-2 icon-container">
                     <div className="video-wrapper">
                       <div className="add-icon-wrapper">
                         <div

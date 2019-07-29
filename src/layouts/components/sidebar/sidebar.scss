@@ -31,7 +31,9 @@
 
         .user-icon-wrapper {
             margin: 20px 0;
-
+            .user-account-link{
+                color:inherit;
+            }
             .user-icon {
                 width: 100px;
                 height: 100px;
@@ -40,6 +42,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                cursor: pointer;
             }
         }
 
@@ -68,7 +71,7 @@
             .menu-item{
                 display: flex;
                 padding: 10px 0;
-                padding-left: 10px;
+                padding-left: 20px;
                 margin-bottom: 7px;
                 font-size: 14px;
                 color: $darkgray;
@@ -98,7 +101,7 @@
                 }
 
                 .icon{
-                    margin-right: 10px;
+                    margin-right: 15px;
                 }
                 .menu-name{
                     font-weight: bold;

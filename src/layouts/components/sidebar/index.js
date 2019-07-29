@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './sidebar.scss';
-import { FiUser, FiArchive, FiCommand } from 'react-icons/fi';
+import { IoMdPerson } from 'react-icons/io';
+import { FiUser, FiCommand } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo-only_mobile.png';
 import * as storage from '../../../helpers/token';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 
 
-const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: FiArchive, path: '/account' }];
+const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: IoMdPerson, path: 'account' }];
+
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +40,11 @@ class Sidebar extends Component {
         </div>
         <div className="profile d-flex justify-content-center align-items-center flex-column">
           <div className="user-icon-wrapper">
-            <div className="user-icon">
-              <FiUser size={40} />
-            </div>
+            <Link className="user-account-link" to="/account">
+              <div className="user-icon">
+                <FiUser size={40} />
+              </div>
+            </Link>
           </div>
           <div className="user-details">
             <p className="user-name">{user.name}</p>

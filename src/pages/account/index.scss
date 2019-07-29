@@ -1,0 +1,50 @@
+@import '../../styles/style.scss';
+
+@mixin border{
+    border: 1px solid #DFE3E8;
+}
+
+.Account{
+
+    .card-column{
+        .card{
+            width: 18.75rem;
+            height: 15.625rem;
+            background: $white;
+            border-radius: 5px;
+            @include border;
+
+            .card-body{
+                padding-bottom: 20px;
+                padding-top: 20px;
+                border-bottom: 1px solid $tinted-gray;
+                .name-container{
+                }
+                .image-container{
+                    padding-left: 0;
+                    .user-icon-wrapper{
+                        .user-icon{
+                            width: 100px;
+                            height: 100px;
+                            border: solid;
+                            border-radius: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            .card-footer{
+                padding: 1rem;
+                .upload-picture,.remove-picture{
+                    margin-bottom: 0;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                }
+            }
+        }
+    }
+}

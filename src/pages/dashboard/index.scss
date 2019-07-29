@@ -144,7 +144,10 @@
 
     .content-row {
         .text-content {
-            padding-left: 0;
+            padding-left: 2.7rem;
+            @media (max-width: $mobile-max-screen) {
+             padding-left: 0.9rem;   
+            }
 
             &-form-group {
                 padding-left: 0;
@@ -184,6 +187,14 @@
         .video-content {
             padding-left: 0;
 
+            .input-wrapper{
+                margin-left: 3rem;
+
+                @media (max-width:$mobile-max-screen){
+                    margin-left: 0;
+                    padding-left: 0;
+                }
+            }            
             .or {
                 @media (max-width: $mobile-max-screen) {
                     text-align: center;
@@ -203,7 +214,11 @@
                     }
                 }
             }
-
+            .icon-container{
+                @media (max-width:$mobile-max-screen) {
+                    padding-right: 0;
+                }
+            }
             .image-wrapper,
             .pdf-wrapper,
             .video-wrapper {
