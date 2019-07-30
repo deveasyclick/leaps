@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo-only_mobile.png';
 import * as storage from '../../../helpers/token';
 import navActionTypes from '../../../redux/nav/nav.action-type';
+import dashActionTypes from '../../../redux/dash/dash.actionTypes';
+
 
 
 const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: IoMdPerson, path: 'account' }];
@@ -14,16 +16,22 @@ const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Accoun
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: { name: '', category: '' }, activeLink: 0 };
+    this.state = { user: { name: '', category: '',image:'' }, activeLink: 0 };
   }
-
   componentDidMount() {
     const user = storage.getToken();
     if (user) {
       this.setState({ user });
     }
   }
-
+  componentDidUpdate(prevProps){
+    if(prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS){
+      const user = storage.getToken();
+      if (user) {
+        this.setState({ user });
+      }
+    }
+  }
   render() {
     const { user, activeLink } = this.state;
     const { nav } = this.props;
@@ -42,7 +50,10 @@ class Sidebar extends Component {
           <div className="user-icon-wrapper">
             <Link className="user-account-link" to="/account">
               <div className="user-icon">
+                {
+                  user.image ? <img className="img" src={user.image} width="100%" alt="user" /> :
                 <FiUser size={40} />
+                }
               </div>
             </Link>
           </div>
@@ -57,7 +68,7 @@ class Sidebar extends Component {
               navs.map((navItem, index) => {
                 const { icon: Icon } = navItem;
                 return (
-                  <Link to={navItem.path} className="link" ref={index}>
+                  <Link key={index} to={navItem.path} className="link" ref={index}>
                     <li
                       onClick={() => {
                         this.setState({ activeLink: index });
@@ -85,6 +96,7 @@ class Sidebar extends Component {
 
 const mapStateToProps = states => ({
   nav: states.nav,
+  dash:states.dash
 });
 const mapDispatchToProps = dispatch => ({});
 

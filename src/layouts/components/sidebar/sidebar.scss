@@ -10,7 +10,7 @@
     background: $white;
     left: 0px;
     z-index: 100;
-    color:$sidebar-color;
+    color: $sidebar-color;
 
     .header {
         height: 60px;
@@ -31,9 +31,11 @@
 
         .user-icon-wrapper {
             margin: 20px 0;
-            .user-account-link{
-                color:inherit;
+
+            .user-account-link {
+                color: inherit;
             }
+
             .user-icon {
                 width: 100px;
                 height: 100px;
@@ -43,6 +45,12 @@
                 justify-content: center;
                 align-items: center;
                 cursor: pointer;
+
+                .img {
+                    height: 100%;
+                    border-radius: 100%;
+                    object-fit: cover;
+                }
             }
         }
 
@@ -62,13 +70,14 @@
         }
     }
 
-    .menu-wrapper{
+    .menu-wrapper {
         margin-top: 15px;
-        .menu{
+
+        .menu {
             list-style: none;
             padding: 0;
 
-            .menu-item{
+            .menu-item {
                 display: flex;
                 padding: 10px 0;
                 padding-left: 20px;
@@ -76,13 +85,14 @@
                 font-size: 14px;
                 color: $darkgray;
 
-               
 
-                &.active, &:hover{
-                    background:#646ecb1f;
+
+                &.active,
+                &:hover {
+                    background: #646ecb1f;
                     position: relative;
-                    
-                    &::before{
+
+                    &::before {
                         content: "";
                         padding: 2px;
                         background: #646ECB;
@@ -91,22 +101,24 @@
                         top: 0;
                         left: 1px;
                     }
-                    .icon{
-                        color:$app-dominant-color;
+
+                    .icon {
+                        color: $app-dominant-color;
                     }
 
-                    .link{
-                        color:$black !important;
+                    .link {
+                        color: $black !important;
                     }
                 }
 
-                .icon{
+                .icon {
                     margin-right: 15px;
                 }
-                .menu-name{
+
+                .menu-name {
                     font-weight: bold;
 
-                    .link{
+                    .link {
                         //color:$dark-gray;
                     }
                 }

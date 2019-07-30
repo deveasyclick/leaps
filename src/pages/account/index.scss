@@ -10,12 +10,17 @@
 .Account{
 
     .card-column{
+        @media (max-width:$mobile-max-screen){
+            padding: 0 0px;
+            margin-bottom: 20px;
+        }
         .card{
-            width: 18.75rem;
+            min-width: 18.75rem;
             height: 14.5rem;
             background: $white;
             border-radius: 5px;
             @include border;
+            
 
             .card-body{
                 padding-bottom: 20px;
@@ -41,6 +46,12 @@
                             align-items: center;
                             cursor: pointer;
                             color: $darkgray;
+
+                            .img{
+                                height: 100%;
+                                border-radius: 100%;
+                                object-fit: cover;
+                            }
                         }
                     }
                 }
@@ -68,7 +79,12 @@
                     font-weight: bold;
                     font-size: 14px;
                     cursor: pointer;
-                    width: 9rem;
+                    width: 10rem;
+                    display: inline-block;
+
+                    .image-input{
+                        display: none;
+                    }
                 }
             }
         }
@@ -134,9 +150,13 @@
                         border-color: $black;
                     }
 
-                    &:focus{
+                    &:not(.category):focus{
                         border:solid 2px $app-dominant-color;
                     }
+
+                @media (max-width:$mobile-max-screen) {
+                    width:100%
+                }
                 }
             }
             .form-group.btn-wrapper{
@@ -146,6 +166,24 @@
 
                 .btn{
                     @include button;
+
+                    &:disabled{
+                        background: $gray;
+                    }
+                }
+                [class$="feedback"]{
+                    font-size: 13px;
+                    margin-bottom: 0;
+                    display: inline-block;
+                    margin-left: 10px;
+                    background: #fff8f8;
+                    font-weight: bold;
+                }
+                .error-feedback{
+                    color:red;
+                }
+                .success-feedback{
+                    color: green;
                 }
             }
         }
