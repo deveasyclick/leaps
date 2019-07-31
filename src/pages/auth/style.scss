@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import '../../styles/style.scss';
 
 
 input:-webkit-autofill,
@@ -12,7 +12,7 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   border: 1px solid $purple;
   -webkit-text-fill-color: $purple;
-  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -146,6 +146,93 @@ select:-webkit-autofill:focus {
     .right-container{
         @media (max-width:$mobile-max-screen) {
             display:none;
+        }
+    }
+}
+
+.Login2{
+    background: $app-dominant-color;
+    color:white;
+    button{
+        @include button;
+    }
+    .content-container{
+        min-height: 100vh;
+        
+        .title{
+            margin: 5rem 0;
+            text-align: center;
+        }
+
+        .tab-control{
+            position: relative;
+            margin-bottom: 10px;
+            .btn:not(.show){
+                color: $gray;
+            }
+            .btn{
+                width: 5rem;
+                font-size: 13px;
+            }
+            .btn.signin{
+                margin-right: 0.5rem;
+            }
+            .btn.forgot{
+                position: absolute;
+                right: 0;
+            }
+        }
+
+        .tab-content:not(.show){
+            display: none;
+        }
+        .caret{
+            position: absolute;
+            top: -7px;
+        }
+        .signin-content{
+            .caret{
+                left: 3rem;
+            }
+        }
+        .signup-content{
+            .caret{
+                left: 8rem;
+            }
+        }
+        .forgot-content{
+            .caret{
+                right: 3rem;
+            }
+        }
+        .tab-content{
+            padding-left: 1.2rem;
+            position: relative;
+
+            .caret{
+                width: 0;
+                height: 0;
+                border-right: solid 10px transparent;
+                border-left: solid 10px transparent;
+                border-bottom: 10px solid white;
+            }
+
+            .form-group{
+                margin-bottom: 10px;
+
+                .form-control{
+                    padding: 1rem;
+                    width: 100%;
+                    border-radius: 5px;
+                    border: none;
+                }
+            }
+        }
+
+        .submit-btn{
+            width: 100%;
+            background: $app-dominant-color-deep;
+            padding: 1rem;
         }
     }
 }
