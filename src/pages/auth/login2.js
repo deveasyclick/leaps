@@ -233,6 +233,12 @@ export class Login extends Component {
                   name="name"
                   placeholder="Fullname"
                 />
+                {showInvalid && !form.name.valid && (
+                  <p className="input-error-text">Username cannot be empty</p>
+                )}
+                <small id="usernameId" className="text-muted">
+                  Username
+                </small>
               </div>
               <div className="form-group col-12">
                 <input
