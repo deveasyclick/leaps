@@ -227,6 +227,10 @@ select:-webkit-autofill:focus {
                     border: none;
                     background: white;
                 }
+
+                .text-muted{
+                    display: none;
+                }
             }
         }
 
@@ -236,11 +240,15 @@ select:-webkit-autofill:focus {
             padding: 1rem;
         }
 
-        .error-text{
-            color: #ffafaf;
+        .error-text,.input-error-text{
+            color: #ffcece;
         }
+        .error-text,.success-text{
+            text-align: center;
+        }
+        
         .success-text{
-            color: #37d237;
+            color: #a4eaa4;
         }
     }
 }

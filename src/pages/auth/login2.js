@@ -14,9 +14,9 @@ function printError(type, error) {
   switch (type) {
     case authActionTypes.LOGIN_FAILED:
     case authActionTypes.SIGNUP_FAILED:
+    case authActionTypes.RESET_PASSWORD_FAILED:
       return <p className="error-text">{error}</p>;
     case authActionTypes.LOGIN_SUCCESS:
-    case authActionTypes.SIGNUP_SUCCESS:
       return <p className="success-text">Success!</p>;
     default:
       return null;
@@ -26,21 +26,24 @@ export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signinForm: {
+      signin: {
         email: { value: '', valid: false },
         password: { value: '', valid: false },
       },
-      signupForm: {
+      signup: {
         email: { value: '', valid: false },
         password: { value: '', valid: false },
-        country: { value: 'Kenya', valid: false },
+        country: { value: 'Kenya', valid: true },
         name: { value: '', valid: false },
       },
-      forgotPasswordForm: { email: { value: '', valid: false } },
+      forgot: { email: { value: '', valid: false } },
       signinToSubmit: {},
       signupToSubmit: {},
       forgotPasswordToSubmit: {},
       activePage: 'signin',
+      showSigninInvalid: false,
+      showSignupInvalid: false,
+      showForgotPasswordInvalid: false,
     };
     this.handleSigninInputChange = this.handleSigninInputChange.bind(this);
     this.handleSignupInputChange = this.handleSignupInputChange.bind(this);
@@ -49,10 +52,24 @@ export class Login extends Component {
     this.onSigninSubmit = this.onSigninSubmit.bind(this);
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
     this.onForgotPasswordSubmit = this.onForgotPasswordSubmit.bind(this);
+    this.formIsValid = this.formIsValid.bind(this);
+  }
+
+  formIsValid() {
+    const { activePage } = this.state;
+    const form = this.state[activePage];
+    const formKeys = Object.keys(form);
+    const validCount = formKeys.filter(k => form[k].valid === true).length;
+    return validCount === formKeys.length;
   }
 
   onSigninSubmit(e) {
     e.preventDefault();
+    this.setState({ showSigninInvalid: false });
+    if (!this.formIsValid()) {
+      this.setState({ showSigninInvalid: true });
+      return;
+    }
     const { signinToSubmit } = this.state;
     const { signin } = this.props;
     signin(signinToSubmit);
@@ -60,24 +77,35 @@ export class Login extends Component {
 
   onSignupSubmit(e) {
     e.preventDefault();
+    this.setState({ showSignupInvalid: false });
+    if (!this.formIsValid()) {
+      this.setState({ showSignupInvalid: true });
+      return;
+    }
     const { signupToSubmit } = this.state;
-    console.log(signupToSubmit);
-    // const { signup: register } = this.props;
-    // register(toSubmit);
+    const { signup: register } = this.props;
+    register(signupToSubmit);
   }
 
   onForgotPasswordSubmit(e) {
     e.preventDefault();
+    this.setState({ showForgotPasswordInvalid: false });
+    if (!this.formIsValid()) {
+      this.setState({ showForgotPasswordInvalid: true });
+      return;
+    }
     const { forgotPasswordToSubmit } = this.state;
-    console.log(forgotPasswordToSubmit);
-    // const { resetPassword } = this.props;
-    // resetPassword(toSubmit);
+    const { resetPassword } = this.props;
+    resetPassword(forgotPasswordToSubmit);
   }
 
   componentDidMount() {
     const path = this.props.match.path.replace('/', '');
     let { activePage } = this.state;
-    if (path === 'signin' || path === 'signup' || path === 'forgot') {
+    if (path === 'signin' || path === 'login') {
+      activePage = 'sigin';
+    }
+    if (path === 'signup' || path === 'forgot') {
       activePage = path;
     }
     this.setState({ activePage });
@@ -87,8 +115,8 @@ export class Login extends Component {
     const { name, value, type } = e.target;
     this.setState(p => ({
       signinToSubmit: { ...p.signinToSubmit, [name]: value },
-      signinForm: {
-        ...p.signinForm,
+      signin: {
+        ...p.signin,
         [name]: {
           value,
           valid: validator(value, type),
@@ -101,8 +129,8 @@ export class Login extends Component {
     const { name, value, type } = e.target;
     this.setState(p => ({
       signupToSubmit: { ...p.signupToSubmit, [name]: value },
-      signupForm: {
-        ...p.signupForm,
+      signup: {
+        ...p.signup,
         [name]: {
           value,
           valid: validator(value, type),
@@ -115,8 +143,8 @@ export class Login extends Component {
     const { name, value, type } = e.target;
     this.setState(p => ({
       forgotPasswordToSubmit: { ...p.forgotPasswordToSubmit, [name]: value },
-      forgotPasswordForm: {
-        ...p.forgotPasswordForm,
+      forgot: {
+        ...p.forgot,
         [name]: {
           value,
           valid: validator(value, type),
@@ -125,12 +153,15 @@ export class Login extends Component {
     }));
   }
 
-  componentDidUpdate() {
-    console.log('state', this.state);
-  }
-
   render() {
-    const { signinForm, signupForm, forgotPasswordForm } = this.state;
+    const {
+      signin,
+      signup,
+      forgot,
+      showSigninInvalid,
+      showSignupInvalid,
+      showForgotPasswordInvalid,
+    } = this.state;
 
     const { type, error } = this.props;
     if (
@@ -154,7 +185,12 @@ export class Login extends Component {
                   <button
                     type="button"
                     onClick={(e) => {
-                      this.setState({ activePage: 'signin' });
+                      this.setState({
+                        showSigninInvalid: false,
+                        showSignupInvalid: false,
+                        showForgotPasswordInvalid: false,
+                        activePage: 'signin',
+                      });
                     }}
                     className={`btn signin ${activePage === 'signin' ? 'show' : ''}`}
                   >
@@ -162,7 +198,12 @@ export class Login extends Component {
                   </button>
                   <button
                     onClick={(e) => {
-                      this.setState({ activePage: 'signup' });
+                      this.setState({
+                        activePage: 'signup',
+                        showSigninInvalid: false,
+                        showSignupInvalid: false,
+                        showForgotPasswordInvalid: false,
+                      });
                     }}
                     type="button"
                     className={`btn signup ${activePage === 'signup' ? 'show' : ''}`}
@@ -171,7 +212,12 @@ export class Login extends Component {
                   </button>
                   <button
                     onClick={(e) => {
-                      this.setState({ activePage: 'forgot' });
+                      this.setState({
+                        showSigninInvalid: false,
+                        showSignupInvalid: false,
+                        showForgotPasswordInvalid: false,
+                        activePage: 'forgot',
+                      });
                     }}
                     type="button"
                     className={`btn forgot ${activePage === 'forgot' ? 'show' : ''}`}
@@ -192,9 +238,12 @@ export class Login extends Component {
                   className="form-control"
                   name="email"
                   placeholder="Email"
-                  value={signinForm.email.value}
+                  value={signin.email.value}
                   onChange={this.handleSigninInputChange}
                 />
+                {showSigninInvalid && !signup.name.valid && (
+                  <p className="input-error-text">Email field cannot be empty</p>
+                )}
               </div>
               <div className="form-group col-12">
                 <input
@@ -202,9 +251,12 @@ export class Login extends Component {
                   className="form-control"
                   name="password"
                   placeholder="Password"
-                  value={signinForm.password.value}
+                  value={signin.password.value}
                   onChange={this.handleSigninInputChange}
                 />
+                {showSigninInvalid && !signup.password.valid && (
+                  <p className="input-error-text">Password field cannot be empty</p>
+                )}
               </div>
               <div className="form-group col-12">
                 <Button className="btn submit-btn" type="submit">
@@ -216,7 +268,9 @@ export class Login extends Component {
                     <span className="login-text">Sign in</span>
                   )}
                 </Button>
-                {printError(type, error)}
+                {(type === authActionTypes.LOGIN_FAILED
+                  || type === authActionTypes.LOGIN_SUCCESS)
+                  && printError(type, error)}
               </div>
             </form>
             <form
@@ -228,44 +282,47 @@ export class Login extends Component {
                 <input
                   type="text"
                   onChange={this.handleSignupInputChange}
-                  value={signupForm.name.value}
+                  value={signup.name.value}
                   className="form-control"
                   name="name"
                   placeholder="Fullname"
                 />
-                {showInvalid && !form.name.valid && (
-                  <p className="input-error-text">Username cannot be empty</p>
+                {showSignupInvalid && !signup.name.valid && (
+                  <p className="input-error-text">Name field cannot be empty</p>
                 )}
-                <small id="usernameId" className="text-muted">
-                  Username
-                </small>
               </div>
               <div className="form-group col-12">
                 <input
                   type="email"
                   onChange={this.handleSignupInputChange}
-                  value={signupForm.email.value}
+                  value={signup.email.value}
                   className="form-control"
                   name="email"
                   placeholder="Email"
                 />
+                {showSignupInvalid && !signup.email.valid && (
+                  <p className="input-error-text">Email field cannot be empty</p>
+                )}
               </div>
               <div className="form-group col-12">
                 <input
                   onChange={this.handleSignupInputChange}
-                  value={signupForm.password.value}
+                  value={signup.password.value}
                   type="password"
                   className="form-control"
                   name="password"
                   placeholder="Password"
                 />
+                {showSignupInvalid && !signup.password.valid && (
+                  <p className="input-error-text">Password field cannot be empty</p>
+                )}
               </div>
               <div className="form-group col-12">
                 <select
                   name="country"
                   id="country"
                   onChange={this.handleSignupInputChange}
-                  value={signupForm.country.value}
+                  value={signup.country.value}
                   className="form-control"
                   aria-describedby="countryId"
                 >
@@ -286,7 +343,9 @@ export class Login extends Component {
                     <span className="login-text">Sign up</span>
                   )}
                 </Button>
-                {printError(type, error)}
+                {(type === authActionTypes.SIGNUP_FAILED
+                  || type === authActionTypes.SIGNUP_SUCCESS)
+                  && printError(type, error)}
               </div>
             </form>
             <form
@@ -301,8 +360,11 @@ export class Login extends Component {
                   name="email"
                   placeholder="Email"
                   onChange={this.handleForgotPasswordInputChange}
-                  value={forgotPasswordForm.email.value}
+                  value={forgot.email.value}
                 />
+                {showForgotPasswordInvalid && !forgot.email.valid && (
+                  <p className="input-error-text">Email field cannot be empty</p>
+                )}
               </div>
               <div className="form-group col-12">
                 <Button className="btn submit-btn" type="submit">
@@ -314,7 +376,10 @@ export class Login extends Component {
                     <span className="login-text">Forgot password</span>
                   )}
                 </Button>
-                {printError(type, error)}
+                {type === authActionTypes.SEND_RESET_PASSWORD_FAILED && printError(type, error)}
+                {type === authActionTypes.SEND_RESET_PASSWORD_SUCCESS && (
+                  <p className="success-text">Password reset sent, please check your email!</p>
+                )}
               </div>
             </form>
           </div>
