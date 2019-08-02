@@ -27,6 +27,7 @@ export class Dashboard extends Component {
       },
       toSubmit: {},
       activeContent: 'texts',
+      temporaryFiles: [],
       documents: {
         subject: '',
         topic: '',
@@ -54,12 +55,18 @@ export class Dashboard extends Component {
       name, value, type, files,
     } = e.target;
     const docFiles = files ? Array.from(files) : [];
+
     if (type === 'file') {
+      let filename = 'image';
+      if (name === 'videoFile') filename = 'video';
+      else if (name === 'imageFile') filename = 'image';
+      else filename = 'pdf';
+
       this.setState(p => ({
         toSubmit: { ...p.toSubmit, [name]: value },
         form: {
           ...p.form,
-          [name]: {
+          [filename]: {
             value: '',
             files: docFiles,
             valid: docFiles.length > 0,
@@ -125,14 +132,18 @@ export class Dashboard extends Component {
       documents.texts.push(doc);
       showedResources = 'texts';
       form.heading.value = '';
+      form.heading.valid = false;
       form.excerpt.value = '';
+      form.excerpt.valid = false;
       form.definition.value = '';
+      form.definition.valid = false;
     } else {
       documents[name].push(
         form[name].value ? form[name].value : form[name].files,
       );
       showedResources = name;
       form[name].value = '';
+      form[name].valid = false;
       form[name].files = [];
     }
     documents.subject = form.subject;
@@ -171,7 +182,10 @@ export class Dashboard extends Component {
     upload(documents);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevStates) {
+    if (prevStates.activeContent !== this.state.activeContent) {
+      this.setState({ temporaryFiles: [] });
+    }
     console.log(this.state);
   }
 
@@ -195,7 +209,7 @@ export class Dashboard extends Component {
 
   render() {
     const {
-      form, activeContent, documents,
+      form, activeContent, documents, tempo,
     } = this.state;
     // const { type, error } = this.props;
     // const formKeys = Object.keys(form);
@@ -280,28 +294,45 @@ export class Dashboard extends Component {
                 <h3 className="upload-text">Upload Resource content!</h3>
               </div>
             </div>
-            <div className="row d-flex justify-content-center upload-resources-heading-row">
-              {documents[activeContent].map((resource, index) => {
+            <div className="row d-flex flex-column resources-row">
+              {documents[activeContent].filter((resource, index) => resource).map((resource, index) => {
                 if (activeContent === 'texts') {
                   return (
-                    <div key={index} className="col-4">
-                      <span style={{ marginRight: '10px' }}>Heading</span>
-                      <span>
-                        {resource.heading}
-                      </span>
+                    <div key={index} className="text-resource resource-card">
+                      <div className="card-title">
+                        <h3>{resource.heading}</h3>
+                      </div>
+                      <div className="card-body">
+                        <p className="p">
+                          {resource.definition}
+                        </p>
+                      </div>
                     </div>
                   );
-                } if (typeof resource !== 'string') {
-                  return console.log('to be implemented');
                 }
-                return (
-                  <div key={index} className="col-4">
-                    <span style={{ marginRight: '10px' }}>{resource}</span>
-                    <span>
-                      {resource.heading}
-                    </span>
-                  </div>
-                );
+                if (activeContent === 'video') {
+                  if (typeof resource === 'string') {
+                    return (
+                      <div className="video-resource">
+                        <iframe
+                          width="100%"
+                          height="auto"
+                          className="iframe"
+                          src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                        />
+                      </div>
+                    );
+                  }
+                }
+                if (activeContent === 'image') {
+                  if (typeof resource === 'string') {
+                    return (
+                      <div className="image-resource">
+                        <img src={resource} alt="" width="100%" height="autp" />
+                      </div>
+                    );
+                  }
+                }
               })}
             </div>
             <div className="row resources-btn-row">
@@ -384,7 +415,7 @@ export class Dashboard extends Component {
                     className="form-control text-form-control"
                     name="excerpt"
                     id="excerpt"
-                    rows="3"
+                    rows={3}
                     onChange={this.handleInputChange}
                     placeholder="Excerpt"
                     value={form.excerpt.value}
@@ -425,7 +456,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group input-wrapper col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
                       id="proxy"
@@ -455,9 +486,10 @@ export class Dashboard extends Component {
                     <input
                       ref={this.pdfFile}
                       type="file"
-                      name="pdf"
+                      name="pdfFile"
                       className="file"
                       onChange={this.handleInputChange}
+                      value=""
                       multiple
                       accept="application/pdf,.doc"
                     />
@@ -480,7 +512,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group input-wrapper col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
                       id="proxy"
@@ -510,10 +542,11 @@ export class Dashboard extends Component {
                     <input
                       ref={this.imageFile}
                       type="file"
-                      name="image"
+                      name="imageFile"
                       className="file"
                       onChange={this.handleInputChange}
                       multiple
+                      value=""
                       accept="image/*"
                     />
                   </div>
@@ -535,7 +568,7 @@ export class Dashboard extends Component {
                 }`}
               >
                 <div className="row">
-                  <div className="form-group input-wrapper col-md-9 col-10">
+                  <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
                       placeholder="http://"
@@ -565,9 +598,10 @@ export class Dashboard extends Component {
                     <input
                       ref={this.videoFile}
                       type="file"
-                      name="video"
+                      name="videoFile"
                       className="file"
                       onChange={this.handleInputChange}
+                      value=""
                       multiple
                       accept="video/mp4,video/x-m4v,video/*"
                     />

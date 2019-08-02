@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FiUser } from 'react-icons/fi';
+import Loader from 'react-loader-spinner';
 import * as storage from '../../helpers/token';
 import { validator } from '../../helpers/utils';
-import Loader from 'react-loader-spinner';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import { updateUserDetails } from '../../redux/dash/dash.action';
 
@@ -18,11 +18,11 @@ class AccountComponent extends React.Component {
         name: { value: '', valid: false },
         country: { value: '', valid: false },
         category: { value: '', valid: false },
-        email: { value: '', valid: false }
+        email: { value: '', valid: false },
       },
       toSubmit: {},
       imgSrc: '',
-      updated:false
+      updated: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -37,36 +37,38 @@ class AccountComponent extends React.Component {
   }
 
   handleInputChange(e) {
-    const { name, value, type, files } = e.target;
+    const {
+      name, value, type, files,
+    } = e.target;
     if (type === 'file') {
-      let file = files[0];
-      let reader = new FileReader();
+      const file = files[0];
+      const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => this.setState({ imgSrc: reader.result });
       this.setState(p => ({
         toSubmit: { ...p.toSubmit, [name]: file },
         imgSrc: reader.result,
-        updated:true,
+        updated: true,
         form: {
           ...p.form,
           [name]: {
             value: '',
             valid: true,
-            file
-          }
-        }
+            file,
+          },
+        },
       }));
     } else {
       this.setState(p => ({
         toSubmit: { ...p.toSubmit, [name]: value },
-        updated:true,
+        updated: true,
         form: {
           ...p.form,
           [name]: {
-            value: value,
-            valid: validator(value, type)
-          }
-        }
+            value,
+            valid: validator(value, type),
+          },
+        },
       }));
     }
   }
@@ -77,8 +79,8 @@ class AccountComponent extends React.Component {
 
   componentDidMount() {
     const user = storage.getToken();
-    const { form, toSubmit} = this.state;
-    let {imgSrc} = this.state;
+    const { form, toSubmit } = this.state;
+    let { imgSrc } = this.state;
     if (user) {
       form.category.value = toSubmit.category = user.category;
       form.category.valid = true;
@@ -128,9 +130,9 @@ class AccountComponent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="card-footer">
+              <div className="card-footer row">
                 <p
-                  className="upload-picture"
+                  className="upload-picture col-6"
                   onClick={() => this.imageRef.current.click()}
                 >
                   <input
@@ -144,7 +146,7 @@ class AccountComponent extends React.Component {
                   />
                   UPLOAD PICTURE
                 </p>
-                <p className="remove-picture">REMOVE PICTURE</p>
+                <p className="remove-picture col-6">REMOVE PICTURE</p>
               </div>
             </div>
           </div>
@@ -155,46 +157,50 @@ class AccountComponent extends React.Component {
             </div>
             <form className="row form" onSubmit={this.onSubmit}>
               <div className="inputs-wrapper">
-                <div className="form-group col-12">
-                  <div className="label">Name *</div>
-                  <input
-                    name="name"
-                    onChange={this.handleInputChange}
-                    type="text"
-                    className="form-control"
-                    value={form.name.value}
-                  />
+                <div className="row">
+                  <div className="form-group col-12 col-md-6">
+                    <div className="label">Name *</div>
+                    <input
+                      name="name"
+                      onChange={this.handleInputChange}
+                      type="text"
+                      className="form-control"
+                      value={form.name.value}
+                    />
+                  </div>
+                  <div className="form-group col-md-6 col-12">
+                    <div className="label">Email *</div>
+                    <input
+                      name="email"
+                      type="text"
+                      onChange={this.handleInputChange}
+                      className="form-control"
+                      value={form.email.value}
+                    />
+                  </div>
                 </div>
-                <div className="form-group col-12">
-                  <div className="label">Email *</div>
-                  <input
-                    name="email"
-                    type="text"
-                    onChange={this.handleInputChange}
-                    className="form-control"
-                    value={form.email.value}
-                  />
-                </div>
-                <div className="form-group col-12">
-                  <div className="label">Category *</div>
-                  <input
-                    onChange={this.handleInputChange}
-                    name="category"
-                    type="text"
-                    className="form-control category"
-                    value={form.category.value}
-                    readOnly
-                  />
-                </div>
-                <div className="form-group col-12">
-                  <div className="label">Country *</div>
-                  <input
-                    name="country"
-                    onChange={this.handleInputChange}
-                    type="text"
-                    className="form-control"
-                    value={form.country.value}
-                  />
+                <div className="row">
+                  <div className="form-group col-md-6 col-12">
+                    <div className="label">Category *</div>
+                    <input
+                      onChange={this.handleInputChange}
+                      name="category"
+                      type="text"
+                      className="form-control category"
+                      value={form.category.value}
+                      readOnly
+                    />
+                  </div>
+                  <div className="form-group col-md-6 col-12">
+                    <div className="label">Country *</div>
+                    <input
+                      name="country"
+                      onChange={this.handleInputChange}
+                      type="text"
+                      className="form-control"
+                      value={form.country.value}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="form-group col-12 btn-wrapper">
@@ -233,13 +239,13 @@ class AccountComponent extends React.Component {
 }
 
 const mapStateToProps = states => ({
-  dash: states.dash
+  dash: states.dash,
 });
 const mapDispatchToProps = dipatch => ({
-  updateUser: user => dipatch(updateUserDetails(user))
+  updateUser: user => dipatch(updateUserDetails(user)),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AccountComponent);

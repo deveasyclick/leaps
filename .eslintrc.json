@@ -33,6 +33,11 @@
         "jsx-a11y/click-events-have-key-events":0,
         "react/sort-comp":0,
         "jsx-a11y/no-noninteractive-element-interactions":0,
-        "no-multi-assign":0
+        "no-multi-assign":0,
+        "jsx-a11y/media-has-caption":0,
+        "jsx-a11y/iframe-has-title":0,
+        "no-return-assign":0,
+        "react/no-did-update-set-state":0,
+        "react/destructuring-assignment":0
     }
 }

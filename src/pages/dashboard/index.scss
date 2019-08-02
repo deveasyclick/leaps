@@ -83,6 +83,45 @@
         }
     }
 
+    .resources-row{
+        width: 50rem;
+        max-width: 50rem;
+        height: 10rem;
+        overflow-y: hidden;
+        overflow-x: auto;
+        
+
+        .text-resource{
+            width: 25%;
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            border: solid 1px #e6e6e6;
+            height: 8rem;
+
+            .card-body{
+                .p{
+                    overflow: hidden;
+                    height: 5rem;
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .video-resource{
+            width: 25%;
+            margin-right: 10px;
+            .iframe{
+                border: none;
+                border-radius: 20px;
+            }
+        }
+        .image-resource{
+            width: 13rem;
+            border-radius: 5px;
+            border: solid 1px gainsboro;
+            min-height: 8rem;
+        }
+    }
     .upload-resources-heading-row {
         margin-bottom: 1rem;
 
@@ -182,6 +221,7 @@
 
             .input-wrapper{
                 margin-left: 3rem;
+                padding-right: 5px;
                 .icon-helper{
                     position: absolute;
                     top: 6px;

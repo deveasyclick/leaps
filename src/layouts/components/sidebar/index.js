@@ -10,28 +10,30 @@ import navActionTypes from '../../../redux/nav/nav.action-type';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
 
 
-
 const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: IoMdPerson, path: 'account' }];
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: { name: '', category: '',image:'' }, activeLink: 0 };
+    this.state = { user: { name: '', category: '', image: '' }, activeLink: 0 };
   }
+
   componentDidMount() {
     const user = storage.getToken();
     if (user) {
       this.setState({ user });
     }
   }
-  componentDidUpdate(prevProps){
-    if(prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS){
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS) {
       const user = storage.getToken();
       if (user) {
         this.setState({ user });
       }
     }
   }
+
   render() {
     const { user, activeLink } = this.state;
     const { nav } = this.props;
@@ -48,11 +50,17 @@ class Sidebar extends Component {
         </div>
         <div className="profile d-flex justify-content-center align-items-center flex-column">
           <div className="user-icon-wrapper">
-            <Link className="user-account-link" to="/account">
+            <Link
+              onClick={() => {
+                this.setState({ activeLink: 1 });
+              }}
+              className="user-account-link"
+              to="/account"
+            >
               <div className="user-icon">
                 {
-                  user.image ? <img className="img" src={user.image} width="100%" alt="user" /> :
-                <FiUser size={40} />
+                  user.image ? <img className="img" src={user.image} width="100%" alt="user" />
+                    : <FiUser size={40} />
                 }
               </div>
             </Link>
@@ -96,7 +104,7 @@ class Sidebar extends Component {
 
 const mapStateToProps = states => ({
   nav: states.nav,
-  dash:states.dash
+  dash: states.dash,
 });
 const mapDispatchToProps = dispatch => ({});
 

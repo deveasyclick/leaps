@@ -58,7 +58,7 @@
             }
 
             .card-footer{
-                padding: 0.5rem 1rem;
+                padding: 1.5rem 1rem;
                 .upload-picture{
                     color: $app-dominant-color;
                     &:hover{
@@ -116,7 +116,7 @@
                 padding: 1rem 0.5rem;
             }
             .form-group{
-                margin-bottom: 10px;
+                margin-bottom: 20px;
                 position: relative;
                 .label{
                     display: inline-block;
@@ -133,7 +133,7 @@
                     border: solid 1px $gray;
                     border-radius: 5px;
                     display: inline-block;
-                    width: 70%;
+                    width: 100%;
                     outline: none;
 
                     &:-webkit-autofill,

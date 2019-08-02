@@ -1,64 +1,94 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Button from './components/button';
-import bookLover from '../../assets/illustrations/undraw_book_lover.svg';
 import Loader from '../../assets/images/Spinner-1s-200px.svg';
 import authActionTypes from '../../redux/auth/auth.actionTypes';
-import { login } from '../../redux/auth/auth.action';
+import { login, signup, sendResetPassword } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
-import Logo from '../../assets/images/logo-only_mobile.png';
 
 import './style.scss';
-
 
 const countries = ['Nigeria', 'Ethiopia', 'Kenya', 'Malawi'];
 function printError(type, error) {
   switch (type) {
     case authActionTypes.LOGIN_FAILED:
+    case authActionTypes.SIGNUP_FAILED:
       return <p className="error-text">{error}</p>;
     case authActionTypes.LOGIN_SUCCESS:
+    case authActionTypes.SIGNUP_SUCCESS:
       return <p className="success-text">Success!</p>;
-    default: return null;
+    default:
+      return null;
   }
 }
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: {
-        signin: { email: { value: '', valid: false }, password: { value: '', valid: false } },
-        signup: {
-          email: { value: '', valid: false }, password: { value: '', valid: false }, country: { value: 'Nigeria', valid: false }, name: { value: '', valid: false },
-        },
-        forgot: { email: { value: '', valid: false } },
+      signinForm: {
+        email: { value: '', valid: false },
+        password: { value: '', valid: false },
       },
-      toSubmit: {},
+      signupForm: {
+        email: { value: '', valid: false },
+        password: { value: '', valid: false },
+        country: { value: 'Nigeria', valid: false },
+        name: { value: '', valid: false },
+      },
+      forgotPasswordForm: { email: { value: '', valid: false } },
+      signinToSubmit: {},
+      signupToSubmit: {},
+      forgotPasswordToSubmit: {},
       activePage: 'signin',
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.formIsValid = this.formIsValid.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSigninInputChange = this.handleSigninInputChange.bind(this);
+    this.handleSignupInputChange = this.handleSignupInputChange.bind(this);
+    this.handleForgotPasswordInputChange = this.handleForgotPasswordInputChange.bind(this);
+    this.handleForgotPasswordInputChange.bind(this);
+    this.onSigninSubmit = this.onSigninSubmit.bind(this);
+    this.onSignupSubmit = this.onSignupSubmit.bind(this);
+    this.onForgotPasswordSubmit = this.onForgotPasswordSubmit.bind(this);
   }
 
-  onSubmit(e) {
+  onSigninSubmit(e) {
     e.preventDefault();
-    this.setState({ showInvalid: false });
-    if (!this.formIsValid()) {
-      this.setState({ showInvalid: true });
-      return;
-    }
-    const { toSubmit } = this.state;
-    const { login: loginUser } = this.props;
-    loginUser(toSubmit);
+    const { signinToSubmit } = this.state;
+    const { signin } = this.props;
+    signin(signinToSubmit);
   }
 
-  handleInputChange(e) {
+  onSignupSubmit(e) {
+    e.preventDefault();
+    const { signupToSubmit } = this.state;
+    console.log(signupToSubmit);
+    // const { signup: register } = this.props;
+    // register(toSubmit);
+  }
+
+  onForgotPasswordSubmit(e) {
+    e.preventDefault();
+    const { forgotPasswordToSubmit } = this.state;
+    console.log(forgotPasswordToSubmit);
+    // const { resetPassword } = this.props;
+    // resetPassword(toSubmit);
+  }
+
+  componentDidMount() {
+    const path = this.props.match.path.replace('/', '');
+    let { activePage } = this.state;
+    if (path === 'signin' || path === 'signup' || path === 'forgot') {
+      activePage = path;
+    }
+    this.setState({ activePage });
+  }
+
+  handleSigninInputChange(e) {
     const { name, value, type } = e.target;
     this.setState(p => ({
-      toSubmit: { ...p.toSubmit, [name]: value },
-      form: {
-        ...p.form,
+      signinToSubmit: { ...p.signinToSubmit, [name]: value },
+      signinForm: {
+        ...p.signinForm,
         [name]: {
           value,
           valid: validator(value, type),
@@ -67,17 +97,48 @@ export class Login extends Component {
     }));
   }
 
-  formIsValid() {
-    const { form } = this.state;
-    const formKeys = Object.keys(form);
-    const validCount = formKeys.filter(k => form[k].valid === true).length;
-    return validCount === formKeys.length;
+  handleSignupInputChange(e) {
+    const { name, value, type } = e.target;
+    console.log('name', name);
+    this.setState(p => ({
+      signupToSubmit: { ...p.signupToSubmit, [name]: value },
+      signupForm: {
+        ...p.signupForm,
+        [name]: {
+          value,
+          valid: validator(value, type),
+        },
+      },
+    }));
+  }
+
+  handleForgotPasswordInputChange(e) {
+    const { name, value, type } = e.target;
+    this.setState(p => ({
+      forgotPasswordSubmit: { ...p.forgotPasswordToSubmit, [name]: value },
+      forgotPasswordForm: {
+        ...p.forgotPasswordForm,
+        [name]: {
+          value,
+          valid: validator(value, type),
+        },
+      },
+    }));
+  }
+
+  componentDidUpdate() {
+    console.log('state', this.state);
   }
 
   render() {
-    const { form } = this.state;
+    const { signinForm, signupForm, forgotPasswordForm } = this.state;
+
     const { type, error } = this.props;
-    if (type === authActionTypes.LOGIN_SUCCESS || type === authActionTypes.CHECK_AUTH_SUCCESS) {
+    if (
+      type === authActionTypes.LOGIN_SUCCESS
+      || type === authActionTypes.CHECK_AUTH_SUCCESS
+      || type === authActionTypes.SIGNUP_SUCCESS
+    ) {
       return <Redirect to="/" />;
     }
     const { activePage } = this.state;
@@ -90,7 +151,6 @@ export class Login extends Component {
                 <div className="title">
                   <h1>Sign in to your account</h1>
                 </div>
-
                 <div className="tab-control">
                   <button
                     type="button"
@@ -122,25 +182,54 @@ export class Login extends Component {
                 </div>
               </div>
             </div>
-            <form className={`row tab-content signin-content ${activePage === 'signin' ? 'show' : ''}`}>
-              <div className="caret" />
-              <div className="form-group col-12">
-                <input type="text" className="form-control" name="email" placeholder="Email" />
-              </div>
-              <div className="form-group col-12">
-                <input type="password" className="form-control" name="email" placeholder="Password" />
-              </div>
-              <div className="form-group col-12">
-                <button type="submit" className="btn submit-btn">Signin</button>
-              </div>
-            </form>
-            <div className={`row tab-content signup-content ${activePage === 'signup' ? 'show' : ''}`}>
+            <form
+              className={`row tab-content signin-content ${activePage === 'signin' ? 'show' : ''}`}
+              onSubmit={this.onSigninSubmit}
+            >
               <div className="caret" />
               <div className="form-group col-12">
                 <input
                   type="text"
-                  onChange={this.handleInputChange}
-                  value={form.signup.name.value}
+                  className="form-control"
+                  name="email"
+                  placeholder="Email"
+                  value={signinForm.email.value}
+                  onChange={this.handleSigninInputChange}
+                />
+              </div>
+              <div className="form-group col-12">
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  placeholder="Password"
+                  value={signinForm.password.value}
+                  onChange={this.handleSigninInputChange}
+                />
+              </div>
+              <div className="form-group col-12">
+                <Button className="btn submit-btn" type="submit">
+                  {type === authActionTypes.LOGIN_LOADING ? (
+                    <span className="preloader-wrapper">
+                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                    </span>
+                  ) : (
+                    <span className="login-text">Sign in</span>
+                  )}
+                </Button>
+                {printError(type, error)}
+              </div>
+            </form>
+            <form
+              className={`row tab-content signup-content ${activePage === 'signup' ? 'show' : ''}`}
+              onSubmit={this.onSignupSubmit}
+            >
+              <div className="caret" />
+              <div className="form-group col-12">
+                <input
+                  type="text"
+                  onChange={this.handleSignupInputChange}
+                  value={signupForm.name.value}
                   className="form-control"
                   name="name"
                   placeholder="Fullname"
@@ -149,8 +238,8 @@ export class Login extends Component {
               <div className="form-group col-12">
                 <input
                   type="email"
-                  onChange={this.handleInputChange}
-                  value={form.signup.email.value}
+                  onChange={this.handleSignupInputChange}
+                  value={signupForm.email.value}
                   className="form-control"
                   name="email"
                   placeholder="Email"
@@ -158,8 +247,8 @@ export class Login extends Component {
               </div>
               <div className="form-group col-12">
                 <input
-                  onChange={this.handleInputChange}
-                  value={form.signup.password.value}
+                  onChange={this.handleSignupInputChange}
+                  value={signupForm.password.value}
                   type="password"
                   className="form-control"
                   name="password"
@@ -170,33 +259,59 @@ export class Login extends Component {
                 <select
                   name="country"
                   id="country"
-                  onChange={this.handleInputChange}
-                  value={form.signup.country.value}
+                  onChange={this.handleSignupInputChange}
+                  value={signupForm.country.value}
                   className="form-control"
                   aria-describedby="countryId"
                 >
-                  {
-                      countries.map((country, ind) => (
-                        <option value={country} key={ind}>
-                          {country}
-                        </option>
-                      ))
-                    }
+                  {countries.map((country, ind) => (
+                    <option value={country} key={ind}>
+                      {country}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="form-group col-12">
-                <button type="submit" className="btn submit-btn">Sign up</button>
+                <Button className="btn submit-btn" type="submit">
+                  {type === authActionTypes.SIGNUP_LOADING ? (
+                    <span className="preloader-wrapper">
+                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                    </span>
+                  ) : (
+                    <span className="login-text">Sign up</span>
+                  )}
+                </Button>
+                {printError(type, error)}
               </div>
-            </div>
-            <div className={`row tab-content forgot-content ${activePage === 'forgot' ? 'show' : ''}`}>
+            </form>
+            <form
+              className={`row tab-content forgot-content ${activePage === 'forgot' ? 'show' : ''}`}
+              onSubmit={this.onForgotPasswordSubmit}
+            >
               <div className="caret" />
               <div className="form-group col-12">
-                <input type="text" className="form-control" name="email" placeholder="Email" />
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  placeholder="Email"
+                  onChange={this.handleForgotPasswordInputChange}
+                  value={forgotPasswordForm.email.value}
+                />
               </div>
               <div className="form-group col-12">
-                <button type="submit" className="btn submit-btn">Forgot password</button>
+                <Button className="btn submit-btn" type="submit">
+                  {type === authActionTypes.SEND_RESET_PASSWORD_LOADING ? (
+                    <span className="preloader-wrapper">
+                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                    </span>
+                  ) : (
+                    <span className="login-text">Forgot password</span>
+                  )}
+                </Button>
+                {printError(type, error)}
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>
@@ -209,7 +324,12 @@ const mapStateToProps = state => ({
   error: state.auth.error,
 });
 const mapDispatchToProps = dispatch => ({
-  login: obj => dispatch(login(obj)),
+  signin: obj => dispatch(login(obj)),
+  signup: obj => dispatch(signup(obj)),
+  resetPassword: obj => dispatch(sendResetPassword(obj)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(Login));
