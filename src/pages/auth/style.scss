@@ -225,14 +225,22 @@ select:-webkit-autofill:focus {
                     width: 100%;
                     border-radius: 5px;
                     border: none;
+                    background: white;
                 }
             }
         }
 
         .submit-btn{
             width: 100%;
-            background: $app-dominant-color-deep;
+            background: #5a48c7;
             padding: 1rem;
+        }
+
+        .error-text{
+            color: #ffafaf;
+        }
+        .success-text{
+            color: #37d237;
         }
     }
 }

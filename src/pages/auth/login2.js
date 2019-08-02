@@ -33,7 +33,7 @@ export class Login extends Component {
       signupForm: {
         email: { value: '', valid: false },
         password: { value: '', valid: false },
-        country: { value: 'Nigeria', valid: false },
+        country: { value: 'Kenya', valid: false },
         name: { value: '', valid: false },
       },
       forgotPasswordForm: { email: { value: '', valid: false } },
@@ -99,7 +99,6 @@ export class Login extends Component {
 
   handleSignupInputChange(e) {
     const { name, value, type } = e.target;
-    console.log('name', name);
     this.setState(p => ({
       signupToSubmit: { ...p.signupToSubmit, [name]: value },
       signupForm: {
@@ -115,7 +114,7 @@ export class Login extends Component {
   handleForgotPasswordInputChange(e) {
     const { name, value, type } = e.target;
     this.setState(p => ({
-      forgotPasswordSubmit: { ...p.forgotPasswordToSubmit, [name]: value },
+      forgotPasswordToSubmit: { ...p.forgotPasswordToSubmit, [name]: value },
       forgotPasswordForm: {
         ...p.forgotPasswordForm,
         [name]: {
