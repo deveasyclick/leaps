@@ -22,18 +22,35 @@ class AccountComponent extends React.Component {
       },
       toSubmit: {},
       imgSrc: '',
-      updated: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.imageRef = React.createRef();
+    this.removePicture = this.removePicture.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault();
     const { toSubmit } = this.state;
     const { updateUser } = this.props;
+    return console.log(toSubmit);
     updateUser(toSubmit);
+  }
+
+  removePicture(e) {
+    this.setState(p => ({
+      toSubmit: { ...p.toSubmit, image: '' },
+      imgSrc: '',
+      form: {
+        ...p.form,
+        image: {
+          value: '',
+          valid: true,
+          file: [],
+        },
+      },
+    }));
+    this.onSubmit(e);
   }
 
   handleInputChange(e) {
@@ -48,7 +65,6 @@ class AccountComponent extends React.Component {
       this.setState(p => ({
         toSubmit: { ...p.toSubmit, [name]: file },
         imgSrc: reader.result,
-        updated: true,
         form: {
           ...p.form,
           [name]: {
@@ -61,7 +77,6 @@ class AccountComponent extends React.Component {
     } else {
       this.setState(p => ({
         toSubmit: { ...p.toSubmit, [name]: value },
-        updated: true,
         form: {
           ...p.form,
           [name]: {
@@ -71,10 +86,6 @@ class AccountComponent extends React.Component {
         },
       }));
     }
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
   }
 
   componentDidMount() {
@@ -108,7 +119,7 @@ class AccountComponent extends React.Component {
             <div className="card">
               <div className="card-body container-fluid">
                 <div className="row name-container">
-                  <div className="col-7 name-wrapper">
+                  <div className="col-7 col-sm-3 col-md-7 name-wrapper">
                     <h3 className="name">Adeniyi yusuf</h3>
                     <strong className="address">Nigeria</strong>
                   </div>
@@ -132,7 +143,7 @@ class AccountComponent extends React.Component {
               </div>
               <div className="card-footer row">
                 <p
-                  className="upload-picture col-6"
+                  className="upload-picture col-6 col-sm-3 col-md-6"
                   onClick={() => this.imageRef.current.click()}
                 >
                   <input
@@ -146,11 +157,11 @@ class AccountComponent extends React.Component {
                   />
                   UPLOAD PICTURE
                 </p>
-                <p className="remove-picture col-6">REMOVE PICTURE</p>
+                <p className="remove-picture col-6" onClick={this.removePicture}>REMOVE PICTURE</p>
               </div>
             </div>
           </div>
-          <div className="col-md-8 col-12 form-column">
+          <div className="col-md-8 col-sm-12 col-12 form-column">
             <div className="row header d-flex align-items-center">
               <p className="profile">Profile</p>
               <small className="notice">The information can be edited</small>

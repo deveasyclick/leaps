@@ -48,8 +48,11 @@ export class Dashboard extends Component {
     this.imageFile = React.createRef();
     this.videoFile = React.createRef();
     this.deleteTag = this.deleteTag.bind(this);
+    this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
   }
-
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({ numPages });
+  };
   handleInputChange(e) {
     const {
       name, value, type, files,
@@ -209,7 +212,7 @@ export class Dashboard extends Component {
 
   render() {
     const {
-      form, activeContent, documents, tempo,
+      form, activeContent, documents, moreAdded
     } = this.state;
     // const { type, error } = this.props;
     // const formKeys = Object.keys(form);
@@ -294,7 +297,8 @@ export class Dashboard extends Component {
                 <h3 className="upload-text">Upload Resource content!</h3>
               </div>
             </div>
-            <div className="row d-flex flex-column resources-row">
+            {
+              <div className="row resources-row">
               {documents[activeContent].filter((resource, index) => resource).map((resource, index) => {
                 if (activeContent === 'texts') {
                   return (
@@ -313,12 +317,12 @@ export class Dashboard extends Component {
                 if (activeContent === 'video') {
                   if (typeof resource === 'string') {
                     return (
-                      <div className="video-resource">
+                      <div className="video-resource" key={index}>
                         <iframe
                           width="100%"
                           height="auto"
                           className="iframe"
-                          src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                          src={resource}
                         />
                       </div>
                     );
@@ -327,14 +331,26 @@ export class Dashboard extends Component {
                 if (activeContent === 'image') {
                   if (typeof resource === 'string') {
                     return (
-                      <div className="image-resource">
+                      <div className="image-resource" key={index}>
                         <img src={resource} alt="" width="100%" height="autp" />
+                      </div>
+                    );
+                  }
+                }
+                if (activeContent === 'pdf') {
+                  if (typeof resource === 'string') {
+                    return (
+                      <div className="pdf-resource" key={index}>
+                        <iframe src={`http://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:"718px", height:"700px"}} frameBorder="0"></iframe>
+
                       </div>
                     );
                   }
                 }
               })}
             </div>
+            }
+            
             <div className="row resources-btn-row">
               <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
                 <button

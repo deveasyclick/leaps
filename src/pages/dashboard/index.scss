@@ -86,9 +86,11 @@
     .resources-row{
         width: 50rem;
         max-width: 50rem;
-        height: 10rem;
+        max-height: 10rem;
         overflow-y: hidden;
         overflow-x: auto;
+        display: block;
+        white-space: nowrap;
         
 
         .text-resource{
@@ -98,6 +100,7 @@
             padding: 10px;
             border: solid 1px #e6e6e6;
             height: 8rem;
+            display: inline-block;
 
             .card-body{
                 .p{
@@ -110,6 +113,7 @@
         .video-resource{
             width: 25%;
             margin-right: 10px;
+            display: inline-block;
             .iframe{
                 border: none;
                 border-radius: 20px;
@@ -120,6 +124,14 @@
             border-radius: 5px;
             border: solid 1px gainsboro;
             min-height: 8rem;
+            display: inline-block;
+            margin-right: 10px;
+
+            img{
+                display: block;
+                height: 8rem;
+                object-fit: cover;
+            }
         }
     }
     .upload-resources-heading-row {
@@ -221,7 +233,7 @@
 
             .input-wrapper{
                 margin-left: 3rem;
-                padding-right: 20px;
+                padding-right: 18px;
                 .icon-helper{
                     position: absolute;
                     top: 6px;
