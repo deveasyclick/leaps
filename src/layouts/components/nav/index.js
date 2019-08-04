@@ -57,7 +57,7 @@ export class Nav extends PureComponent {
   }
 
   render() {
-    const { logout, auth, nav } = this.props;
+    const { logout, auth, nav,width } = this.props;
     const navStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
     };
@@ -65,7 +65,7 @@ export class Nav extends PureComponent {
       return <Redirect to="/login" />;
     }
     return (
-      <section className="Nav container-fluid" style={navStyle}>
+      <section className="Nav container-fluid" style={width ? {width:width} : navStyle}>
         <div className="desktop-nav row d-flex align-items-center">
           <div className="col-6 col-md-8 d-flex align-content-center">
             <div className="times-icon-wrapper" onClick={this.handleNavClick}>

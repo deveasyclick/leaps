@@ -5,9 +5,10 @@ import './header.scss';
 
 export class Header extends PureComponent {
   render() {
+    const {width} = this.props;
     return (
       <section>
-        <Nav />
+        <Nav width={width} />
       </section>
     );
   }

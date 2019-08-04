@@ -341,7 +341,7 @@ export class Dashboard extends Component {
                   if (typeof resource === 'string') {
                     return (
                       <div className="pdf-resource" key={index}>
-                        <iframe src={`http://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:"718px", height:"700px"}} frameBorder="0"></iframe>
+                        <iframe src={`http://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:'100%'}} frameBorder="0"></iframe>
 
                       </div>
                     );
@@ -350,7 +350,7 @@ export class Dashboard extends Component {
               })}
             </div>
             }
-            
+
             <div className="row resources-btn-row">
               <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
                 <button

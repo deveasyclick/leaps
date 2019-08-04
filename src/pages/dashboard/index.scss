@@ -91,7 +91,7 @@
         overflow-x: auto;
         display: block;
         white-space: nowrap;
-        
+
 
         .text-resource{
             width: 25%;
@@ -132,6 +132,15 @@
                 height: 8rem;
                 object-fit: cover;
             }
+        }
+
+        .pdf-resource{
+          width: 13rem;
+          border-radius: 5px;
+          border: solid 1px gainsboro;
+          min-height: 8rem;
+          display: inline-block;
+          margin-right: 10px;
         }
     }
     .upload-resources-heading-row {
@@ -190,7 +199,7 @@
         .text-content {
             padding-left: 2.7rem;
             @media (max-width: $mobile-max-screen) {
-             padding-left: 0.9rem;   
+             padding-left: 0.9rem;
             }
 
             &-form-group {
@@ -258,7 +267,7 @@
                     margin-left: 0;
                     padding-left: 0;
                 }
-            }            
+            }
             .or {
                 @media (max-width: $mobile-max-screen) {
                     text-align: center;
