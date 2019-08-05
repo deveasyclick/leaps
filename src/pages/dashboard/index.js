@@ -170,7 +170,7 @@ export class Dashboard extends Component {
     documents.user_country = user.country;
     documents.subject = form.subject.value;
     documents.topic = form.topic.value;
-    documents.texts.push({
+   /* documents.texts.push({
       heading: form.heading.value,
       excerpt: form.excerpt.value,
       definition: form.definition.value,
@@ -182,6 +182,7 @@ export class Dashboard extends Component {
     documents.video.push(
       form.video.value ? form.video.value : form.video.files,
     );
+  */
     upload(documents);
   }
 
@@ -191,12 +192,17 @@ export class Dashboard extends Component {
     }
     if(prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS){
       const {documents, activeContent} = this.state;
-      const document = {
-        subject: '',
-        topic: '',
-        ...documents,
-        [activeContent]:[]
-      } 
+      this.setState({
+        documents: {
+          subject: '',
+          topic: '',
+          texts: [],
+          pdf: [],
+          image: [],
+          video: [],
+          tags: [],
+        },
+      }); 
     }
   }
 
