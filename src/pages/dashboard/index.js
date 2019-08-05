@@ -104,16 +104,19 @@ export class Dashboard extends Component {
     const { value: topic } = form.topic;
     let { tags } = documents;
     if (check && tags.length < 10) {
-      tags = topic.split(' ').filter((tag) => {
+      tags = topic.split(' ').map(tag=>tag.toLowerCase()).filter((tag) => {
         if (tag.length > 2) {
           return tag;
         }
         return false;
       });
+      
       documents.tags = tags;
       this.setState({ documents });
     } else if (ev.which === 32 && tags.length < 10) {
-      tags = topic.split(' ').filter((tag) => {
+      tags = topic.split(' ').map((tag)=>{
+        return tag.toLowerCase();
+      }).filter((tag) => {
         if (tag.length > 2) {
           return tag;
         }
