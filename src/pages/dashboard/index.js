@@ -247,9 +247,9 @@ export class Dashboard extends Component {
                   name="subject"
                   id="subject"
                 >
-                  <option value="Health Education">Health Education</option>
-                  <option value="Civic Studies">Civic Studies</option>
-                  <option value="Integrated Science">Integrated Science</option>
+                  <option value="health education">Health Education</option>
+                  <option value="civic studies">Civic Studies</option>
+                  <option value="integrated science">Integrated Science</option>
                 </select>
               </div>
               <div className="form-group col-md-6 col-12">
