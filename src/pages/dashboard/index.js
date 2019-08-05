@@ -189,7 +189,15 @@ export class Dashboard extends Component {
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }
-    console.log(this.state);
+    if(prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS){
+      const {documents, activeContent} = this.state;
+      const document = {
+        subject: '',
+        topic: '',
+        ...documents,
+        [activeContent]:[]
+      } 
+    }
   }
 
   handleResourceBtnClick(type) {
