@@ -351,7 +351,7 @@ export class Dashboard extends Component {
                   if (typeof resource === 'string') {
                     return (
                       <div className="pdf-resource" key={index}>
-                        <iframe src={`http://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:'100%'}} frameBorder="0"></iframe>
+                        <iframe src={`https://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:'100%'}} frameBorder="0"></iframe>
 
                       </div>
                     );
