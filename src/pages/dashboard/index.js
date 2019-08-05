@@ -318,7 +318,7 @@ export class Dashboard extends Component {
                         <p className="p">
                           {resource.definition.slice(0,50)}
                           <br />
-                          <span className="span">............</span>
+                          <span className="span">...</span>
                         </p>
                       </div>
                     </div>

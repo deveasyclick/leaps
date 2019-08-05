@@ -9,6 +9,7 @@ export const signup = obj => async (dispatch) => {
   const user = {};
   try {
     data = await auth.createUserWithEmailAndPassword(obj.email, obj.password);
+    returnconsole.log(obj);
     docRef = await db.collection('users').add({
       email: obj.email,
       uid: data.user.uid,
