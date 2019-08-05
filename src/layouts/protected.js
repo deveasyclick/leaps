@@ -38,7 +38,7 @@ export class ProtectedLayout extends React.Component {
                 }}
               />
             );
-          } if (type === authActionTypes.CHECK_AUTH_SUCCESS) {
+          } if (type === authActionTypes.CHECK_AUTH_SUCCESS || type === authActionTypes.SIGNUP_SUCCESS || type === authActionTypes.LOGIN_SUCCESS) {
             return (
               <React.Fragment>
                 <Sidebar />

@@ -472,7 +472,7 @@ export class Dashboard extends Component {
                     className="add-text-btn btn"
                     onClick={() => this.AddMore('', true)}
                   >
-                    Add more
+                    Add resources
                   </button>
                 </div>
               </div>
@@ -528,7 +528,7 @@ export class Dashboard extends Component {
                     onClick={() => this.AddMore('pdf')}
                     className="add-pdf-btn btn"
                   >
-                    Add more
+                    Add resources
                   </button>
                 </div>
               </div>
@@ -584,7 +584,7 @@ export class Dashboard extends Component {
                     onClick={() => this.AddMore('image')}
                     className="add-image-btn btn"
                   >
-                    Add more
+                    Add resources
                   </button>
                 </div>
               </div>
@@ -640,7 +640,7 @@ export class Dashboard extends Component {
                     onClick={() => this.AddMore('video')}
                     className="add-video-btn btn"
                   >
-                    Add more
+                    Add resources
                   </button>
                 </div>
               </div>
@@ -660,10 +660,7 @@ export class Dashboard extends Component {
                   <button
                     type="submit"
                     disabled={
-                      !textFieldIsValid
-                      && !pdfIsValid
-                      && !imageIsValid
-                      && !videoIsValid
+                      documents.texts.length < 1 && documents.pdf.length <1 && documents.image.length < 1 && documents.video.length < 1
                     }
                     className="btn upload-btn"
                   >
