@@ -21,7 +21,7 @@ export const signup = obj => async (dispatch) => {
     user.email = obj.email;
     user.uid = data.user.uid;
     user.did = docRef.id;
-    user.category = obj.category;
+    user.category = 'researcher';
     user.verified = false;
     user.country = obj.country;
     storage.saveToken(user);

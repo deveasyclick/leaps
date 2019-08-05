@@ -123,7 +123,7 @@ class AccountComponent extends React.Component {
                     <h3 className="name">{user.name}</h3>
                     <strong className="address">{user.country}</strong>
                     <br />
-                    <small className="address">{user.category}</small>
+                    <small className="address">{user.category || 'researcher'}</small>
                     <br />
                     <small className="address">{user.email}</small>
                   </div>
