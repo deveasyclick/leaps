@@ -102,7 +102,9 @@
             height: 8rem;
             display: inline-block;
             margin-right: 10px;
-
+            .card-title{
+                overflow: hidden;
+            }
             .card-body{
                 .p{
                     overflow: hidden;
