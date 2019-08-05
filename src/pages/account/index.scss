@@ -19,7 +19,6 @@
         }
         .card{
             min-width: 18.75rem;
-            height: 14.5rem;
             background: $white;
             border-radius: 5px;
             @include border;
@@ -61,7 +60,8 @@
             }
 
             .card-footer{
-                padding: 1.5rem 1rem;
+                padding: 1rem 1rem;
+                text-align: center;
                 .upload-picture{
                     color: $app-dominant-color;
                     &:hover{

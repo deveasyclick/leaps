@@ -101,12 +101,26 @@
             border: solid 1px #e6e6e6;
             height: 8rem;
             display: inline-block;
+            margin-right: 10px;
 
             .card-body{
                 .p{
                     overflow: hidden;
                     height: 5rem;
                     margin-bottom: 0;
+                    display: inline-block;
+                    width: 100%;
+                    word-break: break-word;
+                    white-space: normal;
+
+                        .span{
+                            display: inline-block;
+                            text-align: left;
+                            width: 100%;
+                            font-size: 35px;
+                            line-height: 0;
+                            color: #b1b1b1;
+                        }
                 }
             }
         }

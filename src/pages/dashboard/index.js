@@ -316,7 +316,9 @@ export class Dashboard extends Component {
                       </div>
                       <div className="card-body">
                         <p className="p">
-                          {resource.definition}
+                          {resource.definition.slice(0,50)}
+                          <br />
+                          <span className="span">............</span>
                         </p>
                       </div>
                     </div>
@@ -330,7 +332,7 @@ export class Dashboard extends Component {
                           width="100%"
                           height="auto"
                           className="iframe"
-                          src={resource}
+                          src={resource.replace('watch?v=','embed/')}
                         />
                       </div>
                     );
