@@ -16,7 +16,7 @@ export class Dashboard extends Component {
     super(props);
     this.state = {
       form: {
-        subject: { value: 'Health Education', valid: true },
+        subject: { value: 'health education', valid: true },
         topic: { value: '', valid: false },
         heading: { value: '', valid: false },
         excerpt: { value: '', valid: false },
