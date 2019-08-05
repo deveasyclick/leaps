@@ -103,7 +103,7 @@ export class Login extends Component {
     const path = this.props.match.path.replace('/', '');
     let { activePage } = this.state;
     if (path === 'signin' || path === 'login') {
-      activePage = 'sigin';
+      activePage = 'signin';
     }
     if (path === 'signup' || path === 'forgot') {
       activePage = path;

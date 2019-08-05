@@ -20,6 +20,7 @@ class AccountComponent extends React.Component {
         category: { value: '', valid: false },
         email: { value: '', valid: false },
       },
+      user: { name: '', email: '', category: '' },
       toSubmit: {},
       imgSrc: '',
     };
@@ -33,7 +34,6 @@ class AccountComponent extends React.Component {
     e.preventDefault();
     const { toSubmit } = this.state;
     const { updateUser } = this.props;
-    return console.log(toSubmit);
     updateUser(toSubmit);
   }
 
@@ -102,12 +102,12 @@ class AccountComponent extends React.Component {
       form.email.value = toSubmit.email = user.email;
       form.email.valid = true;
       imgSrc = toSubmit.image = user.image || '';
-      this.setState({ form, imgSrc });
+      this.setState({ form, imgSrc, user });
     }
   }
 
   render() {
-    const { form, imgSrc } = this.state;
+    const { form, imgSrc, user } = this.state;
     const { dash } = this.props;
     const formKeys = Object.keys(form);
     const validCount = formKeys.filter(k => form[k].valid === true).length;
@@ -120,8 +120,12 @@ class AccountComponent extends React.Component {
               <div className="card-body container-fluid">
                 <div className="row name-container">
                   <div className="col-7 col-sm-3 col-md-7 name-wrapper">
-                    <h3 className="name">Adeniyi yusuf</h3>
-                    <strong className="address">Nigeria</strong>
+                    <h3 className="name">{user.name}</h3>
+                    <strong className="address">{user.country}</strong>
+                    <br />
+                    <small className="address">{user.category}</small>
+                    <br />
+                    <small className="address">{user.email}</small>
                   </div>
                   <div className="col-5 image-container">
                     <div className="user-icon-wrapper">

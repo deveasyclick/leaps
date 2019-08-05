@@ -12,15 +12,18 @@ export const signup = obj => async (dispatch) => {
     docRef = await db.collection('users').add({
       email: obj.email,
       uid: data.user.uid,
-      name: obj.username,
+      name: obj.name,
       country: obj.country,
       category: 'researcher',
       verified: false,
     });
-    user.name = obj.username;
+    user.name = obj.name;
     user.email = obj.email;
     user.uid = data.user.uid;
     user.did = docRef.id;
+    user.category = obj.category;
+    user.verified = false;
+    user.country = obj.country;
     storage.saveToken(user);
     dispatch({ type: authActions.SIGNUP_SUCCESS, data: user });
   } catch (err) {
@@ -41,8 +44,8 @@ export const login = obj => async (dispatch) => {
       .get();
     query.forEach((doc) => {
       user = storage.saveToken(doc.data());
+      dispatch({ type: authActions.LOGIN_SUCCESS, data: user });
     });
-    dispatch({ type: authActions.LOGIN_SUCCESS, data: user });
   } catch (err) {
     dispatch({ type: authActions.LOGIN_FAILED, error: err.message });
   }
