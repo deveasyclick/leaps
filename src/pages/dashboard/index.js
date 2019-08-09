@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  FiPlus, FiCheck, FiEdit, FiEdit2, FiEdit3,
-} from 'react-icons/fi';
+import { FiPlus, FiCheck, FiEdit, FiEdit2, FiEdit3 } from 'react-icons/fi';
 import Loader from 'react-loader-spinner';
 import { isURL } from 'validator';
 import { validator } from '../../helpers/utils';
@@ -38,6 +36,7 @@ export class Dashboard extends Component {
         tags: [],
       },
       showedResources: 'texts',
+      fileSources: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -49,14 +48,13 @@ export class Dashboard extends Component {
     this.videoFile = React.createRef();
     this.deleteTag = this.deleteTag.bind(this);
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
+    this.displayFiles = this.displayFiles.bind(this);
   }
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
   };
   handleInputChange(e) {
-    const {
-      name, value, type, files,
-    } = e.target;
+    const { name, value, type, files } = e.target;
     const docFiles = files ? Array.from(files) : [];
 
     if (type === 'file') {
@@ -104,24 +102,30 @@ export class Dashboard extends Component {
     const { value: topic } = form.topic;
     let { tags } = documents;
     if (check && tags.length < 10) {
-      tags = topic.split(' ').map(tag=>tag.toLowerCase()).filter((tag) => {
-        if (tag.length > 2) {
-          return tag;
-        }
-        return false;
-      });
-      
+      tags = topic
+        .split(' ')
+        .map(tag => tag.toLowerCase())
+        .filter(tag => {
+          if (tag.length > 2) {
+            return tag;
+          }
+          return false;
+        });
+
       documents.tags = tags;
       this.setState({ documents });
     } else if (ev.which === 32 && tags.length < 10) {
-      tags = topic.split(' ').map((tag)=>{
-        return tag.toLowerCase();
-      }).filter((tag) => {
-        if (tag.length > 2) {
-          return tag;
-        }
-        return false;
-      });
+      tags = topic
+        .split(' ')
+        .map(tag => {
+          return tag.toLowerCase();
+        })
+        .filter(tag => {
+          if (tag.length > 2) {
+            return tag;
+          }
+          return false;
+        });
       documents.tags = tags;
       this.setState({ documents });
     }
@@ -144,9 +148,7 @@ export class Dashboard extends Component {
       form.definition.value = '';
       form.definition.valid = false;
     } else {
-      documents[name].push(
-        form[name].value ? form[name].value : form[name].files,
-      );
+      documents[name].push(form[name].value ? form[name].value : form[name].files);
       showedResources = name;
       form[name].value = '';
       form[name].valid = false;
@@ -159,6 +161,7 @@ export class Dashboard extends Component {
       showedResources,
       form,
     });
+    this.displayFiles(showedResources);
   }
 
   onSubmit(ev) {
@@ -173,7 +176,7 @@ export class Dashboard extends Component {
     documents.user_country = user.country;
     documents.subject = form.subject.value;
     documents.topic = form.topic.value;
-   /* documents.texts.push({
+    /* documents.texts.push({
       heading: form.heading.value,
       excerpt: form.excerpt.value,
       definition: form.definition.value,
@@ -188,13 +191,36 @@ export class Dashboard extends Component {
   */
     upload(documents);
   }
-
+  displayFiles(fileType) {
+    const { documents } = this.state;
+    const files = [];
+    documents[fileType].forEach(fileArr => {
+      fileArr.forEach(file => {
+        files.push(file);
+      });
+    });
+    Promise.all(
+      files.map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          //reader.onloadend = () => this.setState({ imgSrc: reader.result });
+          reader.onloadend = () => resolve(reader.result);
+        });
+      }),
+    ).then(fileSources => {
+      this.setState({ fileSources });
+    });
+  }
   componentDidUpdate(prevProps, prevStates) {
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }
-    if(prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS){
-      const {documents, activeContent} = this.state;
+    if (
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS
+    ) {
+      const { documents, activeContent } = this.state;
       this.setState({
         documents: {
           subject: '',
@@ -205,7 +231,7 @@ export class Dashboard extends Component {
           video: [],
           tags: [],
         },
-      }); 
+      });
     }
   }
 
@@ -228,25 +254,23 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const {
-      form, activeContent, documents, moreAdded
-    } = this.state;
+    const { form, activeContent, documents, moreAdded, fileSources, showedResources } = this.state;
     // const { type, error } = this.props;
     // const formKeys = Object.keys(form);
     // const validCount = formKeys.filter(k => form[k].valid === true).length;
     // const allFieldsAreValid = validCount === formKeys.length;
     const { dash } = this.props;
     const textFieldIsValid = !!(
-      form.heading.value
-      && form.excerpt.value
-      && form.definition.value
-      && form.topic.value
+      form.heading.value &&
+      form.excerpt.value &&
+      form.definition.value &&
+      form.topic.value
     );
     const pdfIsValid = (isURL(form.pdf.value) && form.topic.valid) || form.pdf.files.length > 0;
-    const imageIsValid = (isURL(form.image.value) && form.topic.valid)
-      || form.image.files.length > 0;
-    const videoIsValid = (isURL(form.video.value) && form.topic.valid)
-      || form.video.files.length > 0;
+    const imageIsValid =
+      (isURL(form.image.value) && form.topic.valid) || form.image.files.length > 0;
+    const videoIsValid =
+      (isURL(form.video.value) && form.topic.valid) || form.video.files.length > 0;
 
     return (
       <div className="container-fluid Dashboard">
@@ -281,7 +305,7 @@ export class Dashboard extends Component {
                   onChange={this.handleInputChange}
                   onKeyPress={this.setTags}
                   autoComplete="true"
-                  onBlur={(e) => {
+                  onBlur={e => {
                     this.setTags(e, true);
                   }}
                 />
@@ -316,81 +340,98 @@ export class Dashboard extends Component {
             </div>
             {
               <div className="row resources-row">
-              {documents[activeContent].filter((resource, index) => resource).map((resource, index) => {
-                if (activeContent === 'texts') {
-                  return (
-                    <div key={index} className="text-resource resource-card">
-                      <div className="card-title">
-                        <h3>{resource.heading}</h3>
-                      </div>
-                      <div className="card-body">
-                        <p className="p">
-                          {resource.definition.slice(0,50)}
-                          <br />
-                          <span className="span">...</span>
-                        </p>
-                      </div>
-                    </div>
-                  );
-                }
-                if (activeContent === 'video') {
-                  if (typeof resource === 'string') {
+                {documents[activeContent].map((resource, index) => {
+                  if (activeContent === 'texts') {
                     return (
-                      <div className="video-resource" key={index}>
-                        <iframe
-                          width="100%"
-                          height="auto"
-                          className="iframe"
-                          src={resource.replace('watch?v=','embed/')}
-                        />
+                      <div key={index} className="text-resource resource-card">
+                        <div className="card-title">
+                          <h3>{resource.heading}</h3>
+                        </div>
+                        <div className="card-body">
+                          <p className="p">
+                            {resource.definition.slice(0, 50)}
+                            <span className="span">...</span>
+                          </p>
+                        </div>
                       </div>
                     );
                   }
-                }
-                if (activeContent === 'image') {
-                  if (typeof resource === 'string') {
-                    return (
-                      <div className="image-resource" key={index}>
-                        <img src={resource} alt="" width="100%" height="autp" />
-                      </div>
-                    );
+                  if (activeContent === 'video') {
+                    if (typeof resource === 'string') {
+                      return (
+                        <div className="video-resource" key={index}>
+                          <iframe
+                            width="100%"
+                            height="auto"
+                            className="iframe"
+                            src={resource.replace('watch?v=', 'embed/')}
+                          />
+                        </div>
+                      );
+                    }
                   }
-                }
-                if (activeContent === 'pdf') {
-                  if (typeof resource === 'string') {
-                    return (
-                      <div className="pdf-resource" key={index}>
-                        <iframe src={`https://docs.google.com/gview?url=${resource}&embedded=true`} style={{width:'100%'}} frameBorder="0"></iframe>
+                  if (activeContent === 'image') {
+                    if (typeof resource === 'string') {
+                      return (
+                        <div className="image-resource" key={index}>
+                          <img src={resource} alt="" width="100%" height="autp" />
+                        </div>
+                      );
+                    }
+                  }
+                  if (activeContent === 'pdf') {
+                    if (typeof resource === 'string') {
+                      return (
+                        <div className="pdf-resource" key={index}>
+                          <iframe
+                            src={`https://docs.google.com/gview?url=${resource}&embedded=true`}
+                            style={{ width: '100%' }}
+                            frameBorder="0"
+                          />
+                        </div>
+                      );
+                    }
+                  }
+                })}
+                {activeContent === showedResources && fileSources.length > 0 &&
+                  fileSources.map((fileSource, index) => {
+                    if (activeContent === 'image') {
+                      return (
+                        <div className="image-resource" key={index}>
+                          <img src={fileSource} alt="" width="100%" height="8rem" />
+                        </div>
+                      );
+                    }
 
-                      </div>
-                    );
-                  }
-                }
-              })}
-            </div>
+                    if (activeContent === 'pdf') {
+                     return <div className="pdf-resource" key={index}>
+                       <object type="application/pdf" src={fileSource} width="100%" height="8rem" />
+                    </div>
+                    }
+                    if(activeContent === 'video'){
+                      return (
+                        <div className="video-resource" key={index}>
+                          <video src={fileSource} width="100%" height="8rem" controls></video>
+                        </div>
+                      ); 
+                    }
+                  })}
+              </div>
             }
 
             <div className="row resources-btn-row">
               <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
                 <button
                   type="button"
-                  className={`text-btn btn ${
-                    activeContent === 'texts' ? 'active' : ''
-                  }`}
+                  className={`text-btn btn ${activeContent === 'texts' ? 'active' : ''}`}
                   onClick={() => this.handleResourceBtnClick('text')}
                 >
-                  {activeContent === 'texts' ? (
-                    <FiCheck className="check" />
-                  ) : (
-                    ''
-                  )}
+                  {activeContent === 'texts' ? <FiCheck className="check" /> : ''}
                   Texts
                 </button>
                 <button
                   type="button"
-                  className={`pdf-btn btn ${
-                    activeContent === 'pdf' ? 'active' : ''
-                  }`}
+                  className={`pdf-btn btn ${activeContent === 'pdf' ? 'active' : ''}`}
                   onClick={() => this.handleResourceBtnClick('pdf')}
                 >
                   {activeContent === 'pdf' ? <FiCheck className="check" /> : ''}
@@ -398,30 +439,18 @@ export class Dashboard extends Component {
                 </button>
                 <button
                   type="button"
-                  className={`image-btn btn ${
-                    activeContent === 'image' ? 'active' : ''
-                  }`}
+                  className={`image-btn btn ${activeContent === 'image' ? 'active' : ''}`}
                   onClick={() => this.handleResourceBtnClick('image')}
                 >
-                  {activeContent === 'image' ? (
-                    <FiCheck className="check" />
-                  ) : (
-                    ''
-                  )}
+                  {activeContent === 'image' ? <FiCheck className="check" /> : ''}
                   Images
                 </button>
                 <button
                   type="button"
-                  className={`video-btn btn ${
-                    activeContent === 'video' ? 'active' : ''
-                  }`}
+                  className={`video-btn btn ${activeContent === 'video' ? 'active' : ''}`}
                   onClick={() => this.handleResourceBtnClick('video')}
                 >
-                  {activeContent === 'video' ? (
-                    <FiCheck className="check" />
-                  ) : (
-                    ''
-                  )}
+                  {activeContent === 'video' ? <FiCheck className="check" /> : ''}
                   Videos
                 </button>
               </div>
@@ -471,13 +500,7 @@ export class Dashboard extends Component {
                 <div className="form-group col-md-10 col-12 form-group-btn">
                   <button
                     type="button"
-                    disabled={
-                      !(
-                        form.heading.valid
-                        && form.excerpt.valid
-                        && form.definition.valid
-                      )
-                    }
+                    disabled={!(form.heading.valid && form.excerpt.valid && form.definition.valid)}
                     className="add-text-btn btn"
                     onClick={() => this.AddMore('', true)}
                   >
@@ -658,18 +681,16 @@ export class Dashboard extends Component {
               <div className="form-group col-8 offset-3 btn-wrapper">
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_LOADING ? (
                   <button type="submit" className="btn upload-btn">
-                    <Loader
-                      type="Circles"
-                      color="#00BFFF"
-                      height="20"
-                      width="100"
-                    />
+                    <Loader type="Circles" color="#00BFFF" height="20" width="100" />
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={
-                      documents.texts.length < 1 && documents.pdf.length <1 && documents.image.length < 1 && documents.video.length < 1
+                      documents.texts.length < 1 &&
+                      documents.pdf.length < 1 &&
+                      documents.image.length < 1 &&
+                      documents.video.length < 1
                     }
                     className="btn upload-btn"
                   >

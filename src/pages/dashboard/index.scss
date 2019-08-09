@@ -134,6 +134,9 @@
                 border: none;
                 border-radius: 20px;
             }
+            video{
+                height: 8rem;
+            }
         }
         .image-resource{
             width: 13rem;
@@ -154,7 +157,7 @@
           width: 13rem;
           border-radius: 5px;
           border: solid 1px gainsboro;
-          min-height: 8rem;
+          height: 8rem;
           display: inline-block;
           margin-right: 10px;
         }
