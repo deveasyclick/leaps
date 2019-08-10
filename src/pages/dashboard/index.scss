@@ -159,6 +159,8 @@
           height: 8rem;
           display: inline-block;
           margin-right: 10px;
+
+          iframe,object{height: 8rem;}
         }
     }
     .upload-resources-heading-row {
@@ -261,6 +263,10 @@
             .input-wrapper{
                 margin-left: 3rem;
                 padding-right: 18px;
+
+                .title{
+                    margin-top: 15px;
+                }
                 .icon-helper{
                     position: absolute;
                     top: 6px;

@@ -4,8 +4,7 @@ import './styles/style.scss';
 
 import ProtectedLayout from './layouts/protected';
 
-import Login from './pages/auth/login';
-import NewLogin from './pages/auth/login2';
+import Auth from './pages/auth';
 import Signup from './pages/auth/signup';
 import ForgotPassword from './pages/auth/forgot-password';
 import Dashboard from './pages/dashboard/index';
@@ -19,10 +18,7 @@ function App() {
         <Switch>
           <ProtectedLayout exact path="/" component={Dashboard} />
           <ProtectedLayout exact path="/account" component={Account} />
-          <Route
-            path={['/login', '/signin', '/new-login', '/signup', '/forgot']}
-            component={NewLogin}
-          />
+          <Route component={Auth} />
           <ProtectedLayout exact path="/admin" component={AdminDashboard} />
 
           <Route render={() => <div>Page not found</div>} />

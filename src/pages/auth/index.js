@@ -9,7 +9,7 @@ import { validator } from '../../helpers/utils';
 
 import './style.scss';
 
-const countries = ['Nigeria', 'Ethiopia', 'Kenya', 'Malawi'];
+const countries = ['Nigeria', 'Ethiopia', 'Kenya', 'Malawi', 'United Kingdom'];
 function printError(type, error) {
   switch (type) {
     case authActionTypes.LOGIN_FAILED:
@@ -22,7 +22,7 @@ function printError(type, error) {
       return null;
   }
 }
-export class Login extends Component {
+export class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -402,4 +402,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(Login));
+)(withRouter(Auth));

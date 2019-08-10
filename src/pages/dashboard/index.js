@@ -22,6 +22,9 @@ export class Dashboard extends Component {
         pdf: { value: '', files: [], valid: false },
         image: { value: '', files: [], valid: false },
         video: { value: '', files: [], valid: false },
+        pdfTitle: { value: '', valid: false },
+        imageTitle: { value: '', valid: false },
+        videoTitle: { value: '', valid: false },
       },
       toSubmit: {},
       activeContent: 'texts',
@@ -41,7 +44,7 @@ export class Dashboard extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
-    this.AddMore = this.AddMore.bind(this);
+    this.AddResources = this.AddResources.bind(this);
     this.setTags = this.setTags.bind(this);
     this.pdfFile = React.createRef();
     this.imageFile = React.createRef();
@@ -130,7 +133,7 @@ export class Dashboard extends Component {
     }
   }
 
-  AddMore(name, isText = false) {
+  AddResources(name, isText = false) {
     const { documents, form } = this.state;
     let showedResources;
     if (isText) {
@@ -147,11 +150,16 @@ export class Dashboard extends Component {
       form.definition.value = '';
       form.definition.valid = false;
     } else {
-      documents[name].push(form[name].value ? form[name].value : form[name].files);
+      documents[name].push({
+        value: form[name].value ? form[name].value : form[name].files,
+        title: form[`${name}Title`].value,
+      });
       showedResources = name;
       form[name].value = '';
       form[name].valid = false;
       form[name].files = [];
+      form[`${name}Title`].value = '';
+      form[`${name}Title`].valid = false;
     }
     documents.subject = form.subject;
     documents.topic = form.topic;
@@ -197,8 +205,8 @@ export class Dashboard extends Component {
     const { documents } = this.state;
     const files = [];
     documents[fileType].forEach(fileArr => {
-      if (typeof fileArr === 'string') return;
-      fileArr.forEach(file => {
+      if (typeof fileArr.value === 'string') return;
+      fileArr.value.forEach(file => {
         files.push(file);
       });
     });
@@ -216,6 +224,7 @@ export class Dashboard extends Component {
     });
   }
   componentDidUpdate(prevProps, prevStates) {
+    console.log(this.state);
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }
@@ -360,34 +369,36 @@ export class Dashboard extends Component {
                     );
                   }
                   if (activeContent === 'video') {
-                    if (typeof resource === 'string') {
+                    if (typeof resource.value === 'string') {
                       return (
                         <div className="video-resource" key={index}>
                           <iframe
                             width="100%"
                             height="auto"
                             className="iframe"
-                            src={resource.replace('watch?v=', 'embed/')}
+                            src={resource.value.replace('watch?v=', 'embed/')}
                           />
                         </div>
                       );
                     }
                   }
                   if (activeContent === 'image') {
-                    if (typeof resource === 'string') {
+                    if (typeof resource.value === 'string') {
                       return (
                         <div className="image-resource" key={index}>
-                          <img src={resource} alt="" width="100%" height="autp" />
+                          <img src={resource.value} alt="" width="100%" height="autp" />
                         </div>
                       );
                     }
                   }
                   if (activeContent === 'pdf') {
-                    if (typeof resource === 'string') {
+                    if (typeof resource.value === 'string') {
                       return (
                         <div className="pdf-resource" key={index}>
                           <iframe
-                            src={`https://docs.google.com/gview?url=${resource}&embedded=true`}
+                            src={`https://docs.google.com/gview?url=${
+                              resource.value
+                            }&embedded=true`}
                             style={{ width: '100%' }}
                             frameBorder="0"
                           />
@@ -513,7 +524,7 @@ export class Dashboard extends Component {
                     type="button"
                     disabled={!(form.heading.valid && form.excerpt.valid && form.definition.valid)}
                     className="add-text-btn btn"
-                    onClick={() => this.AddMore('', true)}
+                    onClick={() => this.AddResources('', true)}
                   >
                     Add resources
                   </button>
@@ -535,6 +546,15 @@ export class Dashboard extends Component {
                       autoComplete="true"
                       onChange={this.handleInputChange}
                       placeholder="http://"
+                    />
+                    <input
+                      type="text"
+                      className="form-control title"
+                      name="pdfTitle"
+                      value={form.pdfTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
@@ -567,8 +587,8 @@ export class Dashboard extends Component {
                 <div className="form-group col-10 form-group-btn btn-wrapper">
                   <button
                     type="button"
-                    disabled={!form.pdf.valid}
-                    onClick={() => this.AddMore('pdf')}
+                    disabled={!(form.pdf.valid && form.pdfTitle.valid)}
+                    onClick={() => this.AddResources('pdf')}
                     className="add-pdf-btn btn"
                   >
                     Add resources
@@ -591,6 +611,15 @@ export class Dashboard extends Component {
                       onChange={this.handleInputChange}
                       placeholder="http://"
                       autoComplete="true"
+                    />
+                    <input
+                      type="text"
+                      className="form-control title"
+                      name="imageTitle"
+                      value={form.imageTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
@@ -623,8 +652,8 @@ export class Dashboard extends Component {
                 <div className="form-group col-10 form-group-btn btn-wrapper">
                   <button
                     type="button"
-                    disabled={!form.image.valid}
-                    onClick={() => this.AddMore('image')}
+                    disabled={!(form.image.valid && form.imageTitle.valid)}
+                    onClick={() => this.AddResources('image')}
                     className="add-image-btn btn"
                   >
                     Add resources
@@ -647,6 +676,15 @@ export class Dashboard extends Component {
                       value={form.video.value}
                       onChange={this.handleInputChange}
                       autoComplete="true"
+                    />
+                    <input
+                      type="text"
+                      className="form-control title"
+                      name="videoTitle"
+                      value={form.videoTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
@@ -679,8 +717,8 @@ export class Dashboard extends Component {
                 <div className="form-group col-10 form-group-btn btn-wrapper">
                   <button
                     type="button"
-                    disabled={!form.video.valid}
-                    onClick={() => this.AddMore('video')}
+                    disabled={!(form.video.valid && form.videoTitle.valid)}
+                    onClick={() => this.AddResources('video')}
                     className="add-video-btn btn"
                   >
                     Add resources
