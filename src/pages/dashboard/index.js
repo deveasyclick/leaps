@@ -88,7 +88,6 @@ export class Dashboard extends Component {
       }));
     }
   }
-
   deleteTag(index) {
     const { documents } = this.state;
     const { tags } = documents;
@@ -192,9 +191,13 @@ export class Dashboard extends Component {
     upload(documents);
   }
   displayFiles(fileType) {
+    if (fileType === 'texts') {
+      return;
+    }
     const { documents } = this.state;
     const files = [];
     documents[fileType].forEach(fileArr => {
+      if (typeof fileArr === 'string') return;
       fileArr.forEach(file => {
         files.push(file);
       });
@@ -349,7 +352,7 @@ export class Dashboard extends Component {
                         </div>
                         <div className="card-body">
                           <p className="p">
-                            {resource.definition.slice(0, 50)}
+                            {resource.definition.slice(0, 70)}
                             <span className="span">...</span>
                           </p>
                         </div>
@@ -393,7 +396,8 @@ export class Dashboard extends Component {
                     }
                   }
                 })}
-                {activeContent === showedResources && fileSources.length > 0 &&
+                {activeContent === showedResources &&
+                  fileSources.length > 0 &&
                   fileSources.map((fileSource, index) => {
                     if (activeContent === 'image') {
                       return (
@@ -404,16 +408,23 @@ export class Dashboard extends Component {
                     }
 
                     if (activeContent === 'pdf') {
-                     return <div className="pdf-resource" key={index}>
-                       <object type="application/pdf" src={fileSource} width="100%" height="8rem" />
-                    </div>
+                      return (
+                        <div className="pdf-resource" key={index}>
+                          <object
+                            type="application/pdf"
+                            src={fileSource}
+                            width="100%"
+                            height="8rem"
+                          />
+                        </div>
+                      );
                     }
-                    if(activeContent === 'video'){
+                    if (activeContent === 'video') {
                       return (
                         <div className="video-resource" key={index}>
-                          <video src={fileSource} width="100%" height="8rem" controls></video>
+                          <video src={fileSource} width="100%" height="8rem" controls />
                         </div>
-                      ); 
+                      );
                     }
                   })}
               </div>
@@ -687,10 +698,11 @@ export class Dashboard extends Component {
                   <button
                     type="submit"
                     disabled={
-                      documents.texts.length < 1 &&
-                      documents.pdf.length < 1 &&
-                      documents.image.length < 1 &&
-                      documents.video.length < 1
+                      (documents.texts.length < 1 &&
+                        documents.pdf.length < 1 &&
+                        documents.image.length < 1 &&
+                        documents.video.length < 1) ||
+                      !form.topic.value
                     }
                     className="btn upload-btn"
                   >
