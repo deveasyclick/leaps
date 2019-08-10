@@ -163,6 +163,18 @@
           iframe,object{height: 8rem;}
         }
     }
+    .tags-input-wrapper{
+        .form-control{
+            background: $white;
+            box-shadow: 0px 1px 1px $box-shadow-colo-1;
+            padding: 7px 15px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            width: 100%;   
+        }
+    }
     .upload-resources-heading-row {
         margin-bottom: 1rem;
 

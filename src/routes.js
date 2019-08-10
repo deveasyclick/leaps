@@ -5,8 +5,6 @@ import './styles/style.scss';
 import ProtectedLayout from './layouts/protected';
 
 import Auth from './pages/auth';
-import Signup from './pages/auth/signup';
-import ForgotPassword from './pages/auth/forgot-password';
 import Dashboard from './pages/dashboard/index';
 import Account from './pages/account/index';
 import AdminDashboard from './pages/admin/dashboard/index';

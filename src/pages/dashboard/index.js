@@ -25,6 +25,7 @@ export class Dashboard extends Component {
         pdfTitle: { value: '', valid: false },
         imageTitle: { value: '', valid: false },
         videoTitle: { value: '', valid: false },
+        tags: { value: '', valid: false },
       },
       toSubmit: {},
       activeContent: 'texts',
@@ -183,19 +184,7 @@ export class Dashboard extends Component {
     documents.user_country = user.country;
     documents.subject = form.subject.value;
     documents.topic = form.topic.value;
-    /* documents.texts.push({
-      heading: form.heading.value,
-      excerpt: form.excerpt.value,
-      definition: form.definition.value,
-    });
-    documents.pdf.push(form.pdf.value ? form.pdf.value : form.pdf.files);
-    documents.image.push(
-      form.image.value ? form.image.value : form.image.files,
-    );
-    documents.video.push(
-      form.video.value ? form.video.value : form.video.files,
-    );
-  */
+    documents.tags = documents.tags.concat(form.tags.value.split(',').filter(val => val !== ''));
     upload(documents);
   }
   displayFiles(fileType) {
@@ -224,7 +213,7 @@ export class Dashboard extends Component {
     });
   }
   componentDidUpdate(prevProps, prevStates) {
-    console.log(this.state);
+    //console.log(this.state);
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }
@@ -344,7 +333,18 @@ export class Dashboard extends Component {
                 </div>
               </div>
             )}
-
+            <div className="row tags-input-wrapper">
+              <div className="col-12">
+                <input
+                  value={form.tags.value}
+                  type="text"
+                  className="form-control"
+                  name="tags"
+                  placeholder="Enters comma seprated list of tags e.g person, animal"
+                  onChange={this.handleInputChange}
+                />
+              </div>
+            </div>
             <div className="row d-flex justify-content-center upload-resources-heading-row">
               <div className="offset-0 offset-md-3 col-12 col-md-9">
                 <h3 className="upload-text">Upload Resource content!</h3>
@@ -539,6 +539,15 @@ export class Dashboard extends Component {
                   <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
+                      className="form-control title"
+                      name="pdfTitle"
+                      value={form.pdfTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
+                    />
+                    <input
+                      type="text"
                       id="proxy"
                       className="form-control"
                       name="pdf"
@@ -546,15 +555,6 @@ export class Dashboard extends Component {
                       autoComplete="true"
                       onChange={this.handleInputChange}
                       placeholder="http://"
-                    />
-                    <input
-                      type="text"
-                      className="form-control title"
-                      name="pdfTitle"
-                      value={form.pdfTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
-                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
@@ -604,6 +604,15 @@ export class Dashboard extends Component {
                   <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
+                      className="form-control title"
+                      name="imageTitle"
+                      value={form.imageTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
+                    />
+                    <input
+                      type="text"
                       id="proxy"
                       className="form-control"
                       name="image"
@@ -611,15 +620,6 @@ export class Dashboard extends Component {
                       onChange={this.handleInputChange}
                       placeholder="http://"
                       autoComplete="true"
-                    />
-                    <input
-                      type="text"
-                      className="form-control title"
-                      name="imageTitle"
-                      value={form.imageTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
-                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
@@ -669,6 +669,15 @@ export class Dashboard extends Component {
                   <div className="form-group input-wrapper col-md-11 col-10">
                     <input
                       type="text"
+                      className="form-control title"
+                      name="videoTitle"
+                      value={form.videoTitle.value}
+                      autoComplete="true"
+                      placeholder="Title"
+                      onChange={this.handleInputChange}
+                    />
+                    <input
+                      type="text"
                       placeholder="http://"
                       id="proxy"
                       className="form-control"
@@ -676,15 +685,6 @@ export class Dashboard extends Component {
                       value={form.video.value}
                       onChange={this.handleInputChange}
                       autoComplete="true"
-                    />
-                    <input
-                      type="text"
-                      className="form-control title"
-                      name="videoTitle"
-                      value={form.videoTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
-                      onChange={this.handleInputChange}
                     />
                     <div
                       className="icon-helper"
