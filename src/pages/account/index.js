@@ -124,8 +124,6 @@ class AccountComponent extends React.Component {
                     <strong className="address">{user.country}</strong>
                     <br />
                     <small className="address">{user.category || 'researcher'}</small>
-                    <br />
-                    <small className="address">{user.email}</small>
                   </div>
                   <div className="col-5 image-container">
                     <div className="user-icon-wrapper">
