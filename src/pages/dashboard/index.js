@@ -40,7 +40,7 @@ export class Dashboard extends Component {
         tags: [],
       },
       showedResources: 'texts',
-      fileSources: [],
+      fileSources: {video:[],image:[]},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -133,7 +133,7 @@ export class Dashboard extends Component {
       this.setState({ documents });
     }
   }
-
+  
   AddResources(name, isText = false) {
     const { documents, form } = this.state;
     let showedResources;
@@ -191,7 +191,7 @@ export class Dashboard extends Component {
     if (fileType === 'texts') {
       return;
     }
-    const { documents } = this.state;
+    const { documents, fileSources, activeContent } = this.state;
     const files = [];
     documents[fileType].forEach(fileArr => {
       if (typeof fileArr.value === 'string') return;
@@ -208,8 +208,8 @@ export class Dashboard extends Component {
           reader.onloadend = () => resolve(reader.result);
         });
       }),
-    ).then(fileSources => {
-      this.setState({ fileSources });
+    ).then(fileSource => {
+      this.setState({ fileSources:{...fileSources,[activeContent]:fileSource} });
     });
   }
   componentDidUpdate(prevProps, prevStates) {
@@ -237,21 +237,26 @@ export class Dashboard extends Component {
   }
 
   handleResourceBtnClick(type) {
+    let showedResources = 'texts';
     let activeContent = 'texts';
     switch (type) {
       case 'image':
         activeContent = 'image';
+        showedResources = 'image'
         break;
       case 'video':
         activeContent = 'video';
+        showedResources = 'video';
         break;
       case 'text':
         activeContent = 'texts';
+        showedResources = 'texts';
         break;
       default:
         activeContent = 'pdf';
+        showedResources = 'pdf'
     }
-    this.setState({ activeContent });
+    this.setState({ activeContent, showedResources})
   }
 
   render() {
@@ -407,9 +412,9 @@ export class Dashboard extends Component {
                     }
                   }
                 })}
-                {activeContent === showedResources &&
-                  fileSources.length > 0 &&
-                  fileSources.map((fileSource, index) => {
+                {activeContent === showedResources && fileSources[activeContent] &&
+                  fileSources[activeContent].length > 0 &&
+                  fileSources[activeContent].map((fileSource, index) => {
                     if (activeContent === 'image') {
                       return (
                         <div className="image-resource" key={index}>
