@@ -15,7 +15,6 @@ export const uploadResources = docs => async (dispatch) => {
       docs.texts.map(text => db.collection('texts').add({
         tags: docs.tags,
         isPending: true,
-        approved: false,
         subject: docs.subject,
         topic: docs.topic,
         heading: text.heading,
