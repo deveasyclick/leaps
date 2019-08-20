@@ -26,6 +26,7 @@ export class Dashboard extends Component {
         imageTitle: { value: '', valid: false },
         videoTitle: { value: '', valid: false },
         tags: { value: '', valid: false },
+        moreTags:{ value: '', valid: false },
       },
       toSubmit: {},
       activeContent: 'texts',
@@ -53,6 +54,7 @@ export class Dashboard extends Component {
     this.deleteTag = this.deleteTag.bind(this);
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
     this.displayFiles = this.displayFiles.bind(this);
+    this.addMoreTags = this.addMoreTags.bind(this);
   }
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
@@ -99,7 +101,18 @@ export class Dashboard extends Component {
     documents.tags = tags;
     this.setState({ documents });
   }
-
+  addMoreTags(){
+    const { form, documents } = this.state;
+    const { value:values } = form.moreTags;
+    let { tags } = documents;
+    values.replace(' ',/\s/g).split(',').forEach(value=>{
+      if(!tags.includes(value) && value){
+      tags.push(value);
+      }
+    })
+     documents.tags = tags;
+    this.setState({ documents });
+  }
   setTags(ev, check = false) {
     const { form, documents } = this.state;
     const { value: topic } = form.topic;
@@ -213,9 +226,10 @@ export class Dashboard extends Component {
     });
   }
   componentDidUpdate(prevProps, prevStates) {
-    //console.log(this.state);
+    console.log(this.state);
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
+
     }
     if (
       prevProps.dash.type !== this.props.dash.type &&
@@ -341,12 +355,13 @@ export class Dashboard extends Component {
             <div className="row tags-input-wrapper">
               <div className="col-12">
                 <input
-                  value={form.tags.value}
+                  value={form.moreTags.value}
                   type="text"
                   className="form-control"
-                  name="tags"
+                  name="moreTags"
                   placeholder="Enters comma seprated list of tags e.g person, animal"
                   onChange={this.handleInputChange}
+                  onBlur={this.addMoreTags}
                 />
               </div>
             </div>
