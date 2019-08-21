@@ -12,19 +12,24 @@ export const uploadResources = docs => async (dispatch) => {
   let videoRef;
   try {
     await Promise.all(
-      docs.texts.map(text => db.collection('texts').add({
-        tags: docs.tags,
-        isPending: true,
-        subject: docs.subject,
-        topic: docs.topic,
-        heading: text.heading,
-        excerpt: text.excerpt,
-        definition: text.definition,
-        user_id: docs.user_id,
-        user_email: docs.user_email,
-        user_name: docs.user_name,
-        user_country: docs.user_country,
-      })),
+      docs.texts.map((text) => {
+        const ref = db.collection('texts').doc();
+        const myId = ref.id;
+        return ref.set({
+          tags: docs.tags,
+          isPending: true,
+          subject: docs.subject,
+          topic: docs.topic,
+          heading: text.heading,
+          excerpt: text.excerpt,
+          definition: text.definition,
+          user_id: docs.user_id,
+          user_email: docs.user_email,
+          user_name: docs.user_name,
+          user_country: docs.user_country,
+          path: `texts/${myId}`,
+        });
+      }),
     );
 
     await Promise.all(
@@ -34,7 +39,9 @@ export const uploadResources = docs => async (dispatch) => {
             pdfs.value.map(async (pdf) => {
               pdfRef = storageRef.child(`pdfs/${pdf.name}`);
               await pdfRef.put(pdf);
-              return db.collection('pdf').add({
+              const ref = db.collection('pdf').doc();
+              const myId = ref.id;
+              return ref.set({
                 tags: docs.tags,
                 isPending: true,
                 approved: false,
@@ -45,11 +52,14 @@ export const uploadResources = docs => async (dispatch) => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
+                path: `pdf/${myId}`,
               });
             }),
           );
         }
-        return db.collection('pdf').add({
+        const ref = db.collection('pdf').doc();
+        const myId = ref.id;
+        return ref.set({
           tags: docs.tags,
           isPending: true,
           approved: false,
@@ -60,6 +70,7 @@ export const uploadResources = docs => async (dispatch) => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
+          path: `pdf/${myId}`,
         });
       }),
     );
@@ -71,7 +82,9 @@ export const uploadResources = docs => async (dispatch) => {
             images.value.map(async (image) => {
               imageRef = storageRef.child(`images/${image.name}`);
               await imageRef.put(image);
-              return db.collection('images').add({
+              const ref = db.collection('images').doc();
+              const myId = ref.id;
+              return ref.set({
                 tags: docs.tags,
                 isPending: true,
                 approved: false,
@@ -82,11 +95,14 @@ export const uploadResources = docs => async (dispatch) => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
+                path: `images/${myId}`,
               });
             }),
           );
         }
-        return db.collection('images').add({
+        const ref = db.collection('images').doc();
+        const myId = ref.id;
+        return ref.set({
           tags: docs.tags,
           isPending: true,
           approved: false,
@@ -97,6 +113,7 @@ export const uploadResources = docs => async (dispatch) => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
+          path: `images/${myId}`,
         });
       }),
     );
@@ -108,7 +125,9 @@ export const uploadResources = docs => async (dispatch) => {
             videos.value.map(async (video) => {
               videoRef = storageRef.child(`videos/${video.name}`);
               await videoRef.put(video);
-              return db.collection('videos').add({
+              const ref = db.collection('videos').doc();
+              const myId = ref.id;
+              return ref.set({
                 tags: docs.tags,
                 isPending: true,
                 approved: false,
@@ -119,11 +138,14 @@ export const uploadResources = docs => async (dispatch) => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
+                path: `videos/${myId}`,
               });
             }),
           );
         }
-        return db.collection('videos').add({
+        const ref = db.collection('videos').doc();
+        const myId = ref.id;
+        return ref.set({
           tags: docs.tags,
           isPending: true,
           approved: false,
@@ -134,6 +156,7 @@ export const uploadResources = docs => async (dispatch) => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
+          path: `videos/${myId}`,
         });
       }),
     );
