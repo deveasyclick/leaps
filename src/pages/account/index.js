@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FiUser } from 'react-icons/fi';
+import { IoMdCheckmarkCircle, IoMdCloseCircle } from 'react-icons/io';
 import Loader from 'react-loader-spinner';
 import * as storage from '../../helpers/token';
 import { validator } from '../../helpers/utils';
@@ -124,17 +125,23 @@ class AccountComponent extends React.Component {
                     <strong className="address">{user.country}</strong>
                     <br />
                     <small className="address">{user.category || 'researcher'}</small>
+                    <br />
+                    {user && 'verified' in user && (
+                      <small className="is-pending">
+                        verified &nbsp;
+                        {user.verified ? (
+                          <IoMdCheckmarkCircle color="green" size={16} />
+                        ) : (
+                          <IoMdCloseCircle color="#c36060" size={16} />
+                        )}
+                      </small>
+                    )}
                   </div>
                   <div className="col-5 image-container">
                     <div className="user-icon-wrapper">
                       <div className="user-icon">
                         {imgSrc ? (
-                          <img
-                            src={imgSrc}
-                            width="100%"
-                            alt="user"
-                            className="img"
-                          />
+                          <img src={imgSrc} width="100%" alt="user" className="img" />
                         ) : (
                           <FiUser size={40} />
                         )}
@@ -159,7 +166,9 @@ class AccountComponent extends React.Component {
                   />
                   UPLOAD PICTURE
                 </p>
-                <p className="remove-picture col-6" onClick={this.removePicture}>REMOVE PICTURE</p>
+                <p className="remove-picture col-6" onClick={this.removePicture}>
+                  REMOVE PICTURE
+                </p>
               </div>
             </div>
           </div>
@@ -219,19 +228,10 @@ class AccountComponent extends React.Component {
               <div className="form-group col-12 btn-wrapper">
                 {dash.type === dashActionTypes.UPDATE_DETAILS_LOADING ? (
                   <button type="submit" className="btn upload-btn">
-                    <Loader
-                      type="Circles"
-                      color="#00BFFF"
-                      height="20"
-                      width="100"
-                    />
+                    <Loader type="Circles" color="#00BFFF" height="20" width="100" />
                   </button>
                 ) : (
-                  <button
-                    type="submit"
-                    disabled={!formIsValid}
-                    className="btn save-details-btn"
-                  >
+                  <button type="submit" disabled={!formIsValid} className="btn save-details-btn">
                     SAVE DETAILS
                   </button>
                 )}
@@ -244,6 +244,11 @@ class AccountComponent extends React.Component {
                 )}
               </div>
             </form>
+          </div>
+        </div>
+        <div className="row resources-row">
+          <div className="col-12">
+            <h3>Resources</h3>
           </div>
         </div>
       </section>

@@ -26,7 +26,7 @@ export class Dashboard extends Component {
         imageTitle: { value: '', valid: false },
         videoTitle: { value: '', valid: false },
         tags: { value: '', valid: false },
-        moreTags:{ value: '', valid: false },
+        moreTags: { value: '', valid: false },
       },
       toSubmit: {},
       activeContent: 'texts',
@@ -41,7 +41,7 @@ export class Dashboard extends Component {
         tags: [],
       },
       showedResources: 'texts',
-      fileSources: {video:[],image:[]},
+      fileSources: { video: [], image: [] },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -101,16 +101,19 @@ export class Dashboard extends Component {
     documents.tags = tags;
     this.setState({ documents });
   }
-  addMoreTags(){
+  addMoreTags() {
     const { form, documents } = this.state;
-    const { value:values } = form.moreTags;
+    const { value: values } = form.moreTags;
     let { tags } = documents;
-    values.replace(' ',/\s/g).split(',').forEach(value=>{
-      if(!tags.includes(value) && value){
-      tags.push(value);
-      }
-    })
-     documents.tags = tags;
+    values
+      .replace(/\s/g, '')
+      .split(',')
+      .forEach(value => {
+        if (!tags.includes(value) && value) {
+          tags.push(value);
+        }
+      });
+    documents.tags = tags;
     this.setState({ documents });
   }
   setTags(ev, check = false) {
@@ -146,7 +149,7 @@ export class Dashboard extends Component {
       this.setState({ documents });
     }
   }
-  
+
   AddResources(name, isText = false) {
     const { documents, form } = this.state;
     let showedResources;
@@ -222,14 +225,13 @@ export class Dashboard extends Component {
         });
       }),
     ).then(fileSource => {
-      this.setState({ fileSources:{...fileSources,[activeContent]:fileSource} });
+      this.setState({ fileSources: { ...fileSources, [activeContent]: fileSource } });
     });
   }
   componentDidUpdate(prevProps, prevStates) {
     console.log(this.state);
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
-
     }
     if (
       prevProps.dash.type !== this.props.dash.type &&
@@ -256,7 +258,7 @@ export class Dashboard extends Component {
     switch (type) {
       case 'image':
         activeContent = 'image';
-        showedResources = 'image'
+        showedResources = 'image';
         break;
       case 'video':
         activeContent = 'video';
@@ -268,9 +270,9 @@ export class Dashboard extends Component {
         break;
       default:
         activeContent = 'pdf';
-        showedResources = 'pdf'
+        showedResources = 'pdf';
     }
-    this.setState({ activeContent, showedResources})
+    this.setState({ activeContent, showedResources });
   }
 
   render() {
@@ -427,7 +429,8 @@ export class Dashboard extends Component {
                     }
                   }
                 })}
-                {activeContent === showedResources && fileSources[activeContent] &&
+                {activeContent === showedResources &&
+                  fileSources[activeContent] &&
                   fileSources[activeContent].length > 0 &&
                   fileSources[activeContent].map((fileSource, index) => {
                     if (activeContent === 'image') {

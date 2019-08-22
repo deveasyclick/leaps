@@ -21,6 +21,7 @@
             min-width: 18.75rem;
             background: $white;
             border-radius: 5px;
+            height: 307px;
             @include border;
             
 
@@ -193,5 +194,12 @@
                 }
             }
         }
+    }
+
+    .resources-row{
+        background: white;
+        margin-top: 1rem;
+        margin-left: 0px;
+        @include border;
     }
 }
