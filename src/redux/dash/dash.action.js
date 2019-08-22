@@ -17,7 +17,7 @@ export const uploadResources = docs => async (dispatch) => {
         const myId = ref.id;
         return ref.set({
           tags: docs.tags,
-          isPending: true,
+          isPending: false,
           subject: docs.subject,
           topic: docs.topic,
           heading: text.heading,
@@ -43,8 +43,7 @@ export const uploadResources = docs => async (dispatch) => {
               const myId = ref.id;
               return ref.set({
                 tags: docs.tags,
-                isPending: true,
-                approved: false,
+                isPending: false,
                 subject: docs.subject,
                 topic: docs.topic,
                 file_path: await pdfRef.getDownloadURL(),
@@ -61,8 +60,7 @@ export const uploadResources = docs => async (dispatch) => {
         const myId = ref.id;
         return ref.set({
           tags: docs.tags,
-          isPending: true,
-          approved: false,
+          isPending: false,
           subject: docs.subject,
           topic: docs.topic,
           file_path: pdfs.value,
@@ -86,8 +84,7 @@ export const uploadResources = docs => async (dispatch) => {
               const myId = ref.id;
               return ref.set({
                 tags: docs.tags,
-                isPending: true,
-                approved: false,
+                isPending: false,
                 subject: docs.subject,
                 topic: docs.topic,
                 title: images.title,
@@ -104,8 +101,7 @@ export const uploadResources = docs => async (dispatch) => {
         const myId = ref.id;
         return ref.set({
           tags: docs.tags,
-          isPending: true,
-          approved: false,
+          isPending: false,
           subject: docs.subject,
           topic: docs.topic,
           file_path: images.value,
@@ -129,8 +125,7 @@ export const uploadResources = docs => async (dispatch) => {
               const myId = ref.id;
               return ref.set({
                 tags: docs.tags,
-                isPending: true,
-                approved: false,
+                isPending: false,
                 subject: docs.subject,
                 topic: docs.topic,
                 title: videos.title,
@@ -147,8 +142,7 @@ export const uploadResources = docs => async (dispatch) => {
         const myId = ref.id;
         return ref.set({
           tags: docs.tags,
-          isPending: true,
-          approved: false,
+          isPending: false,
           subject: docs.subject,
           topic: docs.topic,
           file_path: videos.value,
