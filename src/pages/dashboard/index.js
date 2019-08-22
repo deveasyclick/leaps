@@ -9,6 +9,7 @@ import { uploadResources } from '../../redux/dash/dash.action';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import './index.scss';
 
+const ignoredWords = ['is', 'the', 'there', 'they', 'we', 'when', 'who', 'how'];
 export class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -109,7 +110,7 @@ export class Dashboard extends Component {
       .replace(/\s/g, '')
       .split(',')
       .forEach(value => {
-        if (!tags.includes(value) && value) {
+        if (!tags.includes(value) && !ignoredWords.includes(value) && value) {
           tags.push(value);
         }
       });
@@ -125,7 +126,7 @@ export class Dashboard extends Component {
         .split(' ')
         .map(tag => tag.toLowerCase())
         .filter(tag => {
-          if (tag.length > 2) {
+          if (tag.length > 2 && !ignoredWords.includes(tag)) {
             return tag;
           }
           return false;
@@ -140,7 +141,7 @@ export class Dashboard extends Component {
           return tag.toLowerCase();
         })
         .filter(tag => {
-          if (tag.length > 2) {
+          if (tag.length > 2 && !ignoredWords.includes(tag)) {
             return tag;
           }
           return false;
