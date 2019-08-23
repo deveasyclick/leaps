@@ -7,6 +7,7 @@ import { validator } from '../../helpers/utils';
 import * as storage from '../../helpers/token';
 import { uploadResources } from '../../redux/dash/dash.action';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
+import Dialog from '../../components/dialog';
 import './index.scss';
 
 const ignoredWords = ['is', 'the', 'there', 'they', 'we', 'when', 'who', 'how'];
@@ -772,10 +773,10 @@ export class Dashboard extends Component {
                   </button>
                 )}
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS && (
-                  <p className="upload-success">Upload Successful!</p>
+                  <Dialog message="Upload successful" />
                 )}
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_FAILED && (
-                  <p className="upload-error">{dash.error}</p>
+                  <Dialog message={dash.error} />
                 )}
               </div>
             </div>

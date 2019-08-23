@@ -7,6 +7,7 @@ import * as storage from '../../helpers/token';
 import { validator } from '../../helpers/utils';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import { updateUserDetails } from '../../redux/dash/dash.action';
+import Dialog from '../../components/dialog';
 
 import './index.scss';
 
@@ -24,6 +25,7 @@ class AccountComponent extends React.Component {
       user: { name: '', email: '', category: '' },
       toSubmit: {},
       imgSrc: '',
+      accountInfo: { success: false, failed: false },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -36,6 +38,27 @@ class AccountComponent extends React.Component {
     const { toSubmit } = this.state;
     const { updateUser } = this.props;
     updateUser(toSubmit);
+  }
+
+  componentDidUpdate(prevProps, prevStates) {
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
+    ) {
+      this.setState({ accountInfo: { ...this.state.accountInfo, success: true } });
+    }
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
+    ) {
+      this.setState({ accountInfo: { success:true, failed: true } });
+    }
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
+    ) {
+      this.setState({ accountInfo: { ...this.state.accountInfo, failed: true } });
+    }
   }
 
   removePicture(e) {
@@ -108,7 +131,9 @@ class AccountComponent extends React.Component {
   }
 
   render() {
-    const { form, imgSrc, user } = this.state;
+    const {
+      form, imgSrc, user, accountInfo,
+    } = this.state;
     const { dash } = this.props;
     const formKeys = Object.keys(form);
     const validCount = formKeys.filter(k => form[k].valid === true).length;
@@ -236,12 +261,8 @@ class AccountComponent extends React.Component {
                   </button>
                 )}
 
-                {dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS && (
-                  <p className="success-feedback">User details updated! </p>
-                )}
-                {dash.type === dashActionTypes.UPDATE_DETAILS_FAILED && (
-                  <p className="error-feedback">{dash.error}</p>
-                )}
+                {accountInfo.success && <Dialog title="" message="User details updated! " />}
+                {accountInfo.failed && <p className="error-feedback">{dash.error}</p>}
               </div>
             </form>
           </div>

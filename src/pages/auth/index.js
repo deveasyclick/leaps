@@ -6,6 +6,7 @@ import Loader from '../../assets/images/Spinner-1s-200px.svg';
 import authActionTypes from '../../redux/auth/auth.actionTypes';
 import { login, signup, sendResetPassword } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
+import Dialog from '../../components/dialog';
 
 import './style.scss';
 
@@ -15,9 +16,9 @@ function printError(type, error) {
     case authActionTypes.LOGIN_FAILED:
     case authActionTypes.SIGNUP_FAILED:
     case authActionTypes.RESET_PASSWORD_FAILED:
-      return <p className="error-text">{error}</p>;
+      return <Dialog title={type} message={error} />;
     case authActionTypes.LOGIN_SUCCESS:
-      return <p className="success-text">Success!</p>;
+      return <Dialog title={type} message="Success!" />;
     default:
       return null;
   }
@@ -378,7 +379,10 @@ export class Auth extends Component {
                 </Button>
                 {type === authActionTypes.SEND_RESET_PASSWORD_FAILED && printError(type, error)}
                 {type === authActionTypes.SEND_RESET_PASSWORD_SUCCESS && (
-                  <p className="success-text">Password reset sent, please check your email!</p>
+                  <Dialog
+                    title="Forgot Password"
+                    message="Password reset sent, please check your email!"
+                  />
                 )}
               </div>
             </form>
