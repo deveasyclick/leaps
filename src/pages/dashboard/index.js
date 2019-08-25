@@ -110,6 +110,7 @@ export class Dashboard extends Component {
     values
       .replace(/\s/g, '')
       .split(',')
+      .map(value => value.toLowerCase())
       .forEach(value => {
         if (!tags.includes(value) && !ignoredWords.includes(value) && value) {
           tags.push(value);
@@ -410,7 +411,7 @@ export class Dashboard extends Component {
                     if (typeof resource.value === 'string') {
                       return (
                         <div className="image-resource" key={index}>
-                          <img src={resource.value} alt="" width="100%" height="autp" />
+                          <img src={resource.value} alt="" width="100%" height="auto" />
                         </div>
                       );
                     }

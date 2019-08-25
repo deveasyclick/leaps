@@ -216,6 +216,104 @@ export const updateUserDetails = obj => async (dispatch) => {
   }
 };
 
+export const fetchResearcherImages = user => async (dispatch) => {
+  dispatch({
+    type: dashActions.FETCH_RESEARCHER_IMAGES_LOADING,
+  });
+  const images = [];
+  db.collection('images')
+    .where('user_email', '==', user.email)
+    .limit(10)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach(doc => images.push(doc.data()));
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_IMAGES_SUCCESS,
+          data: images,
+        });
+      },
+      (error) => {
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_IMAGES_FAILED,
+          error,
+        });
+      },
+    );
+};
+
+export const fetchResearcherVideos = user => async (dispatch) => {
+  dispatch({
+    type: dashActions.FETCH_RESEARCHER_VIDEOS_LOADING,
+  });
+  const videos = [];
+  db.collection('videos')
+    .where('user_email', '==', user.email)
+    .limit(10)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach(doc => videos.push(doc.data()));
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_VIDEOS_SUCCESS,
+          data: videos,
+        });
+      },
+      (error) => {
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_VIDEOS_FAILED,
+          error,
+        });
+      },
+    );
+};
+
+export const fetchResearcherPdfs = user => async (dispatch) => {
+  dispatch({
+    type: dashActions.FETCH_RESEARCHER_PDFS_LOADING,
+  });
+  const pdfs = [];
+  db.collection('pdf')
+    .where('user_email', '==', user.email)
+    .limit(10)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach(doc => pdfs.push(doc.data()));
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_PDFS_SUCCESS,
+          data: pdfs,
+        });
+      },
+      (error) => {
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_PDFS_FAILED,
+          error,
+        });
+      },
+    );
+};
+
+export const fetchResearcherTexts = user => async (dispatch) => {
+  dispatch({
+    type: dashActions.FETCH_RESEARCHER_TEXTS_LOADING,
+  });
+  const texts = [];
+  db.collection('texts')
+    .where('user_email', '==', user.email)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach(doc => texts.push(doc.data()));
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_TEXTS_SUCCESS,
+          data: texts,
+        });
+      },
+      (error) => {
+        dispatch({
+          type: dashActions.FETCH_RESEARCHER_TEXTS_FAILED,
+          error,
+        });
+      },
+    );
+};
 export default {
   uploadResources,
   updateUserDetails,
