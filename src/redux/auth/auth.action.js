@@ -9,14 +9,17 @@ export const signup = obj => async (dispatch) => {
   const user = {};
   try {
     data = await auth.createUserWithEmailAndPassword(obj.email, obj.password);
-    docRef = await db.collection('users').add({
-      email: obj.email,
-      uid: data.user.uid,
-      name: obj.name,
-      country: obj.country,
-      category: 'researcher',
-      verified: false,
-    });
+    docRef = await db
+      .collection('web_users')
+      .doc(data.user.uid)
+      .set({
+        email: obj.email,
+        uid: data.user.uid,
+        name: obj.name,
+        country: obj.country,
+        category: 'researcher',
+        verified: false,
+      });
     user.name = obj.name;
     user.email = obj.email;
     user.uid = data.user.uid;
@@ -59,7 +62,10 @@ export const checkAuth = () => (dispatch) => {
         const localUser = storage.getToken() || user;
         dispatch({ type: authActions.CHECK_AUTH_SUCCESS, data: localUser });
       } else {
-        dispatch({ type: authActions.CHECK_AUTH_FAILED, error: "user doesn't exist" });
+        dispatch({
+          type: authActions.CHECK_AUTH_FAILED,
+          error: "user doesn't exist",
+        });
       }
     },
     (err) => {
@@ -75,7 +81,10 @@ export const sendResetPassword = obj => (dispatch) => {
     .then((user) => {
       dispatch({ type: authActions.SEND_RESET_PASSWORD_SUCCESS, data: user });
     })
-    .catch(err => dispatch({ type: authActions.SEND_RESET_PASSWORD_FAILED, error: err.message }));
+    .catch(err => dispatch({
+        type: authActions.SEND_RESET_PASSWORD_FAILED,
+        error: err.message,
+      }),);
 };
 
 export const resetPassword = obj => (dispatch) => {
@@ -85,7 +94,7 @@ export const resetPassword = obj => (dispatch) => {
     .then((user) => {
       dispatch({ type: authActions.RESET_PASSWORD_SUCCESS, data: user });
     })
-    .catch(err => dispatch({ type: authActions.RESET_PASSWORD_FAILED, error: err.message }));
+    .catch(err => dispatch({ type: authActions.RESET_PASSWORD_FAILED, error: err.message }),);
 };
 
 export const logout = () => async (dispatch) => {
