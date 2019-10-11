@@ -7,6 +7,7 @@ import ProtectedLayout from './layouts/protected';
 import Auth from './pages/auth';
 import Dashboard from './pages/dashboard/index';
 import Account from './pages/account/index';
+import Resources from './pages/resources/index';
 import AdminDashboard from './pages/admin/dashboard/index';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <ProtectedLayout exact path="/" component={Dashboard} />
           <ProtectedLayout exact path="/account" component={Account} />
+          <ProtectedLayout exact path="/resources" component={Resources} />
           <Route component={Auth} />
           <ProtectedLayout exact path="/admin" component={AdminDashboard} />
 

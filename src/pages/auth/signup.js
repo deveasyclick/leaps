@@ -18,7 +18,8 @@ function printError(type, error) {
       return <p className="error-text">{error}</p>;
     case authActionTypes.SIGNUP_SUCCESS:
       return <p className="success-text">Success!</p>;
-    default: return null;
+    default:
+      return null;
   }
 }
 export class Signup extends Component {
@@ -98,29 +99,57 @@ export class Signup extends Component {
                     <img src={Logo} alt="Leaps Logo" />
                   </div>
                   <h1 className="h1 welcome-heading">WELCOME TO LEAPS,</h1>
-                  <h3 className="h3"><small className="signup-notice">Signup as a Reseacher!</small></h3>
+                  <h3 className="h3">
+                    <small className="signup-notice">
+                      Signup as a Reseacher!
+                    </small>
+                  </h3>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="username" className="col-12 label">Username</label>
+                <label htmlFor="username" className="col-12 label">
+                  Username
+                </label>
                 <div className="col-12 col-md-8">
-                  <input type="text" name="username" id="username" className="form-control" placeholder="Username" aria-describedby="usernameId" value={form.username.value} onChange={this.handleInputChange} />
-                  {
-                    showInvalid && !form.username.valid
-                    && <p className="input-error-text">Username cannot be empty</p>
-                  }
-                  <small id="usernameId" className="text-muted">Username</small>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    className="form-control"
+                    placeholder="Username"
+                    aria-describedby="usernameId"
+                    value={form.username.value}
+                    onChange={this.handleInputChange}
+                  />
+                  {showInvalid && !form.username.valid && (
+                    <p className="input-error-text">Username cannot be empty</p>
+                  )}
+                  <small id="usernameId" className="text-muted">
+                    Username
+                  </small>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="email" className="col-12 label">Email</label>
+                <label htmlFor="email" className="col-12 label">
+                  Email
+                </label>
                 <div className="col-12 col-md-8">
-                  <input type="email" name="email" id="email" className="form-control" placeholder="Email" aria-describedby="emailId" value={form.email.value} onChange={this.handleInputChange} />
-                  {
-                    showInvalid && !form.email.valid
-                    && <p className="input-error-text">Invalid email entered</p>
-                  }
-                  <small id="emailId" className="text-muted">Email</small>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    className="form-control"
+                    placeholder="Email"
+                    aria-describedby="emailId"
+                    value={form.email.value}
+                    onChange={this.handleInputChange}
+                  />
+                  {showInvalid && !form.email.valid && (
+                    <p className="input-error-text">Invalid email entered</p>
+                  )}
+                  <small id="emailId" className="text-muted">
+                    Email
+                  </small>
                 </div>
               </div>
               <div className="form-group row">
@@ -128,16 +157,31 @@ export class Signup extends Component {
                   Password
                 </label>
                 <div className="col-12 col-md-8">
-                  <input type="password" name="password" id="password" className="form-control" onChange={this.handleInputChange} value={form.password.value} placeholder="Password" aria-describedby="passwordId" />
-                  {
-                    showInvalid && !form.password.valid
-                    && <p className="input-error-text">please enter a valid password</p>
-                  }
-                  <small id="passwordId" className="text-muted">Password</small>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    className="form-control"
+                    onChange={this.handleInputChange}
+                    value={form.password.value}
+                    placeholder="Password"
+                    aria-describedby="passwordId"
+                  />
+                  {showInvalid && !form.password.valid && (
+                    <p className="input-error-text">
+                      please enter a valid password
+                    </p>
+                  )}
+                  <small id="passwordId" className="text-muted">
+                    Password
+                  </small>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="country" className="col-12 col-md-6 label country_label">
+                <label
+                  htmlFor="country"
+                  className="col-12 col-md-6 label country_label"
+                >
                   Country
                 </label>
                 <div className="col-12 col-md-8">
@@ -149,45 +193,47 @@ export class Signup extends Component {
                     className="form-control"
                     aria-describedby="countryId"
                   >
-                    {
-                      countries.map((data, ind) => (
-                        <option value={data.country} key={ind}>
-                          {data.country}
-                        </option>
-                      ))
-                    }
+                    {countries.map((data, ind) => (
+                      <option value={data.country} key={ind}>
+                        {data.country}
+                      </option>
+                    ))}
                   </select>
-                  {
-                    showInvalid && !form.country.valid
-                    && <p className="input-error-text">please select a country</p>
-                  }
-
-
-                  <small id="countryId" className="text-muted">country</small>
+                  {showInvalid && !form.country.valid && (
+                    <p className="input-error-text">please select a country</p>
+                  )}
+                  <small id="countryId" className="text-muted">
+                    country
+                  </small>
                 </div>
               </div>
 
               <div className="form-group form-group-btn row">
                 <div className="col-12 col-md-8">
                   <Button className="signup-btn" type="submit">
-                    {type === authActionTypes.SIGNUP_LOADING
-                      ? (
-                        <span className="preloader-wrapper">
-                          <img src={Loader} alt="preloader" className="preloader" width="35px" />
-                        </span>
-                      )
-                      : <span className="signup-text">Signup</span>
-                  }
+                    {type === authActionTypes.SIGNUP_LOADING ? (
+                      <span className="preloader-wrapper">
+                        <img
+                          src={Loader}
+                          alt="preloader"
+                          className="preloader"
+                          width="35px"
+                        />
+                      </span>
+                    ) : (
+                      <span className="signup-text">Signup</span>
+                    )}
                   </Button>
                   {printError(type, error)}
-
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col-12 col-md-8 d-flex justify-content-center">
                   <span>
                     Already a member?
-                    <Link className="notice-link signup-link" to="/login">Login</Link>
+                    <Link className="notice-link signup-link" to="/login">
+                      Login
+                    </Link>
                   </span>
                 </div>
               </div>
@@ -207,4 +253,7 @@ const mapDispatchToProps = dispatch => ({
   signup: obj => dispatch(signup(obj)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Signup);

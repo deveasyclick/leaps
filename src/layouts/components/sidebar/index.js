@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './sidebar.scss';
 import { IoMdPerson } from 'react-icons/io';
-import { FiUser, FiCommand } from 'react-icons/fi';
+import { FiUser, FiCommand, FiBookOpen } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo-only_mobile.png';
 import * as storage from '../../../helpers/token';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
 
-
-const navs = [{ name: 'Dashboard', icon: FiCommand, path: '/' }, { name: 'Account', icon: IoMdPerson, path: 'account' }];
+const navs = [
+  { name: 'Dashboard', icon: FiCommand, path: '/' },
+  { name: 'Account', icon: IoMdPerson, path: '/account' },
+  { name: 'Resources', icon: FiBookOpen, path: '/resources' },
+];
 
 class Sidebar extends Component {
   constructor(props) {
@@ -23,10 +26,15 @@ class Sidebar extends Component {
     if (user) {
       this.setState({ user });
     }
+    const { pathname } = window.location;
+    navs.forEach((nav, index) => (nav.path === pathname ? this.setState({ activeLink: index }) : null),);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.dash.type !== this.props.dash.type && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS) {
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
+    ) {
       const user = storage.getToken();
       if (user) {
         this.setState({ user });
@@ -37,7 +45,9 @@ class Sidebar extends Component {
   render() {
     const { user, activeLink } = this.state;
     const { nav } = this.props;
-    const sidebarStyle = { left: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '0' : '-300px' };
+    const sidebarStyle = {
+      left: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '0' : '-300px',
+    };
     return (
       <div className="Sidebar" style={sidebarStyle}>
         <div className="header d-flex justify-content-center">
@@ -58,10 +68,16 @@ class Sidebar extends Component {
               to="/account"
             >
               <div className="user-icon">
-                {
-                  user.image ? <img className="img" src={user.image} width="100%" alt="user" />
-                    : <FiUser size={40} />
-                }
+                {user.image ? (
+                  <img
+                    className="img"
+                    src={user.image}
+                    width="100%"
+                    alt="user"
+                  />
+                ) : (
+                  <FiUser size={40} />
+                )}
               </div>
             </Link>
           </div>
@@ -72,28 +88,33 @@ class Sidebar extends Component {
         </div>
         <div className="menu-wrapper">
           <ul className="menu">
-            {
-              navs.map((navItem, index) => {
-                const { icon: Icon } = navItem;
-                return (
-                  <Link key={index} to={navItem.path} className="link" ref={index}>
-                    <li
-                      onClick={() => {
-                        this.setState({ activeLink: index });
-                      }}
-                      className={`menu-item ${index === activeLink ? 'active' : ''}`}
-                    >
-                      <div className="icon">
-                        <Icon size={21} />
-                      </div>
-                      <div className="menu-name">
-                        <span className="link">{navItem.name}</span>
-                      </div>
-                    </li>
-                  </Link>
-                );
-              })
-            }
+            {navs.map((navItem, index) => {
+              const { icon: Icon } = navItem;
+              return (
+                <Link
+                  key={index}
+                  to={navItem.path}
+                  className="link"
+                  ref={index}
+                >
+                  <li
+                    onClick={() => {
+                      this.setState({ activeLink: index });
+                    }}
+                    className={`menu-item ${
+                      index === activeLink ? 'active' : ''
+                    }`}
+                  >
+                    <div className="icon">
+                      <Icon size={21} />
+                    </div>
+                    <div className="menu-name">
+                      <span className="link">{navItem.name}</span>
+                    </div>
+                  </li>
+                </Link>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -101,11 +122,13 @@ class Sidebar extends Component {
   }
 }
 
-
 const mapStateToProps = states => ({
   nav: states.nav,
   dash: states.dash,
 });
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Sidebar);

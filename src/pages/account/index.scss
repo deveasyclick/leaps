@@ -142,6 +142,7 @@
                     display: inline-block;
                     width: 100%;
                     outline: none;
+                    background: white;
 
                     &:-webkit-autofill,
                     &:-webkit-autofill:hover, 
@@ -192,128 +193,6 @@
                 .success-feedback{
                     color: green;
                 }
-            }
-        }
-    }
-
-    .resources-row{
-        margin-top: 1rem;
-        margin-left: 0px;
-        display: block;
-        white-space: nowrap;
-
-
-        .text-content,.pdf-content,.image-content,.video-content{
-
-            .text-resource.odd{
-                padding-bottom: 50px !important;
-            }
-            .text-resource{
-                margin-bottom: 15px;
-                background: white;
-                border-radius: 5px;
-                padding: 0px;
-                border: solid 1px #e6e6e6;
-                .card-body,.card-title,.card-subject,.card-topic{
-                    padding: 5px;
-                }
-                .card-title{
-                    overflow: hidden;
-                }
-                .card-body{
-                    border-bottom: solid 1px  #e6e6e6;
-                    .p{
-                        overflow: hidden;
-                        height: 5rem;
-                        margin-bottom: 0;
-                        display: inline-block;
-                        width: 100%;
-                        word-break: break-all;
-                        white-space: normal;
-    
-                            .span{
-                                display: inline-block;
-                                text-align: left;
-                                font-size: 20px;
-                                line-height: 0;
-                                color: #b1b1b1;
-                            }
-                    }
-                }
-            }
-
-            .pdf-resource{
-
-            }
-
-            .image-resource{
-                img{
-                    min-height: 8rem;
-                    max-height: 10rem;
-                }
-            }
-        }
-    }
-    .upload-resources-heading-row {
-        margin-bottom: 1rem;
-
-        .upload-text {
-            padding: 1rem;
-            font-weight: bolder;
-            font-size: 1.5rem;
-
-            @media (max-width: $mobile-max-screen) {
-                font-size: 1.3rem;
-                text-align: center;
-                padding: 0;
-            }
-        }
-    }
-    .resources-btn-row {
-        margin-bottom: 2rem;
-
-        .check {
-            margin-right: 10px;
-
-            @media (max-width: $mobile-max-screen) {
-                display: none;
-            }
-        }
-
-        .btn-wrapper {
-            padding-left: 3rem;
-
-            @media (max-width: $mobile-max-screen) {
-                padding-left: 1rem;
-            }
-
-            .btn {
-                margin-right: 0.625rem;
-                width: 30rem !important;
-                padding: 0.4rem;
-            }
-
-            .btn:not(.active) {
-                background: none;
-                border: solid 1px $gray;
-                color: $gray;
-            }
-
-            .btn.active {
-                background: $app-dominant-color;
-            }
-        }
-    }
-
-    .content-row {
-        
-        .content {
-            &:not(.show) {
-                display: none;
-            }
-
-            .form-control {
-                //border-radius: 0;
             }
         }
     }
