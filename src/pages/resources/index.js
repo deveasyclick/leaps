@@ -294,11 +294,7 @@ class AccountComponent extends React.Component {
                 {resources.texts.length > 0
                   && resources.texts.map((resource, index) => (
                     <div key={index} className="col-md-3 col-12 col-sm-4">
-                      <div
-                        className={`text-resource resource-card ${
-                          index % 2 === 0 ? 'odd' : 'even'
-                        }`}
-                      >
+                      <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>
                             {' '}
@@ -350,11 +346,7 @@ class AccountComponent extends React.Component {
                 {resources.pdfs.length > 0
                   && resources.pdfs.map((resource, index) => (
                     <div key={index} className="col-md-3 col-12 col-sm-4">
-                      <div
-                        className={`text-resource resource-card ${
-                          index % 2 === 0 ? 'odd' : 'even'
-                        }`}
-                      >
+                      <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>
                             {' '}
@@ -409,11 +401,7 @@ class AccountComponent extends React.Component {
                 {resources.images.length > 0
                   && resources.images.map((resource, index) => (
                     <div key={index} className="col-md-3 col-12 col-sm-4">
-                      <div
-                        className={`text-resource resource-card ${
-                          index % 2 === 0 ? 'odd' : 'even'
-                        }`}
-                      >
+                      <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>
                             {' '}
@@ -469,11 +457,7 @@ class AccountComponent extends React.Component {
                 {resources.videos.length > 0
                   && resources.videos.map((resource, index) => (
                     <div key={index} className="col-md-3 col-12 col-sm-4">
-                      <div
-                        className={`text-resource resource-card ${
-                          index % 2 === 0 ? 'odd' : 'even'
-                        }`}
-                      >
+                      <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>
                             {' '}

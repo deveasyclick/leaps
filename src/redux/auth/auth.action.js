@@ -40,9 +40,19 @@ export const login = obj => async (dispatch) => {
   let user;
   let query;
   try {
+    query = await db
+      .collection('web_users')
+      .where('email', '==', obj.email)
+      .get();
+    if (query.size < 1) {
+      return dispatch({
+        type: authActions.LOGIN_FAILED,
+        error: 'User does not exists',
+      });
+    }
     data = await auth.signInWithEmailAndPassword(obj.email, obj.password);
     query = await db
-      .collection('users')
+      .collection('web_users')
       .where('uid', '==', data.user.uid)
       .get();
     query.forEach((doc) => {
