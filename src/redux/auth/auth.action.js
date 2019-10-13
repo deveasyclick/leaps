@@ -5,11 +5,10 @@ import * as storage from '../../helpers/token';
 export const signup = obj => async (dispatch) => {
   dispatch({ type: authActions.SIGNUP_LOADING });
   let data;
-  let docRef;
   const user = {};
   try {
     data = await auth.createUserWithEmailAndPassword(obj.email, obj.password);
-    docRef = await db
+    await db
       .collection('web_users')
       .doc(data.user.uid)
       .set({
@@ -23,7 +22,6 @@ export const signup = obj => async (dispatch) => {
     user.name = obj.name;
     user.email = obj.email;
     user.uid = data.user.uid;
-    user.did = docRef.id;
     user.category = 'researcher';
     user.verified = false;
     user.country = obj.country;

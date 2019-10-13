@@ -232,7 +232,6 @@ export class Dashboard extends Component {
     });
   }
   componentDidUpdate(prevProps, prevStates) {
-    console.log(this.state);
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }

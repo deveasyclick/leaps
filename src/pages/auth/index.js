@@ -48,7 +48,9 @@ export class Auth extends Component {
     };
     this.handleSigninInputChange = this.handleSigninInputChange.bind(this);
     this.handleSignupInputChange = this.handleSignupInputChange.bind(this);
-    this.handleForgotPasswordInputChange = this.handleForgotPasswordInputChange.bind(this);
+    this.handleForgotPasswordInputChange = this.handleForgotPasswordInputChange.bind(
+      this,
+    );
     this.handleForgotPasswordInputChange.bind(this);
     this.onSigninSubmit = this.onSigninSubmit.bind(this);
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
@@ -193,7 +195,9 @@ export class Auth extends Component {
                         activePage: 'signin',
                       });
                     }}
-                    className={`btn signin ${activePage === 'signin' ? 'show' : ''}`}
+                    className={`btn signin ${
+                      activePage === 'signin' ? 'show' : ''
+                    }`}
                   >
                     Sign in
                   </button>
@@ -207,7 +211,9 @@ export class Auth extends Component {
                       });
                     }}
                     type="button"
-                    className={`btn signup ${activePage === 'signup' ? 'show' : ''}`}
+                    className={`btn signup ${
+                      activePage === 'signup' ? 'show' : ''
+                    }`}
                   >
                     Sign up
                   </button>
@@ -221,7 +227,9 @@ export class Auth extends Component {
                       });
                     }}
                     type="button"
-                    className={`btn forgot ${activePage === 'forgot' ? 'show' : ''}`}
+                    className={`btn forgot ${
+                      activePage === 'forgot' ? 'show' : ''
+                    }`}
                   >
                     Forgot
                   </button>
@@ -229,7 +237,9 @@ export class Auth extends Component {
               </div>
             </div>
             <form
-              className={`row tab-content signin-content ${activePage === 'signin' ? 'show' : ''}`}
+              className={`row tab-content signin-content ${
+                activePage === 'signin' ? 'show' : ''
+              }`}
               onSubmit={this.onSigninSubmit}
             >
               <div className="caret" />
@@ -243,7 +253,9 @@ export class Auth extends Component {
                   onChange={this.handleSigninInputChange}
                 />
                 {showSigninInvalid && !signup.name.valid && (
-                  <p className="input-error-text">Email field cannot be empty</p>
+                  <p className="input-error-text">
+                    Email field cannot be empty
+                  </p>
                 )}
               </div>
               <div className="form-group col-12">
@@ -256,14 +268,21 @@ export class Auth extends Component {
                   onChange={this.handleSigninInputChange}
                 />
                 {showSigninInvalid && !signup.password.valid && (
-                  <p className="input-error-text">Password field cannot be empty</p>
+                  <p className="input-error-text">
+                    Password field cannot be empty
+                  </p>
                 )}
               </div>
               <div className="form-group col-12">
                 <Button className="btn submit-btn" type="submit">
                   {type === authActionTypes.LOGIN_LOADING ? (
                     <span className="preloader-wrapper">
-                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                      <img
+                        src={Loader}
+                        alt="preloader"
+                        className="preloader"
+                        width="35px"
+                      />
                     </span>
                   ) : (
                     <span className="login-text">Sign in</span>
@@ -275,7 +294,9 @@ export class Auth extends Component {
               </div>
             </form>
             <form
-              className={`row tab-content signup-content ${activePage === 'signup' ? 'show' : ''}`}
+              className={`row tab-content signup-content ${
+                activePage === 'signup' ? 'show' : ''
+              }`}
               onSubmit={this.onSignupSubmit}
             >
               <div className="caret" />
@@ -302,7 +323,9 @@ export class Auth extends Component {
                   placeholder="Email"
                 />
                 {showSignupInvalid && !signup.email.valid && (
-                  <p className="input-error-text">Email field cannot be empty</p>
+                  <p className="input-error-text">
+                    Email field cannot be empty
+                  </p>
                 )}
               </div>
               <div className="form-group col-12">
@@ -315,7 +338,9 @@ export class Auth extends Component {
                   placeholder="Password"
                 />
                 {showSignupInvalid && !signup.password.valid && (
-                  <p className="input-error-text">Password field cannot be empty</p>
+                  <p className="input-error-text">
+                    Password field cannot be empty
+                  </p>
                 )}
               </div>
               <div className="form-group col-12">
@@ -338,7 +363,12 @@ export class Auth extends Component {
                 <Button className="btn submit-btn" type="submit">
                   {type === authActionTypes.SIGNUP_LOADING ? (
                     <span className="preloader-wrapper">
-                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                      <img
+                        src={Loader}
+                        alt="preloader"
+                        className="preloader"
+                        width="35px"
+                      />
                     </span>
                   ) : (
                     <span className="login-text">Sign up</span>
@@ -350,7 +380,9 @@ export class Auth extends Component {
               </div>
             </form>
             <form
-              className={`row tab-content forgot-content ${activePage === 'forgot' ? 'show' : ''}`}
+              className={`row tab-content forgot-content ${
+                activePage === 'forgot' ? 'show' : ''
+              }`}
               onSubmit={this.onForgotPasswordSubmit}
             >
               <div className="caret" />
@@ -364,20 +396,28 @@ export class Auth extends Component {
                   value={forgot.email.value}
                 />
                 {showForgotPasswordInvalid && !forgot.email.valid && (
-                  <p className="input-error-text">Email field cannot be empty</p>
+                  <p className="input-error-text">
+                    Email field cannot be empty
+                  </p>
                 )}
               </div>
               <div className="form-group col-12">
                 <Button className="btn submit-btn" type="submit">
                   {type === authActionTypes.SEND_RESET_PASSWORD_LOADING ? (
                     <span className="preloader-wrapper">
-                      <img src={Loader} alt="preloader" className="preloader" width="35px" />
+                      <img
+                        src={Loader}
+                        alt="preloader"
+                        className="preloader"
+                        width="35px"
+                      />
                     </span>
                   ) : (
                     <span className="login-text">Forgot password</span>
                   )}
                 </Button>
-                {type === authActionTypes.SEND_RESET_PASSWORD_FAILED && printError(type, error)}
+                {type === authActionTypes.SEND_RESET_PASSWORD_FAILED
+                  && printError(type, error)}
                 {type === authActionTypes.SEND_RESET_PASSWORD_SUCCESS && (
                   <Dialog
                     title="Forgot Password"
