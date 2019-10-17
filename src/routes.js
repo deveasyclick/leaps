@@ -18,8 +18,8 @@ function App() {
           <ProtectedLayout exact path="/" component={Dashboard} />
           <ProtectedLayout exact path="/account" component={Account} />
           <ProtectedLayout exact path="/resources" component={Resources} />
-          <Route component={Auth} />
           <ProtectedLayout exact path="/admin" component={AdminDashboard} />
+          {/* <Route component={Auth} /> */}
 
           <Route render={() => <div>Page not found</div>} />
         </Switch>
