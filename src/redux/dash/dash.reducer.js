@@ -45,6 +45,63 @@ export default (state = initialState, payload) => {
         error: payload.error,
       };
 
+    case dashActionTypes.FETCH_RESEARCHER_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHER_FAILED,
+        error: payload.error,
+      };
+
+    case dashActionTypes.FETCH_RESEARCHER_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHER_LOADING,
+      };
+    case dashActionTypes.FETCH_RESEARCHER_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHER_SUCCESS,
+        data: payload.data,
+      };
+
+    case dashActionTypes.FETCH_TEACHERS_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_TEACHERS_FAILED,
+        error: payload.error,
+      };
+
+    case dashActionTypes.FETCH_TEACHERS_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_TEACHERS_LOADING,
+      };
+    case dashActionTypes.FETCH_TEACHERS_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_TEACHERS_SUCCESS,
+        data: payload.data,
+      };
+
+    case dashActionTypes.FETCH_RESEARCHERS_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHERS_FAILED,
+        error: payload.error,
+      };
+
+    case dashActionTypes.FETCH_RESEARCHERS_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHERS_LOADING,
+      };
+    case dashActionTypes.FETCH_RESEARCHERS_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.FETCH_RESEARCHERS_SUCCESS,
+        data: payload.data,
+      };
+
     case dashActionTypes.FETCH_RESEARCHER_IMAGES_FAILED:
       return {
         ...state,

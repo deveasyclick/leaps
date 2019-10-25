@@ -7,7 +7,7 @@ import { checkAuth } from '../redux/auth/auth.action';
 import Loading from './loading';
 import '../config/firebase';
 
-import Sidebar from './components/sidebar/index';
+import Sidebar from './components/admin/sidebar/index';
 import { Header } from './components/header/index';
 import './style.scss';
 
@@ -51,16 +51,6 @@ export class ProtectedLayout extends React.Component {
             || type === authActionTypes.SIGNUP_SUCCESS
             || type === authActionTypes.LOGIN_SUCCESS
           ) {
-            if (data.isAdmin) {
-              return (
-                <Redirect
-                  to={{
-                    pathname: '/admin',
-                    states: { from: matchProps.location },
-                  }}
-                />
-              );
-            }
             return (
               <React.Fragment>
                 <Sidebar />

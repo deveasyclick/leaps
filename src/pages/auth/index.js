@@ -166,14 +166,24 @@ export class Auth extends Component {
       showForgotPasswordInvalid,
     } = this.state;
 
-    const { type, error } = this.props;
+    const { type, error, data } = this.props;
     if (
-      type === authActionTypes.LOGIN_SUCCESS
-      || type === authActionTypes.CHECK_AUTH_SUCCESS
-      || type === authActionTypes.SIGNUP_SUCCESS
+      (type === authActionTypes.LOGIN_SUCCESS
+        || type === authActionTypes.CHECK_AUTH_SUCCESS
+        || type === authActionTypes.SIGNUP_SUCCESS)
+      && data.isAdmin
+    ) {
+      return <Redirect to="/admin" />;
+    }
+    if (
+      (type === authActionTypes.LOGIN_SUCCESS
+        || type === authActionTypes.CHECK_AUTH_SUCCESS
+        || type === authActionTypes.SIGNUP_SUCCESS)
+      && !data.isAdmin
     ) {
       return <Redirect to="/" />;
     }
+
     const { activePage } = this.state;
     return (
       <section className="Login2 container-fluid">
@@ -436,6 +446,7 @@ export class Auth extends Component {
 const mapStateToProps = state => ({
   type: state.auth.type,
   error: state.auth.error,
+  data: state.auth.data,
 });
 const mapDispatchToProps = dispatch => ({
   signin: obj => dispatch(login(obj)),

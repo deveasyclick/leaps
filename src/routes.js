@@ -3,12 +3,16 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './styles/style.scss';
 
 import ProtectedLayout from './layouts/protected';
+import AdminLayout from './layouts/admin';
 
 import Auth from './pages/auth';
 import Dashboard from './pages/dashboard/index';
 import Account from './pages/account/index';
 import Resources from './pages/resources/index';
 import AdminDashboard from './pages/admin/dashboard/index';
+import Reseacher from './pages/admin/researcher/index';
+import PageNotFound from './pages/404/index';
+import DefaultLayout from './layouts/default';
 
 function App() {
   return (
@@ -18,10 +22,22 @@ function App() {
           <ProtectedLayout exact path="/" component={Dashboard} />
           <ProtectedLayout exact path="/account" component={Account} />
           <ProtectedLayout exact path="/resources" component={Resources} />
-          <ProtectedLayout exact path="/admin" component={AdminDashboard} />
-          {/* <Route component={Auth} /> */}
+          <AdminLayout exact path="/admin" component={AdminDashboard} />
+          <AdminLayout exact path="/admin/account" component={Account} />
+          <AdminLayout exact path="/researchers/:id" component={Reseacher} />
+          <Route
+            path={[
+              '/login',
+              'signin',
+              'register',
+              'signup',
+              'forgot',
+              'forgot-password',
+            ]}
+            component={Auth}
+          />
 
-          <Route render={() => <div>Page not found</div>} />
+          <DefaultLayout component={PageNotFound} />
         </Switch>
       </Suspense>
     </Router>

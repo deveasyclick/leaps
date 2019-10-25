@@ -1,0 +1,297 @@
+@import '../../../styles/style.scss';
+
+@mixin border {
+    border: 1px solid #DFE3E8;
+}
+
+@mixin card {
+    width: 20rem;
+    background: white;
+    @include border;
+    padding: 0.5rem;
+
+    &:hover {
+        background: #f9fbfd;
+    }
+
+    .pending-count,
+    .uploads-count,
+    .approved-count {
+        margin: 0 3px;
+    }
+
+    .details-wrapper {
+        .details {
+            .name {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .image {
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+            border: solid 2px $app-dominant-color;
+
+            .img {
+                border-radius: 100%;
+            }
+        }
+    }
+
+    .stats {
+        .pending {
+            padding-right: 10px;
+            border-right: solid;
+
+            .pending-icon {
+                color: gray;
+                margin-right: 5px;
+            }
+        }
+
+        .approved {
+            padding-left: 10px;
+
+            .approved-icon {
+                color: green;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.Researcher {
+    .row{
+        margin-bottom: 1rem;
+    }
+    .btn-row {
+        .check {
+            margin-right: 10px;
+
+            @media (max-width: $mobile-max-screen) {
+                display: none;
+            }
+        }
+
+        .btn-wrapper {
+            padding-left: 3rem;
+
+            @media (max-width: $mobile-max-screen) {
+                padding-left: 1rem;
+            }
+
+            .btn {
+                margin-right: 0.625rem;
+                width: 30rem !important;
+                padding: 0.4rem;
+            }
+
+            .btn:not(.active) {
+                background: none;
+                border: solid 1px $gray;
+                color: $gray;
+            }
+
+            .btn.active {
+                background: $app-dominant-color;
+            }
+        }
+    }
+
+    .researchers-title {
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .cards-row {
+        margin-bottom: 1rem;
+
+        .card {
+            @include card;
+
+            .icon{
+
+                .caret-grid{
+                    padding: 0;
+                    list-style: none;
+                }
+
+                .icon-wrapper {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .resources-btn-row {
+        margin-bottom: 2rem;
+
+        .check {
+            margin-right: 10px;
+
+            @media (max-width: $mobile-max-screen) {
+                display: none;
+            }
+        }
+
+        .btn-wrapper {
+            padding-left: 3rem;
+
+            @media (max-width: $mobile-max-screen) {
+                padding-left: 1rem;
+            }
+
+            .btn {
+                margin-right: 0.625rem;
+                width: 30rem !important;
+                padding: 0.4rem;
+            }
+
+            .btn:not(.active) {
+                background: none;
+                border: solid 1px $gray;
+                color: $gray;
+            }
+
+            .btn.active {
+                background: $app-dominant-color;
+            }
+        }
+    }
+
+    .content-row {
+        .text-content {
+            padding-left: 2.7rem;
+
+            @media (max-width: $mobile-max-screen) {
+                padding-left: 0.9rem;
+            }
+
+            &-form-group {
+                padding-left: 0;
+            }
+
+            .btn {
+                &:disabled {
+                    background: darkgray;
+                }
+            }
+
+            .edit-icon {
+                position: absolute;
+                top: 9px;
+                left: 0.2rem;
+                color: $gray;
+            }
+
+            .text-form-control {
+                padding: 5.5px 1.5rem !important;
+            }
+
+            .form-group-btn {
+                text-align: center;
+
+                .btn {
+                    width: 8rem;
+                    border-radius: 5px !important;
+                    padding: 0.7rem;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .pdf-content,
+        .image-content,
+        .video-content {
+            padding-left: 0;
+
+            .input-wrapper {
+                margin-left: 3rem;
+                padding-right: 18px;
+
+                .title {
+                    margin-bottom: 15px;
+                }
+
+                .icon-helper {
+                    position: absolute;
+                    top: 3.5rem;
+                    right: 1.5rem;
+                    background: white;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 100%;
+                    box-shadow: 0 0 4px 1px #c5c4c4;
+                    color: #796b6b;
+                    cursor: pointer;
+                }
+
+                .file {
+                    display: none;
+                }
+
+                @media (max-width:$mobile-max-screen) {
+                    margin-left: 0;
+                    padding-left: 0;
+                }
+            }
+
+            .or {
+                @media (max-width: $mobile-max-screen) {
+                    text-align: center;
+                }
+            }
+
+            .btn-wrapper {
+                text-align: center;
+
+                .add-image-btn,
+                .add-pdf-btn,
+                .add-video-btn {
+                    @include button;
+
+                    &:disabled {
+                        background: darkgray;
+                    }
+                }
+            }
+
+            .icon-container {
+                @media (max-width:$mobile-max-screen) {
+                    padding-right: 0;
+                }
+            }
+
+            .image-wrapper,
+            .pdf-wrapper,
+            .video-wrapper {
+                position: relative;
+
+                .image-input-control,
+                .pdf-input-control,
+                .video-input-control {
+                    text-align: left;
+                }
+
+                .file {
+                    display: none;
+                }
+            }
+        }
+
+        .content {
+            &:not(.show) {
+                display: none;
+            }
+
+            .form-control {
+                //border-radius: 0;
+            }
+        }
+    }
+}

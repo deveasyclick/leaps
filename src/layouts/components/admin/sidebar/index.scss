@@ -1,0 +1,128 @@
+@import '../../../../styles/style.scss';
+
+.Sidebar {
+    height: 100vh;
+    width: 17rem;
+    position: fixed;
+    left: 0;
+    border-right: solid 1px $header-border-color;
+    transition: 1s all;
+    background: $white;
+    left: 0px;
+    z-index: 100;
+    color: $sidebar-color;
+
+    .header {
+        height: 60px;
+        border-bottom: solid 1px $header-border-color;
+
+        .site-name-wrapper {
+            .site-name {
+                margin-bottom: 0;
+                color: $light-black;
+                font-weight: 500;
+                font-size: larger;
+            }
+        }
+    }
+
+    .profile {
+        border-bottom: solid 1px $header-border-color;
+
+        .user-icon-wrapper {
+            margin: 20px 0;
+
+            .user-account-link {
+                color: inherit;
+            }
+
+            .user-icon {
+                width: 100px;
+                height: 100px;
+                border: solid;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                .img {
+                    height: 100%;
+                    border-radius: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .user-details {
+            text-align: center;
+            margin-bottom: 20px;
+
+            .user-name {
+                margin-bottom: 0;
+                font-weight: bold;
+            }
+
+            .user-role {
+                font-weight: bold;
+                color: gray;
+            }
+        }
+    }
+
+    .menu-wrapper {
+        margin-top: 15px;
+
+        .menu {
+            list-style: none;
+            padding: 0;
+
+            .menu-item {
+                display: flex;
+                padding: 10px 0;
+                padding-left: 20px;
+                margin-bottom: 7px;
+                font-size: 14px;
+                color: $darkgray;
+
+
+
+                &.active,
+                &:hover {
+                    background: #646ecb1f;
+                    position: relative;
+
+                    &::before {
+                        content: "";
+                        padding: 2px;
+                        background: #646ECB;
+                        position: absolute;
+                        height: 100%;
+                        top: 0;
+                        left: 1px;
+                    }
+
+                    .icon {
+                        color: $app-dominant-color;
+                    }
+
+                    .link {
+                        color: $black !important;
+                    }
+                }
+
+                .icon {
+                    margin-right: 15px;
+                }
+
+                .menu-name {
+                    font-weight: bold;
+
+                    .link {
+                        //color:$dark-gray;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -18,6 +18,10 @@ export const signup = obj => async (dispatch) => {
         country: obj.country,
         category: 'researcher',
         verified: false,
+        isAdmin: false,
+        uploads: 0,
+        approved: 0,
+        pending: 0,
       });
     user.name = obj.name;
     user.email = obj.email;
@@ -25,6 +29,10 @@ export const signup = obj => async (dispatch) => {
     user.category = 'researcher';
     user.verified = false;
     user.country = obj.country;
+    user.isAdmin = false;
+    user.uploads = 0;
+    user.pending = 0;
+    user.approved = 0;
     storage.saveToken(user);
     dispatch({ type: authActions.SIGNUP_SUCCESS, data: user });
   } catch (err) {
