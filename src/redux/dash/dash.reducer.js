@@ -26,6 +26,24 @@ export default (state = initialState, payload) => {
         error: payload.error,
       };
 
+    case dashActionTypes.UPDATE_TEACHER_DETAILS_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_TEACHER_DETAILS_LOADING,
+      };
+    case dashActionTypes.UPDATE_TEACHER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_TEACHER_DETAILS_SUCCESS,
+      };
+
+    case dashActionTypes.UPDATE_TEACHER_DETAILS_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_TEACHER_DETAILS_FAILED,
+        error: payload.error,
+      };
+
     case dashActionTypes.UPDATE_DETAILS_LOADING:
       return {
         ...state,

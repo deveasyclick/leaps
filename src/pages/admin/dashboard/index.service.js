@@ -15,23 +15,34 @@ const Icon = styled.div`
     border-right: solid 10px transparent;
     border-left: solid 10px transparent;
     border-bottom: 10px solid white;
-    top: 25px;
-    left: 6.3rem;
-    /*display: none;*/
+    top: -10px;
+    left: 46px;
   }
 
   .approved-pending {
     position: absolute;
     list-style: none;
     background: white;
-    padding: 15px;
+    padding: 0;
     border-radius: 10px;
-    /*display: none;*/
+    display: none;
     top: 2.2rem;
     left: 0;
     right: 0;
     width: 7rem;
     margin: auto;
+    z-index: 100;
+
+    .list {
+      cursor: pointer;
+      padding: 8px;
+
+      &:hover {
+        /*background: #e6e6e6;*/
+        background: #6b59da;
+        color: white;
+      }
+    }
   }
 `;
 export const columns = [
@@ -69,27 +80,50 @@ export const columns = [
     Header: 'Actions',
     accessor: 'action',
     Cell: (props) => {
-      let visibility = false;
+      console.log('props', props);
+      const ref1 = React.createRef();
+      const ref2 = React.createRef();
       return (
         <div className="actions cell">
           <Icon>
-            <div
-              className="caret"
-              style={{ display: visibility ? 'block' : 'none' }}
-            />
             <ul
+              onMouseEnter={() => {
+                ref1.current.style.display = 'block';
+                ref2.current.style.display = 'block';
+              }}
+              onMouseLeave={() => {
+                ref1.current.style.display = 'none';
+                ref2.current.style.display = 'none';
+              }}
               className="approved-pending"
-              style={{ display: visibility ? 'block' : 'none' }}
+              ref={ref2}
             >
-              <li>Approve</li>
-              <li>Pending</li>
+              <div
+                onMouseEnter={() => {
+                  ref1.current.style.display = 'block';
+                  ref2.current.style.display = 'block';
+                }}
+                onMouseLeave={() => {
+                  // ref1.current.style.display = 'none';
+                  // ref2.current.style.display = 'none';
+                }}
+                className="caret"
+                ref={ref1}
+              />
+              <li className="list">Approve</li>
+              <li className="list">Pending</li>
             </ul>
             <FiMoreVertical
               onMouseEnter={() => {
-                visibility = true;
+                ref1.current.style.display = 'block';
+                ref2.current.style.display = 'block';
+              }}
+              onMouseLeave={() => {
+                // ref1.current.style.display = 'none';
+                // ref2.current.style.display = 'none';
               }}
               className="icon"
-              size={18}
+              size={28}
             />
           </Icon>
         </div>

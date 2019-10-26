@@ -1,19 +1,62 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiClock, FiCheck } from 'react-icons/fi';
+import { FiClock, FiCheck, FiMoreVertical } from 'react-icons/fi';
 import { IoMdCheckmarkCircle, IoMdArrowDropdown } from 'react-icons/io';
 import ReactTable from 'react-table';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import Image from '../../../assets/images/favicon.png';
 import {
   fetchResearchers,
   fetchTeachers,
+  updateTeacherDetails,
 } from '../../../redux/dash/dash.action';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
 import 'react-table/react-table.css';
-import { columns } from './index.service';
 
+const Icon = styled.div`
+  position: relative;
+  .icon {
+    cursor: pointer;
+  }
+  .caret {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-right: solid 10px transparent;
+    border-left: solid 10px transparent;
+    border-bottom: 10px solid white;
+    top: -10px;
+    left: 46px;
+  }
+
+  .approved-pending {
+    position: absolute;
+    list-style: none;
+    background: white;
+    padding: 0;
+    border-radius: 10px;
+    display: none;
+    top: 2.2rem;
+    left: 0;
+    right: 0;
+    width: 7rem;
+    margin: auto;
+    z-index: 100;
+
+    .list {
+      cursor: pointer;
+      padding: 8px;
+
+      &:hover {
+        /*background: #e6e6e6;*/
+        background: #6b59da;
+        color: white;
+      }
+    }
+  }
+`;
 class AdminDashboard extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +68,7 @@ class AdminDashboard extends Component {
     };
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
     this.handleCountryBtnClick = this.handleCountryBtnClick.bind(this);
+    this.updateTeacherDetails = this.updateTeacherDetails.bind(this);
   }
 
   handleResourceBtnClick(type) {
@@ -43,6 +87,11 @@ class AdminDashboard extends Component {
         activeContent = 'pdf';
     }
     this.setState({ activeContent });
+  }
+
+  updateTeacherDetails(obj) {
+    const { updateTeacherDetail } = this.props;
+    updateTeacherDetail(obj);
   }
 
   componentDidUpdate(prevProps) {
@@ -114,12 +163,110 @@ class AdminDashboard extends Component {
       images: [],
       videos: [],
     };
-    const data = [
+    const columns = [
       {
-        name: 'Tanner Linsley',
-        school: 'School of ..',
-        status: 'approved',
-        action: 'hello',
+        Header: 'Name',
+        id: 'name',
+        accessor: d => `${d.surname} ${d.firstname}`, // String-based value accessors!
+        Cell: props => <span className="name cell">{props.value}</span>, // Custom cell components!
+      },
+      {
+        Header: 'School',
+        accessor: d => d.school_name,
+        id: 'school',
+        Cell: props => <span className="school cell">{props.value}</span>, // Custom cell components!
+      },
+      {
+        Header: 'Status',
+        accessor: d => d.isUserVerified,
+        id: 'status',
+        Cell: props => (
+          <span className="status cell">
+            {props.value ? (
+              <IoMdCheckmarkCircle
+                size={18}
+                style={{ marginRight: '10px', color: '#1a581a' }}
+              />
+            ) : (
+              <FiClock
+                size={18}
+                style={{ marginRight: '10px', color: 'red' }}
+              />
+            )}
+            {props.value ? 'Approve' : 'Pending'}
+          </span>
+        ),
+      },
+      {
+        Header: 'Actions',
+        accessor: 'action',
+        Cell: (props) => {
+          const ref1 = React.createRef();
+          const ref2 = React.createRef();
+          return (
+            <div className="actions cell">
+              <Icon>
+                <ul
+                  onMouseEnter={() => {
+                    ref1.current.style.display = 'block';
+                    ref2.current.style.display = 'block';
+                  }}
+                  onMouseLeave={() => {
+                    ref1.current.style.display = 'none';
+                    ref2.current.style.display = 'none';
+                  }}
+                  className="approved-pending"
+                  ref={ref2}
+                >
+                  <div
+                    onMouseEnter={() => {
+                      ref1.current.style.display = 'block';
+                      ref2.current.style.display = 'block';
+                    }}
+                    onMouseLeave={() => {
+                      // ref1.current.style.display = 'none';
+                      // ref2.current.style.display = 'none';
+                    }}
+                    className="caret"
+                    ref={ref1}
+                  />
+                  <li
+                    className="list"
+                    onClick={() => {
+                      const obj = props.original;
+                      obj.isUserVerified = true;
+                      this.updateTeacherDetails(obj);
+                    }}
+                  >
+                    Approve
+                  </li>
+                  <li
+                    className="list"
+                    onClick={() => {
+                      const obj = props.original;
+                      obj.isUserVerified = false;
+                      this.updateTeacherDetails(obj);
+                    }}
+                  >
+                    Pending
+                  </li>
+                </ul>
+                <FiMoreVertical
+                  onMouseEnter={() => {
+                    ref1.current.style.display = 'block';
+                    ref2.current.style.display = 'block';
+                  }}
+                  onMouseLeave={() => {
+                    ref1.current.style.display = 'none';
+                    ref2.current.style.display = 'none';
+                  }}
+                  className="icon"
+                  size={28}
+                />
+              </Icon>
+            </div>
+          );
+        }, // Custom cell components!
       },
     ];
 
@@ -283,6 +430,7 @@ const mapPropsToState = states => ({
 const mapPropsToDispatch = dispatch => ({
   getResearchers: () => dispatch(fetchResearchers()),
   getTeachers: () => dispatch(fetchTeachers()),
+  updateTeacherDetail: obj => dispatch(updateTeacherDetails(obj)),
 });
 export default connect(
   mapPropsToState,

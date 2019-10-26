@@ -2,9 +2,9 @@ import { storage as firebaseStorage, db } from '../../config/firebase';
 import dashActions from './dash.actionTypes';
 import * as storage from '../../helpers/token';
 
-export const uploadResources = docs => async dispatch => {
+export const uploadResources = docs => async (dispatch) => {
   dispatch({
-    type: dashActions.UPLOAD_RESOURCES_LOADING
+    type: dashActions.UPLOAD_RESOURCES_LOADING,
   });
   const storageRef = firebaseStorage.ref();
   let pdfRef;
@@ -12,7 +12,7 @@ export const uploadResources = docs => async dispatch => {
   let videoRef;
   try {
     await Promise.all(
-      docs.texts.map(text => {
+      docs.texts.map((text) => {
         const ref = db.collection('texts').doc();
         const myId = ref.id;
         return ref.set({
@@ -27,16 +27,16 @@ export const uploadResources = docs => async dispatch => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
-          path: `texts/${myId}`
+          path: `texts/${myId}`,
         });
-      })
+      }),
     );
 
     await Promise.all(
-      docs.pdf.map(async pdfs => {
+      docs.pdf.map(async (pdfs) => {
         if (Array.isArray(pdfs.value)) {
           return Promise.all(
-            pdfs.value.map(async pdf => {
+            pdfs.value.map(async (pdf) => {
               pdfRef = storageRef.child(`pdfs/${pdf.name}`);
               await pdfRef.put(pdf);
               const ref = db.collection('pdf').doc();
@@ -51,9 +51,9 @@ export const uploadResources = docs => async dispatch => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
-                path: `pdf/${myId}`
+                path: `pdf/${myId}`,
               });
-            })
+            }),
           );
         }
         const ref = db.collection('pdf').doc();
@@ -68,16 +68,16 @@ export const uploadResources = docs => async dispatch => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
-          path: `pdf/${myId}`
+          path: `pdf/${myId}`,
         });
-      })
+      }),
     );
 
     await Promise.all(
-      docs.image.map(async images => {
+      docs.image.map(async (images) => {
         if (Array.isArray(images.value)) {
           return Promise.all(
-            images.value.map(async image => {
+            images.value.map(async (image) => {
               imageRef = storageRef.child(`images/${image.name}`);
               await imageRef.put(image);
               const ref = db.collection('images').doc();
@@ -92,9 +92,9 @@ export const uploadResources = docs => async dispatch => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
-                path: `images/${myId}`
+                path: `images/${myId}`,
               });
-            })
+            }),
           );
         }
         const ref = db.collection('images').doc();
@@ -109,16 +109,16 @@ export const uploadResources = docs => async dispatch => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
-          path: `images/${myId}`
+          path: `images/${myId}`,
         });
-      })
+      }),
     );
 
     await Promise.all(
-      docs.video.map(async videos => {
+      docs.video.map(async (videos) => {
         if (Array.isArray(videos.value)) {
           return Promise.all(
-            videos.value.map(async video => {
+            videos.value.map(async (video) => {
               videoRef = storageRef.child(`videos/${video.name}`);
               await videoRef.put(video);
               const ref = db.collection('videos').doc();
@@ -133,9 +133,9 @@ export const uploadResources = docs => async dispatch => {
                 user_email: docs.user_email,
                 user_name: docs.user_name,
                 user_country: docs.user_country,
-                path: `videos/${myId}`
+                path: `videos/${myId}`,
               });
-            })
+            }),
           );
         }
         const ref = db.collection('videos').doc();
@@ -150,19 +150,19 @@ export const uploadResources = docs => async dispatch => {
           user_email: docs.user_email,
           user_name: docs.user_name,
           user_country: docs.user_country,
-          path: `videos/${myId}`
+          path: `videos/${myId}`,
         });
-      })
+      }),
     );
 
     dispatch({
       type: dashActions.UPLOAD_RESOURCES_SUCCESS,
-      data: 'Upload Successful'
+      data: 'Upload Successful',
     });
   } catch (err) {
     dispatch({
       type: dashActions.UPLOAD_RESOURCES_FAILED,
-      error: err.message
+      error: err.message,
     });
   }
   // eslint-disable-next-line
@@ -173,16 +173,16 @@ export const uploadResources = docs => async dispatch => {
   }
 };
 
-export const updateUserDetails = obj => async dispatch => {
+export const updateUserDetails = obj => async (dispatch) => {
   dispatch({
-    type: dashActions.UPDATE_DETAILS_LOADING
+    type: dashActions.UPDATE_DETAILS_LOADING,
   });
   const user = storage.getToken();
   const storageRef = firebaseStorage.ref();
   const imageRef = storageRef.child(`images/${obj.image.name}`);
   try {
     const querySnapshot = await db
-      .collection('users')
+      .collection('web_users')
       .where('email', '==', obj.email)
       .get();
     let downloadUrl;
@@ -190,17 +190,17 @@ export const updateUserDetails = obj => async dispatch => {
       await imageRef.put(obj.image);
       downloadUrl = await imageRef.getDownloadURL();
     }
-    querySnapshot.forEach(async doc => {
+    querySnapshot.forEach(async (doc) => {
       // Build doc ref from doc.id
       await db
-        .collection('users')
+        .collection('web_users')
         .doc(doc.id)
         .update({
           email: obj.email,
           category: obj.category,
           image: downloadUrl || obj.image,
           country: obj.country,
-          name: obj.name
+          name: obj.name,
         });
 
       user.email = obj.email;
@@ -211,143 +211,143 @@ export const updateUserDetails = obj => async dispatch => {
       storage.saveToken(user);
       dispatch({
         type: dashActions.UPDATE_DETAILS_SUCCESS,
-        data: user
+        data: user,
       });
     });
   } catch (err) {
     dispatch({
       type: dashActions.UPLOAD_RESOURCES_FAILED,
-      error: err.message
+      error: err.message,
     });
   }
 };
 
-export const fetchResearcherImages = user => async dispatch => {
+export const fetchResearcherImages = user => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHER_IMAGES_LOADING
+    type: dashActions.FETCH_RESEARCHER_IMAGES_LOADING,
   });
   const images = [];
   db.collection('images')
     .where('user_email', '==', user.email)
     .limit(10)
     .onSnapshot(
-      querySnapshot => {
+      (querySnapshot) => {
         querySnapshot.forEach(doc => images.push(doc.data()));
         dispatch({
           type: dashActions.FETCH_RESEARCHER_IMAGES_SUCCESS,
-          data: images
+          data: images,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_RESEARCHER_IMAGES_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 
-export const fetchResearcherVideos = user => async dispatch => {
+export const fetchResearcherVideos = user => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHER_VIDEOS_LOADING
+    type: dashActions.FETCH_RESEARCHER_VIDEOS_LOADING,
   });
   const videos = [];
   db.collection('videos')
     .where('user_email', '==', user.email)
     .limit(10)
     .onSnapshot(
-      querySnapshot => {
+      (querySnapshot) => {
         querySnapshot.forEach(doc => videos.push(doc.data()));
         dispatch({
           type: dashActions.FETCH_RESEARCHER_VIDEOS_SUCCESS,
-          data: videos
+          data: videos,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_RESEARCHER_VIDEOS_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 
-export const fetchResearcherPdfs = user => async dispatch => {
+export const fetchResearcherPdfs = user => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHER_PDFS_LOADING
+    type: dashActions.FETCH_RESEARCHER_PDFS_LOADING,
   });
   const pdfs = [];
   db.collection('pdf')
     .where('user_email', '==', user.email)
     .limit(10)
     .onSnapshot(
-      querySnapshot => {
+      (querySnapshot) => {
         querySnapshot.forEach(doc => pdfs.push(doc.data()));
         dispatch({
           type: dashActions.FETCH_RESEARCHER_PDFS_SUCCESS,
-          data: pdfs
+          data: pdfs,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_RESEARCHER_PDFS_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 
-export const fetchResearcherTexts = user => async dispatch => {
+export const fetchResearcherTexts = user => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHER_TEXTS_LOADING
+    type: dashActions.FETCH_RESEARCHER_TEXTS_LOADING,
   });
   const texts = [];
   db.collection('texts')
     .where('user_email', '==', user.email)
     .onSnapshot(
-      querySnapshot => {
+      (querySnapshot) => {
         querySnapshot.forEach(doc => texts.push(doc.data()));
         dispatch({
           type: dashActions.FETCH_RESEARCHER_TEXTS_SUCCESS,
-          data: texts
+          data: texts,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_RESEARCHER_TEXTS_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 
-export const fetchResearchers = () => async dispatch => {
+export const fetchResearchers = () => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHERS_LOADING
+    type: dashActions.FETCH_RESEARCHERS_LOADING,
   });
   const researchers = [];
   db.collection('web_users')
     .where('category', '==', 'researcher')
     .onSnapshot(
-      querySnapshot => {
+      (querySnapshot) => {
         querySnapshot.forEach(doc => researchers.push(doc.data()));
         dispatch({
           type: dashActions.FETCH_RESEARCHERS_SUCCESS,
-          data: researchers
+          data: researchers,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_RESEARCHERS_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 
-export const fetchResearcher = uid => async dispatch => {
+export const fetchResearcher = uid => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_RESEARCHER_LOADING
+    type: dashActions.FETCH_RESEARCHER_LOADING,
   });
 
   try {
@@ -355,35 +355,35 @@ export const fetchResearcher = uid => async dispatch => {
       .collection('web_users')
       .doc(uid)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (!doc.exists) {
           dispatch({
             type: dashActions.FETCH_RESEARCHER_FAILED,
-            error: 'No such document'
+            error: 'No such document',
           });
         } else {
           dispatch({
             type: dashActions.FETCH_RESEARCHER_SUCCESS,
-            data: doc.data()
+            data: doc.data(),
           });
         }
       });
   } catch (error) {
     dispatch({
       type: dashActions.FETCH_RESEARCHER_FAILED,
-      error
+      error,
     });
   }
 };
 
-const updateUserUpload = async docs => {
+const updateUserUpload = async (docs) => {
   let approved = 0;
   let pending = 0;
   const images = await db
     .collection('images')
     .where('user_email', '==', docs.user_email)
     .get();
-  images.forEach(image => {
+  images.forEach((image) => {
     if (image.isPending) {
       return (pending += 1);
     }
@@ -394,7 +394,7 @@ const updateUserUpload = async docs => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  videos.forEach(video => {
+  videos.forEach((video) => {
     if (video.isPending) {
       return (pending += 1);
     }
@@ -406,7 +406,7 @@ const updateUserUpload = async docs => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  pdfs.forEach(pdf => {
+  pdfs.forEach((pdf) => {
     if (pdf.isPending) {
       return (pending += 1);
     }
@@ -418,7 +418,7 @@ const updateUserUpload = async docs => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  texts.forEach(text => {
+  texts.forEach((text) => {
     if (text.isPending) {
       pending += 1;
     }
@@ -430,34 +430,58 @@ const updateUserUpload = async docs => {
     .update({
       uploads: images.size + videos.size + texts.size,
       pending,
-      approved
+      approved,
     });
 };
 
-export const fetchTeachers = () => async dispatch => {
+export const updateTeacherDetails = obj => async (dispatch) => {
   dispatch({
-    type: dashActions.FETCH_TEACHERS_LOADING
+    type: dashActions.UPDATE_TEACHER_DETAILS_LOADING,
+  });
+
+  try {
+    await db
+      .collection('app_users')
+      .doc(obj.uid)
+      .update(obj);
+
+    dispatch({
+      type: dashActions.UPDATE_TEACHER_DETAILS_SUCCESS,
+    });
+  } catch (err) {
+    dispatch({
+      type: dashActions.UPLOAD_TEACHER_RESOURCES_FAILED,
+      error: err.message,
+    });
+  }
+};
+
+export const fetchTeachers = () => async (dispatch) => {
+  dispatch({
+    type: dashActions.FETCH_TEACHERS_LOADING,
   });
   const teachers = [];
   db.collection('app_users')
     .where('isStudent', '==', false)
     .onSnapshot(
-      querySnapshot => {
-        querySnapshot.forEach(doc => teachers.push(doc.data()));
+      (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          teachers.push(doc.data());
+        });
         dispatch({
           type: dashActions.FETCH_TEACHERS_SUCCESS,
-          data: teachers
+          data: teachers,
         });
       },
-      error => {
+      (error) => {
         dispatch({
           type: dashActions.FETCH_TEACHERS_FAILED,
-          error
+          error,
         });
-      }
+      },
     );
 };
 export default {
   uploadResources,
-  updateUserDetails
+  updateUserDetails,
 };
