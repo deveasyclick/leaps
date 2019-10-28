@@ -56,7 +56,7 @@ export class ProtectedLayout extends React.Component {
                 <Sidebar />
                 <div style={layoutStyle} className="Protected">
                   <Header />
-                  <div style={{ padding: '2rem' }}>
+                  <div className="content-wrapper">
                     <Component {...matchProps} />
                   </div>
                 </div>

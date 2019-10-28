@@ -460,11 +460,12 @@ export const fetchTeachers = () => async (dispatch) => {
   dispatch({
     type: dashActions.FETCH_TEACHERS_LOADING,
   });
-  const teachers = [];
+
   db.collection('app_users')
     .where('isStudent', '==', false)
     .onSnapshot(
       (querySnapshot) => {
+        const teachers = [];
         querySnapshot.forEach((doc) => {
           teachers.push(doc.data());
         });

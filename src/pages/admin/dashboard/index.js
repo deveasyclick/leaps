@@ -65,10 +65,12 @@ class AdminDashboard extends Component {
       activeCountry: 'UK',
       researchers: [],
       teachers: [],
+      hideNav: false,
     };
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
     this.handleCountryBtnClick = this.handleCountryBtnClick.bind(this);
     this.updateTeacherDetails = this.updateTeacherDetails.bind(this);
+    this.resize = this.resize.bind(this);
   }
 
   handleResourceBtnClick(type) {
@@ -136,38 +138,38 @@ class AdminDashboard extends Component {
   }
 
   componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
     const { getResearchers, getTeachers } = this.props;
     getResearchers();
     getTeachers();
+    this.resize();
+  }
+
+  resize() {
+    const currentHideNav = window.innerWidth <= 760;
+    if (currentHideNav !== this.state.hideNav) {
+      this.setState({ hideNav: currentHideNav });
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize);
   }
 
   render() {
-    const resources = {
-      texts: [
-        {
-          definition: 'ashuihuidh',
-          excerpt: 'sauh usdjaiu',
-          heading: 'jkahkha skj',
-          isPending: false,
-          path: 'texts/RWjGc4qQPnl6c2fURSlT',
-          subject: 'health education',
-          tags: [],
-          topic: 'man was created ',
-          user_country: 'Nigeria',
-          user_email: 'easyclick05@gmail.com',
-          user_id: 'fJhHZhsUyac28uQ5Ip2Qs2bSfaZ2',
-          user_name: 'Adeniyi Yusuf Olasunkanmi',
-        },
-      ],
-      pdfs: [],
-      images: [],
-      videos: [],
-    };
+    const {
+      activeContent,
+      activeCountry,
+      researchers,
+      teachers,
+      hideNav,
+    } = this.state;
+
     const columns = [
       {
         Header: 'Name',
         id: 'name',
-        accessor: d => `${d.surname} ${d.firstname}`, // String-based value accessors!
+        accessor: d => (hideNav ? d.surname : `${d.surname} ${d.firstname}`), // String-based value accessors!
         Cell: props => <span className="name cell">{props.value}</span>, // Custom cell components!
       },
       {
@@ -182,12 +184,13 @@ class AdminDashboard extends Component {
         id: 'status',
         Cell: props => (
           <span className="status cell">
-            {props.value ? (
+            {!hideNav && props.value && (
               <IoMdCheckmarkCircle
                 size={18}
                 style={{ marginRight: '10px', color: '#1a581a' }}
               />
-            ) : (
+            )}
+            {!hideNav && !props.value && (
               <FiClock
                 size={18}
                 style={{ marginRight: '10px', color: 'red' }}
@@ -270,156 +273,151 @@ class AdminDashboard extends Component {
       },
     ];
 
-    const {
- activeContent, activeCountry, researchers, teachers 
-} = this.state;
     return (
-      <React.Fragment>
-        <section className="container Admin">
-          <div className="row btn-row">
-            <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
-              <button
-                className={`text-btn btn ${
-                  activeCountry === 'UK' ? 'active' : ''
-                }`}
-                onClick={() => this.handleCountryBtnClick('UK')}
-                type="button"
-              >
-                {activeCountry === 'UK' ? <FiCheck className="check" /> : ''}
-                United Kingdom
-              </button>
-              <button
-                type="button"
-                className={`text-btn btn ${
-                  activeCountry === 'NG' ? 'active' : ''
-                }`}
-                onClick={() => this.handleCountryBtnClick('NG')}
-              >
-                {activeCountry === 'NG' ? <FiCheck className="check" /> : ''}
-                Nigeria
-              </button>
-              <button
-                type="button"
-                className={`text-btn btn ${
-                  activeCountry === 'KE' ? 'active' : ''
-                }`}
-                onClick={() => this.handleCountryBtnClick('KE')}
-              >
-                {activeCountry === 'KE' ? <FiCheck className="check" /> : ''}
-                Kenya
-              </button>
-              <button
-                className={`text-btn btn ${
-                  activeCountry === 'MA' ? 'active' : ''
-                }`}
-                onClick={() => this.handleCountryBtnClick('MA')}
-                type="button"
-              >
-                {activeCountry === 'MA' ? <FiCheck className="check" /> : ''}
-                Malawi
-              </button>
-              <button
-                type="button"
-                className={`text-btn btn ${
-                  activeCountry === 'ET' ? 'active' : ''
-                }`}
-                onClick={() => this.handleCountryBtnClick('ET')}
-              >
-                {activeContent === 'ET' ? <FiCheck className="check" /> : ''}
-                Ethiopia
-              </button>
-            </div>
+      <section className="container Admin">
+        <div className="row btn-row">
+          <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+            <button
+              className={`text-btn btn ${
+                activeCountry === 'UK' ? 'active' : ''
+              }`}
+              onClick={() => this.handleCountryBtnClick('UK')}
+              type="button"
+            >
+              {activeCountry === 'UK' ? <FiCheck className="check" /> : ''}
+              {hideNav ? 'UK' : 'United Kingdom'}
+            </button>
+            <button
+              type="button"
+              className={`text-btn btn ${
+                activeCountry === 'NG' ? 'active' : ''
+              }`}
+              onClick={() => this.handleCountryBtnClick('NG')}
+            >
+              {activeCountry === 'NG' ? <FiCheck className="check" /> : ''}
+              {hideNav ? 'NG' : 'Nigeria'}
+            </button>
+            <button
+              type="button"
+              className={`text-btn btn ${
+                activeCountry === 'KE' ? 'active' : ''
+              }`}
+              onClick={() => this.handleCountryBtnClick('KE')}
+            >
+              {activeCountry === 'KE' ? <FiCheck className="check" /> : ''}
+              {hideNav ? 'KE' : 'Kenya'}
+            </button>
+            <button
+              className={`text-btn btn ${
+                activeCountry === 'MA' ? 'active' : ''
+              }`}
+              onClick={() => this.handleCountryBtnClick('MA')}
+              type="button"
+            >
+              {activeCountry === 'MA' ? <FiCheck className="check" /> : ''}
+              {hideNav ? 'MW' : 'Malawi'}
+            </button>
+            <button
+              type="button"
+              className={`text-btn btn ${
+                activeCountry === 'ET' ? 'active' : ''
+              }`}
+              onClick={() => this.handleCountryBtnClick('ET')}
+            >
+              {activeContent === 'ET' ? <FiCheck className="check" /> : ''}
+              {hideNav ? 'ET' : 'Ethiopia'}
+            </button>
           </div>
-          <div className="row">
-            <h3 className="researchers-title">Researchers</h3>
-          </div>
-          <div className="row cards-row">
-            {researchers.map(researcher => (
-              <div className="col-4">
-                <Link
-                  style={{ color: 'inherit' }}
-                  to={`/researchers/${researcher.uid}`}
-                >
-                  <div className="researcher card">
-                    <div className="details-wrapper d-flex justify-content-between">
-                      <div className="details">
-                        <p className="name">{researcher.name}</p>
-                        <p className="uploads">
-                          <span className="uploads-count">
-                            {researcher.uploads}
-                          </span>
-                          Uploads
-                        </p>
-                      </div>
-                      <div className="image">
-                        <img
-                          src={researcher.image || Image}
-                          alt=""
-                          width="100%"
-                          className="img"
-                        />
-                      </div>
+        </div>
+        <div className="row">
+          <h3 className="researchers-title">Researchers</h3>
+        </div>
+        <div className="row cards-row">
+          {researchers.map((researcher, index) => (
+            <div className="col-12 col-md-6 col-sm-3 col-lg-4" key={index}>
+              <Link
+                style={{ color: 'inherit' }}
+                to={`/researchers/${researcher.uid}`}
+              >
+                <div className="researcher card">
+                  <div className="details-wrapper d-flex justify-content-between">
+                    <div className="details">
+                      <p className="name">{researcher.name}</p>
+                      <p className="uploads">
+                        <span className="uploads-count">
+                          {researcher.uploads}
+                        </span>
+                        Uploads
+                      </p>
                     </div>
-                    <div className="stats d-flex">
-                      <p className="pending d-flex align-items-center">
-                        <FiClock size={18} className="pending-icon" />
-                        <span className="pending-count">
-                          {researcher.pending}
-                        </span>
-                        pending
-                      </p>
-                      <p className="approved">
-                        <IoMdCheckmarkCircle
-                          size={18}
-                          className="approved-icon"
-                        />
-                        <span className="pending-count">
-                          {researcher.approved}
-                        </span>
-                        approved
-                      </p>
+                    <div className="image">
+                      <img
+                        src={researcher.image || Image}
+                        alt=""
+                        width="100%"
+                        className="img"
+                      />
                     </div>
                   </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="row teachers-heading-row">
-            <h3 className="teachers-title">Teachers</h3>
-          </div>
+                  <div className="stats d-flex">
+                    <p className="pending d-flex align-items-center">
+                      <FiClock size={18} className="pending-icon" />
+                      <span className="pending-count">
+                        {researcher.pending}
+                      </span>
+                      pending
+                    </p>
+                    <p className="approved">
+                      <IoMdCheckmarkCircle
+                        size={18}
+                        className="approved-icon"
+                      />
+                      <span className="pending-count">
+                        {researcher.approved}
+                      </span>
+                      approved
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+        <div className="row teachers-heading-row">
+          <h3 className="teachers-title">Teachers</h3>
+        </div>
 
-          <div className="teachers-row row">
-            <div className="col-12 pl-0">
-              <div className="row">
-                <div className="col-6 left-col">
-                  <p>
-                    <span>4000</span>
-                    <span>total</span>
-                  </p>
-                </div>
-                <div className="col-6 right-col">
-                  <span>sort by:</span>
-                  <span className="icon-wrapper">
-                    <IoMdArrowDropdown size={25} />
-                  </span>
-                  <button type="button" className="btn">
-                    Add new
-                  </button>
+        <div className="teachers-row row">
+          <div className="col-12 pl-0">
+            <div className="row">
+              <div className="col-6 left-col">
+                <div>
+                  <span>{teachers.length}</span>
+                  <span> Teachers</span>
                 </div>
               </div>
-            </div>
-            <div className="col-12 pl-0">
-              <ReactTable
-                defaultPageSize={10}
-                minRows={10}
-                data={teachers}
-                columns={columns}
-                className="teachers-table -striped -highlight"
-              />
+              <div className="col-6 right-col">
+                <span>sort by:</span>
+                <span className="icon-wrapper">
+                  <IoMdArrowDropdown size={25} />
+                </span>
+                <button type="button" className="btn">
+                  Add new
+                </button>
+              </div>
             </div>
           </div>
-        </section>
-      </React.Fragment>
+          <div className="col-12 pl-0">
+            <ReactTable
+              defaultPageSize={10}
+              minRows={10}
+              data={teachers}
+              columns={columns}
+              className="teachers-table -striped -highlight"
+            />
+          </div>
+        </div>
+      </section>
     );
   }
 }

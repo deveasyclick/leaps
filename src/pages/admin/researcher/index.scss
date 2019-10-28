@@ -66,39 +66,6 @@
     .row{
         margin-bottom: 1rem;
     }
-    .btn-row {
-        .check {
-            margin-right: 10px;
-
-            @media (max-width: $mobile-max-screen) {
-                display: none;
-            }
-        }
-
-        .btn-wrapper {
-            padding-left: 3rem;
-
-            @media (max-width: $mobile-max-screen) {
-                padding-left: 1rem;
-            }
-
-            .btn {
-                margin-right: 0.625rem;
-                width: 30rem !important;
-                padding: 0.4rem;
-            }
-
-            .btn:not(.active) {
-                background: none;
-                border: solid 1px $gray;
-                color: $gray;
-            }
-
-            .btn.active {
-                background: $app-dominant-color;
-            }
-        }
-    }
 
     .researchers-title {
         margin-top: 3rem;

@@ -80,7 +80,6 @@ export const columns = [
     Header: 'Actions',
     accessor: 'action',
     Cell: (props) => {
-      console.log('props', props);
       const ref1 = React.createRef();
       const ref2 = React.createRef();
       return (

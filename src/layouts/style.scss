@@ -9,4 +9,10 @@
         margin-left: 0 !important;
         width: 100% !important;
     }
+
+    .content-wrapper{
+        @media (min-width:$mobile-min-screen){
+            padding: 2rem;
+        }
+    }
 }
