@@ -19,12 +19,17 @@ function App() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <ProtectedLayout exact path="/" component={Dashboard} />
+          <ProtectedLayout exact search path="/" component={Dashboard} />
           <ProtectedLayout exact path="/account" component={Account} />
-          <ProtectedLayout exact path="/resources" component={Resources} />
+          <ProtectedLayout
+            exact
+            search
+            path="/resources"
+            component={Resources}
+          />
           <AdminLayout exact path="/admin" component={AdminDashboard} />
           <AdminLayout exact path="/admin/account" component={Account} />
-          <AdminLayout exact path="/researchers/:id" component={Reseacher} />
+          <AdminLayout exact path="/researcher" component={Reseacher} />
           <Route
             path={[
               '/login',

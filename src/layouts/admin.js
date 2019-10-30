@@ -26,6 +26,7 @@ export class ProtectedLayout extends React.Component {
       nav,
       ...rest
     } = this.props;
+
     const layoutStyle = {
       width:
         nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
@@ -55,7 +56,7 @@ export class ProtectedLayout extends React.Component {
               <React.Fragment>
                 <Sidebar />
                 <div style={layoutStyle} className="Protected">
-                  <Header />
+                  <Header {...rest} />
                   <div className="content-wrapper">
                     <Component {...matchProps} />
                   </div>

@@ -137,6 +137,11 @@ class AdminDashboard extends Component {
     this.setState({ activeCountry });
   }
 
+  static researcherClicked(researcher) {
+    localStorage.setItem('researcher', JSON.stringify(researcher));
+    window.location.href = '/researcher';
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
     const { getResearchers, getTeachers } = this.props;
@@ -334,52 +339,44 @@ class AdminDashboard extends Component {
         </div>
         <div className="row cards-row">
           {researchers.map((researcher, index) => (
-            <div className="col-12 col-md-6 col-sm-3 col-lg-4" key={index}>
-              <Link
-                style={{ color: 'inherit' }}
-                to={`/researchers/${researcher.uid}`}
-              >
-                <div className="researcher card">
-                  <div className="details-wrapper d-flex justify-content-between">
-                    <div className="details">
-                      <p className="name">{researcher.name}</p>
-                      <p className="uploads">
-                        <span className="uploads-count">
-                          {researcher.uploads}
-                        </span>
-                        Uploads
-                      </p>
-                    </div>
-                    <div className="image">
-                      <img
-                        src={researcher.image || Image}
-                        alt=""
-                        width="100%"
-                        className="img"
-                      />
-                    </div>
+            <div
+              className="col-12 col-md-6 col-sm-3 col-lg-4"
+              key={index}
+              onClick={() => AdminDashboard.researcherClicked(researcher)}
+            >
+              <div className="researcher card">
+                <div className="details-wrapper d-flex justify-content-between">
+                  <div className="details">
+                    <p className="name">{researcher.name}</p>
+                    <p className="uploads">
+                      <span className="uploads-count">
+                        {researcher.uploads}
+                      </span>
+                      Uploads
+                    </p>
                   </div>
-                  <div className="stats d-flex">
-                    <p className="pending d-flex align-items-center">
-                      <FiClock size={18} className="pending-icon" />
-                      <span className="pending-count">
-                        {researcher.pending}
-                      </span>
-                      pending
-                    </p>
-                    <p className="approved">
-                      <IoMdCheckmarkCircle
-                        size={18}
-                        className="approved-icon"
-                      />
-                      <span className="pending-count">
-                        {researcher.approved}
-                      </span>
-                      approved
-                    </p>
+                  <div className="image">
+                    <img
+                      src={researcher.image || Image}
+                      alt=""
+                      width="100%"
+                      className="img"
+                    />
                   </div>
                 </div>
-              </Link>
+                <div className="stats d-flex">
+                  <p className="pending d-flex align-items-center">
+                    <FiClock size={18} className="pending-icon" />
+                    <span className="pending-count">{researcher.pending}</span>
+                    pending
+                  </p>
+                  <p className="approved">
+                    <IoMdCheckmarkCircle size={18} className="approved-icon" />
+                    <span className="pending-count">{researcher.approved}</span>
+                    approved
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -396,15 +393,7 @@ class AdminDashboard extends Component {
                   <span> Teachers</span>
                 </div>
               </div>
-              <div className="col-6 right-col">
-                <span>sort by:</span>
-                <span className="icon-wrapper">
-                  <IoMdArrowDropdown size={25} />
-                </span>
-                <button type="button" className="btn">
-                  Add new
-                </button>
-              </div>
+              <div className="col-6 right-col" />
             </div>
           </div>
           <div className="col-12 pl-0">

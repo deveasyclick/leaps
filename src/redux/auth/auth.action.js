@@ -30,9 +30,10 @@ export const signup = obj => async (dispatch) => {
     user.verified = false;
     user.country = obj.country;
     user.isAdmin = false;
-    user.uploads = 0;
-    user.pending = 0;
-    user.approved = 0;
+    user.file_uploads = 0;
+    user.file_pending = 0;
+    user.file_approved = 0;
+    user.approved = false;
     storage.saveToken(user);
     dispatch({ type: authActions.SIGNUP_SUCCESS, data: user });
   } catch (err) {

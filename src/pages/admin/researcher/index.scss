@@ -26,6 +26,74 @@
                 font-weight: bold;
                 margin-bottom: 0.5rem;
             }
+
+            .uploads {
+                margin-bottom: 0.5rem;
+            }
+
+            .approved-pending {
+                margin-bottom: 0;
+
+                .icon {
+                    margin-right: 5px;
+
+                    .pending-icon {
+                        color: $app-red;
+                    }
+
+                    .approved-icon {
+                        color: green;
+                    }
+                }
+            }
+        }
+
+        .approve-pending-popup {
+            position: relative;
+
+            .icon {
+                cursor: pointer;
+            }
+
+            .caret {
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-right: solid 10px transparent;
+                border-left: solid 10px transparent;
+                border-bottom: 10px solid #eaeaea;
+                top: -10px;
+                left: 46px;
+            }
+
+            .approved-pending {
+                position: absolute;
+                list-style: none;
+                padding: 0;
+                border-radius: 10px;
+                display: none;
+                top: 2.4rem;
+                left: -42px;
+                width: 7rem;
+                background: #eaeaea;
+                z-index: 100;
+
+                .list {
+                    cursor: pointer;
+                    padding: 5px;
+                    text-align: center;
+
+                    &:hover {
+                        /*background: #e6e6e6;*/
+                        background: #6b59da;
+                        color: $white;
+                    }
+                }
+
+                .first-list {
+                    border-bottom: solid 1px #d0cccc;
+                }
+            }
         }
 
         .image {
@@ -63,7 +131,7 @@
 }
 
 .Researcher {
-    .row{
+    .row {
         margin-bottom: 1rem;
     }
 
@@ -78,9 +146,9 @@
         .card {
             @include card;
 
-            .icon{
+            .icon {
 
-                .caret-grid{
+                .caret-grid {
                     padding: 0;
                     list-style: none;
                 }
@@ -129,135 +197,117 @@
     }
 
     .content-row {
-        .text-content {
-            padding-left: 2.7rem;
 
-            @media (max-width: $mobile-max-screen) {
-                padding-left: 0.9rem;
-            }
-
-            &-form-group {
-                padding-left: 0;
-            }
-
-            .btn {
-                &:disabled {
-                    background: darkgray;
-                }
-            }
-
-            .edit-icon {
-                position: absolute;
-                top: 9px;
-                left: 0.2rem;
-                color: $gray;
-            }
-
-            .text-form-control {
-                padding: 5.5px 1.5rem !important;
-            }
-
-            .form-group-btn {
-                text-align: center;
-
-                .btn {
-                    width: 8rem;
-                    border-radius: 5px !important;
-                    padding: 0.7rem;
-                    font-size: 12px;
-                }
-            }
-        }
-
+        .text-content,
         .pdf-content,
         .image-content,
         .video-content {
-            padding-left: 0;
 
-            .input-wrapper {
-                margin-left: 3rem;
-                padding-right: 18px;
-
-                .title {
-                    margin-bottom: 15px;
-                }
-
-                .icon-helper {
-                    position: absolute;
-                    top: 3.5rem;
-                    right: 1.5rem;
-                    background: white;
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 100%;
-                    box-shadow: 0 0 4px 1px #c5c4c4;
-                    color: #796b6b;
-                    cursor: pointer;
-                }
-
-                .file {
-                    display: none;
-                }
-
-                @media (max-width:$mobile-max-screen) {
-                    margin-left: 0;
-                    padding-left: 0;
-                }
+            .text-resource.odd {
+                padding-bottom: 50px !important;
             }
 
-            .or {
-                @media (max-width: $mobile-max-screen) {
-                    text-align: center;
+            .text-resource {
+                margin-bottom: 15px;
+                background: white;
+                border-radius: 5px;
+                padding: 0px;
+                border: solid 1px #e6e6e6;
+
+                .card-subject {
+                    position: relative;
+
+                    .approve-pending-popup {
+                        position: absolute;
+                        right: 0;
+                        top: 5px;
+
+                        .icon {
+                            cursor: pointer;
+                        }
+
+                        .caret {
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            border-right: solid 10px transparent;
+                            border-left: solid 10px transparent;
+                            border-bottom: 10px solid #eaeaea;
+                            top: -10px;
+                            left: 46px;
+                        }
+
+                        .approved-pending {
+                            position: absolute;
+                            list-style: none;
+                            padding: 0;
+                            border-radius: 10px;
+                            display: none;
+                            top: 2.4rem;
+                            left: -42px;
+                            width: 7rem;
+                            background: #eaeaea;
+                            z-index: 100;
+
+                            .list {
+                                cursor: pointer;
+                                padding: 5px;
+                                text-align: center;
+
+                                &:hover {
+                                    /*background: #e6e6e6;*/
+                                    background: #6b59da;
+                                    color: $white;
+                                }
+                            }
+
+                            .first-list {
+                                border-bottom: solid 1px #d0cccc;
+                            }
+                        }
+                    }
                 }
-            }
 
-            .btn-wrapper {
-                text-align: center;
+                .card-body,
+                .card-title,
+                .card-subject,
+                .card-topic {
+                    padding: 5px;
+                }
 
-                .add-image-btn,
-                .add-pdf-btn,
-                .add-video-btn {
-                    @include button;
+                .card-title {
+                    overflow: hidden;
+                }
 
-                    &:disabled {
-                        background: darkgray;
+                .card-body {
+                    border-bottom: solid 1px #e6e6e6;
+
+                    .p {
+                        overflow: hidden;
+                        margin-bottom: 0;
+                        display: inline-block;
+                        width: 100%;
+                        word-break: break-all;
+                        white-space: normal;
+
+                        .span {
+                            display: inline-block;
+                            text-align: left;
+                            font-size: 20px;
+                            line-height: 0;
+                            color: #b1b1b1;
+                        }
                     }
                 }
             }
 
-            .icon-container {
-                @media (max-width:$mobile-max-screen) {
-                    padding-right: 0;
+            .pdf-resource {}
+
+            .image-resource {
+                img {
+                    min-height: 8rem;
+                    max-height: 10rem;
                 }
-            }
-
-            .image-wrapper,
-            .pdf-wrapper,
-            .video-wrapper {
-                position: relative;
-
-                .image-input-control,
-                .pdf-input-control,
-                .video-input-control {
-                    text-align: left;
-                }
-
-                .file {
-                    display: none;
-                }
-            }
-        }
-
-        .content {
-            &:not(.show) {
-                display: none;
-            }
-
-            .form-control {
-                //border-radius: 0;
             }
         }
     }
