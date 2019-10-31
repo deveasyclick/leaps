@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiClock, FiCheck, FiMoreVertical } from 'react-icons/fi';
-import { IoMdCheckmarkCircle, IoMdArrowDropdown } from 'react-icons/io';
+import { FiClock, FiMoreVertical } from 'react-icons/fi';
+import { IoMdCheckmarkCircle } from 'react-icons/io';
 import ReactTable from 'react-table';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Image from '../../../assets/images/favicon.png';
 import {
@@ -61,15 +60,13 @@ class AdminDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeContent: 'texts',
-      activeCountry: 'UK',
       researchers: [],
       teachers: [],
       hideNav: false,
     };
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
-    this.handleCountryBtnClick = this.handleCountryBtnClick.bind(this);
     this.updateTeacherDetails = this.updateTeacherDetails.bind(this);
+    this.researcherClicked = this.researcherClicked.bind(this);
     this.resize = this.resize.bind(this);
   }
 
@@ -116,30 +113,9 @@ class AdminDashboard extends Component {
     }
   }
 
-  handleCountryBtnClick(type) {
-    let activeCountry = 'UK';
-    switch (type) {
-      case 'UK':
-        activeCountry = 'UK';
-        break;
-      case 'NG':
-        activeCountry = 'NG';
-        break;
-      case 'KE':
-        activeCountry = 'KE';
-        break;
-      case 'MA':
-        activeCountry = 'MA';
-        break;
-      default:
-        activeCountry = 'ET';
-    }
-    this.setState({ activeCountry });
-  }
-
-  static researcherClicked(researcher) {
+  researcherClicked(researcher) {
     localStorage.setItem('researcher', JSON.stringify(researcher));
-    window.location.href = '/researcher';
+    this.props.history.push('/researcher');
   }
 
   componentDidMount() {
@@ -162,13 +138,7 @@ class AdminDashboard extends Component {
   }
 
   render() {
-    const {
-      activeContent,
-      activeCountry,
-      researchers,
-      teachers,
-      hideNav,
-    } = this.state;
+    const { researchers, teachers, hideNav } = this.state;
 
     const columns = [
       {
@@ -280,69 +250,17 @@ class AdminDashboard extends Component {
 
     return (
       <section className="container Admin">
-        <div className="row btn-row">
-          <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
-            <button
-              className={`text-btn btn ${
-                activeCountry === 'UK' ? 'active' : ''
-              }`}
-              onClick={() => this.handleCountryBtnClick('UK')}
-              type="button"
-            >
-              {activeCountry === 'UK' ? <FiCheck className="check" /> : ''}
-              {hideNav ? 'UK' : 'United Kingdom'}
-            </button>
-            <button
-              type="button"
-              className={`text-btn btn ${
-                activeCountry === 'NG' ? 'active' : ''
-              }`}
-              onClick={() => this.handleCountryBtnClick('NG')}
-            >
-              {activeCountry === 'NG' ? <FiCheck className="check" /> : ''}
-              {hideNav ? 'NG' : 'Nigeria'}
-            </button>
-            <button
-              type="button"
-              className={`text-btn btn ${
-                activeCountry === 'KE' ? 'active' : ''
-              }`}
-              onClick={() => this.handleCountryBtnClick('KE')}
-            >
-              {activeCountry === 'KE' ? <FiCheck className="check" /> : ''}
-              {hideNav ? 'KE' : 'Kenya'}
-            </button>
-            <button
-              className={`text-btn btn ${
-                activeCountry === 'MA' ? 'active' : ''
-              }`}
-              onClick={() => this.handleCountryBtnClick('MA')}
-              type="button"
-            >
-              {activeCountry === 'MA' ? <FiCheck className="check" /> : ''}
-              {hideNav ? 'MW' : 'Malawi'}
-            </button>
-            <button
-              type="button"
-              className={`text-btn btn ${
-                activeCountry === 'ET' ? 'active' : ''
-              }`}
-              onClick={() => this.handleCountryBtnClick('ET')}
-            >
-              {activeContent === 'ET' ? <FiCheck className="check" /> : ''}
-              {hideNav ? 'ET' : 'Ethiopia'}
-            </button>
-          </div>
-        </div>
         <div className="row">
-          <h3 className="researchers-title">Researchers</h3>
+          <div className="col">
+            <h3 className="researchers-title">Researchers</h3>
+          </div>
         </div>
         <div className="row cards-row">
           {researchers.map((researcher, index) => (
             <div
               className="col-12 col-md-6 col-sm-3 col-lg-4"
               key={index}
-              onClick={() => AdminDashboard.researcherClicked(researcher)}
+              onClick={() => this.researcherClicked(researcher)}
             >
               <div className="researcher card">
                 <div className="details-wrapper d-flex justify-content-between">
@@ -350,7 +268,7 @@ class AdminDashboard extends Component {
                     <p className="name">{researcher.name}</p>
                     <p className="uploads">
                       <span className="uploads-count">
-                        {researcher.uploads}
+                        {researcher.file_uploads}
                       </span>
                       Uploads
                     </p>
@@ -367,12 +285,16 @@ class AdminDashboard extends Component {
                 <div className="stats d-flex">
                   <p className="pending d-flex align-items-center">
                     <FiClock size={18} className="pending-icon" />
-                    <span className="pending-count">{researcher.pending}</span>
+                    <span className="pending-count">
+                      {researcher.file_pending}
+                    </span>
                     pending
                   </p>
                   <p className="approved">
                     <IoMdCheckmarkCircle size={18} className="approved-icon" />
-                    <span className="pending-count">{researcher.approved}</span>
+                    <span className="pending-count">
+                      {researcher.file_approved}
+                    </span>
                     approved
                   </p>
                 </div>

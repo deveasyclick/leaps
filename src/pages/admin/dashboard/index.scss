@@ -1,126 +1,103 @@
 @import '../../../styles/style.scss';
 
-@mixin border{
+@mixin border {
     border: 1px solid #DFE3E8;
 }
 
-@mixin  card {
-        margin-bottom:1rem;
-        background: white;
-        @include border;
-        padding: 0.5rem;
+@mixin card {
+    margin-bottom: 1rem;
+    background: white;
+    @include border;
+    padding: 0.5rem;
+    cursor: pointer;
 
-        &:hover{
-            background: #f9fbfd;
-        }
+    &:hover {
+        background: #f9fbfd;
+    }
 
-        .pending-count,.uploads-count,.approved-count{
-            margin: 0 3px;
-        }
-        .details-wrapper{
-            .details{
-                .name{
-                    font-weight: bold;
-                    margin-bottom: 0.5rem;
-                }
+    .pending-count,
+    .uploads-count,
+    .approved-count {
+        margin: 0 3px;
+    }
+
+    .details-wrapper {
+        .details {
+            .name {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
             }
-            .image{
-                width: 60px;
-                height: 60px;
+        }
+
+        .image {
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+            border: solid 2px $app-dominant-color;
+
+            .img {
                 border-radius: 100%;
-                border: solid 2px $app-dominant-color;
+            }
+        }
+    }
 
-                .img{
-                    border-radius: 100%;
-                }
+    .stats {
+        .pending {
+            padding-right: 10px;
+            border-right: solid;
+
+            .pending-icon {
+                color: gray;
+                margin-right: 5px;
             }
         }
-        .stats{
-            .pending{
-                padding-right: 10px;
-                border-right: solid;
-                .pending-icon{
-                    color:gray;
-                    margin-right: 5px;
-                }
-            }
-            .approved{
-                padding-left: 10px;
-                .approved-icon{
-                    color:green;
-                    margin-right: 10px;
-                }
+
+        .approved {
+            padding-left: 10px;
+
+            .approved-icon {
+                color: green;
+                margin-right: 10px;
             }
         }
+    }
 }
+
 .Admin {
-    .btn-row {
-        margin-top: 1rem;
-        .check {
-            margin-right: 10px;
-
-            @media (max-width: $mobile-max-screen) {
-                display: none;
-            }
-    }
-    .btn-wrapper {
-        padding-left: 3rem;
-
-        @media (max-width: $mobile-max-screen) {
-            padding-left: 1rem;
-        }
-
-        .btn {
-            margin-right: 0.625rem;
-            width: 30rem !important;
-            padding: 0.4rem;
-        }
-
-        .btn:not(.active) {
-            background: none;
-            border: solid 1px $gray;
-            color: $gray;
-        }
-
-        .btn.active {
-            background: $app-dominant-color;
-        }
-    }
-        /*.btn {
-            @include button;
-            margin-right: 1.5rem;
-            border-radius: 50px !important;
-            box-shadow: 0px 3px #493d94;
-        }*/
-    }
-    .researchers-title{
-        margin: 2rem auto;
+    .researchers-title {
         font-size: 16pt;
+        margin-bottom: 1rem;
     }
+
     .cards-row {
         .card {
             @include card;
         }
     }
-    .teachers-heading-row{
-        .teachers-title{
+
+    .teachers-heading-row {
+        .teachers-title {
             margin-top: 5rem;
             margin-bottom: 1rem;
         }
     }
-    .teachers-row{
-        .right-col{
+
+    .teachers-row {
+        .right-col {
             text-align: right;
-            .btn{
+
+            .btn {
                 width: 7rem;
                 border-radius: 4px !important;
             }
-            .icon-wrapper{
+
+            .icon-wrapper {
                 margin: 0 20px;
             }
         }
-        .teachers-table{
-            .rt-td{
+
+        .teachers-table {
+            .rt-td {
                 text-align: center;
                 overflow: visible;
             }
