@@ -8,16 +8,20 @@ import * as navActions from '../../../redux/nav/nav.action';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 import * as authActions from '../../../redux/auth/auth.action';
 import authActionTypes from '../../../redux/auth/auth.actionTypes';
+import { Dialog2 as SignoutDialog } from '../../../components/dialog';
 
 import './nav.scss';
 
 export class Nav extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleNavClick = this.handleNavClick.bind(this);
     this.renderDropdown = this.renderDropdown.bind(this);
     this.renderNavMenu = this.renderNavMenu.bind(this);
+    this.handleNo = this.handleNo.bind(this);
+    this.handleYes = this.handleYes.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.state = { dialogClicked: false };
   }
 
   handleNavClick() {
@@ -25,6 +29,16 @@ export class Nav extends PureComponent {
     toggleBar({
       show: !nav.show,
     });
+  }
+
+  handleNo() {
+    this.setState({ dialogClicked: false });
+  }
+
+  handleYes() {
+    const { logout } = this.props;
+    logout();
+    this.setState({ dialogClicked: true });
   }
 
   renderNavMenu() {
@@ -64,10 +78,16 @@ export class Nav extends PureComponent {
     return null;
   }
 
+  handleLogout(ev) {
+    ev.preventDefault();
+    this.setState({ dialogClicked: true });
+  }
+
   render() {
     const {
- logout, auth, nav, width, search 
+ auth, nav, width, search 
 } = this.props;
+    const { dialogClicked } = this.state;
     const navStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
     };
@@ -80,6 +100,14 @@ export class Nav extends PureComponent {
         style={width ? { width } : navStyle}
       >
         <div className="desktop-nav row d-flex align-items-center">
+          {dialogClicked && (
+            <SignoutDialog
+              title="Sign out modal"
+              message="Are you sure you want to sign out?"
+              handleNo={this.handleNo}
+              handleYes={this.handleYes}
+            />
+          )}
           <div className="col-6 col-md-8 d-flex align-content-center">
             <div className="times-icon-wrapper" onClick={this.handleNavClick}>
               {nav.type === navActionTypes.TOGGLE_NAV && nav.show ? (
@@ -109,7 +137,7 @@ export class Nav extends PureComponent {
             <div
               title="logout"
               className="logout-icon-wrapper"
-              onClick={() => logout()}
+              onClick={this.handleLogout}
             >
               <FiLogOut size={21} className="logout-icon" />
             </div>

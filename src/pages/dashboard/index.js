@@ -8,6 +8,7 @@ import * as storage from '../../helpers/token';
 import { uploadResources } from '../../redux/dash/dash.action';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import Dialog from '../../components/dialog';
+import { Dialog2 } from '../../components/dialog';
 import './index.scss';
 
 const ignoredWords = ['is', 'the', 'there', 'they', 'we', 'when', 'who', 'how'];
@@ -28,7 +29,7 @@ export class Dashboard extends Component {
         imageTitle: { value: '', valid: false },
         videoTitle: { value: '', valid: false },
         tags: { value: '', valid: false },
-        moreTags: { value: '', valid: false },
+        moreTags: { value: '', valid: false }
       },
       toSubmit: {},
       activeContent: 'texts',
@@ -40,10 +41,11 @@ export class Dashboard extends Component {
         pdf: [],
         image: [],
         video: [],
-        tags: [],
+        tags: []
       },
       showedResources: 'texts',
       fileSources: { video: [], image: [] },
+      dialogClicked:false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -57,6 +59,8 @@ export class Dashboard extends Component {
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
     this.displayFiles = this.displayFiles.bind(this);
     this.addMoreTags = this.addMoreTags.bind(this);
+   this.handleDialogNoClicked = this.handleDialogNoClicked.bind(this);
+   this.handleDialogYesClicked = this.handleDialogYesClicked.bind(this)
   }
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
@@ -78,9 +82,9 @@ export class Dashboard extends Component {
           [filename]: {
             value: '',
             files: docFiles,
-            valid: docFiles.length > 0,
-          },
-        },
+            valid: docFiles.length > 0
+          }
+        }
       }));
     } else {
       this.setState(p => ({
@@ -90,9 +94,9 @@ export class Dashboard extends Component {
           [name]: {
             value,
             valid: validator(value, type, name),
-            files: [],
-          },
-        },
+            files: []
+          }
+        }
       }));
     }
   }
@@ -172,7 +176,7 @@ export class Dashboard extends Component {
     } else {
       documents[name].push({
         value: form[name].value ? form[name].value : form[name].files,
-        title: form[`${name}Title`].value,
+        title: form[`${name}Title`].value
       });
       showedResources = name;
       form[name].value = '';
@@ -186,25 +190,14 @@ export class Dashboard extends Component {
     this.setState({
       documents,
       showedResources,
-      form,
+      form
     });
     this.displayFiles(showedResources);
   }
 
   onSubmit(ev) {
     ev.preventDefault();
-    const { form, documents } = this.state;
-    const { uploadResources: upload } = this.props;
-    const user = storage.getToken();
-
-    documents.user_name = user.name;
-    documents.user_email = user.email;
-    documents.user_id = user.uid;
-    documents.user_country = user.country;
-    documents.subject = form.subject.value;
-    documents.topic = form.topic.value;
-    documents.tags = documents.tags.concat(form.tags.value.split(',').filter(val => val !== ''));
-    upload(documents);
+    this.setState({dialogClicked:true});
   }
   displayFiles(fileType) {
     if (fileType === 'texts') {
@@ -226,9 +219,11 @@ export class Dashboard extends Component {
           //reader.onloadend = () => this.setState({ imgSrc: reader.result });
           reader.onloadend = () => resolve(reader.result);
         });
-      }),
+      })
     ).then(fileSource => {
-      this.setState({ fileSources: { ...fileSources, [activeContent]: fileSource } });
+      this.setState({
+        fileSources: { ...fileSources, [activeContent]: fileSource }
+      });
     });
   }
   componentDidUpdate(prevProps, prevStates) {
@@ -248,12 +243,61 @@ export class Dashboard extends Component {
           pdf: [],
           image: [],
           video: [],
-          tags: [],
-        },
+          tags: []
+        }
       });
     }
   }
 
+  handleDialogYesClicked(){
+    const { form, documents } = this.state;
+    const { uploadResources: upload } = this.props;
+    const user = storage.getToken();
+
+    documents.user_name = user.name;
+    documents.user_email = user.email;
+    documents.user_id = user.uid;
+    documents.user_country = user.country;
+    documents.subject = form.subject.value;
+    documents.topic = form.topic.value;
+    documents.tags = documents.tags.concat(
+      form.tags.value.split(',').filter(val => val !== '')
+    );
+    upload(documents);
+    this.setState({dialogClicked:false});
+  }
+  handleDialogNoClicked(){
+    const { form, documents } = this.state;
+    const { uploadResources: upload } = this.props;
+    const user = storage.getToken();
+
+    documents.user_name = user.name;
+    documents.user_email = user.email;
+    documents.user_id = user.uid;
+    documents.user_country = user.country;
+    documents.subject = form.subject.value;
+    documents.topic = form.topic.value;
+    documents.tags = documents.tags.concat(
+      form.tags.value.split(',').filter(val => val !== '')
+    );
+    upload(documents);
+    this.setState({form: {
+      subject: { value: 'health education', valid: true },
+      topic: { value: '', valid: false },
+      heading: { value: '', valid: false },
+      excerpt: { value: '', valid: false },
+      definition: { value: '', valid: false },
+      pdf: { value: '', files: [], valid: false },
+      image: { value: '', files: [], valid: false },
+      video: { value: '', files: [], valid: false },
+      pdfTitle: { value: '', valid: false },
+      imageTitle: { value: '', valid: false },
+      videoTitle: { value: '', valid: false },
+      tags: { value: '', valid: false },
+      moreTags: { value: '', valid: false }
+    },})
+    this.setState({dialogClicked:false});
+  }
   handleResourceBtnClick(type) {
     let showedResources = 'texts';
     let activeContent = 'texts';
@@ -278,7 +322,15 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { form, activeContent, documents, moreAdded, fileSources, showedResources } = this.state;
+    const {
+      form,
+      activeContent,
+      documents,
+      moreAdded,
+      fileSources,
+      showedResources,
+      dialogClicked
+    } = this.state;
     // const { type, error } = this.props;
     // const formKeys = Object.keys(form);
     // const validCount = formKeys.filter(k => form[k].valid === true).length;
@@ -290,45 +342,47 @@ export class Dashboard extends Component {
       form.definition.value &&
       form.topic.value
     );
-    const pdfIsValid = (isURL(form.pdf.value) && form.topic.valid) || form.pdf.files.length > 0;
+    const pdfIsValid =
+      (isURL(form.pdf.value) && form.topic.valid) || form.pdf.files.length > 0;
     const imageIsValid =
-      (isURL(form.image.value) && form.topic.valid) || form.image.files.length > 0;
+      (isURL(form.image.value) && form.topic.valid) ||
+      form.image.files.length > 0;
     const videoIsValid =
-      (isURL(form.video.value) && form.topic.valid) || form.video.files.length > 0;
+      (isURL(form.video.value) && form.topic.valid) ||
+      form.video.files.length > 0;
 
     return (
-      <div className="container-fluid Dashboard">
-        <div className="row">
+      <div className='container-fluid Dashboard'>
+        <div className='row'>
+          {dialogClicked && <Dialog2 handleYes={this.handleDialogYesClicked} handleNo={this.handleDialogNoClicked} title='Resource action' message={`Do you still want to add other resource type i.e (pdf, images & videos relating to this ${form.topic.value})`} />}
           <form
             onSubmit={this.onSubmit}
-            className="content offset-0 offset-md-2 col-md-8 col-12 form"
-          >
-            <div className="row">
-              <div className="form-group col-12 col-md-6 subject-topic-row">
+            className='content offset-0 offset-md-2 col-md-8 col-12 form'>
+            <div className='row'>
+              <div className='form-group col-12 col-md-6 subject-topic-row'>
                 <select
                   value={form.subject.value}
                   onChange={this.handleInputChange}
-                  className="form-control"
-                  name="subject"
-                  id="subject"
-                >
-                  <option value="health education">Health Education</option>
-                  <option value="civic studies">Civic Studies</option>
-                  <option value="integrated science">Integrated Science</option>
+                  className='form-control'
+                  name='subject'
+                  id='subject'>
+                  <option value='health education'>Health Education</option>
+                  <option value='civic studies'>Civic Studies</option>
+                  <option value='integrated science'>Integrated Science</option>
                 </select>
               </div>
-              <div className="form-group col-md-6 col-12">
-                <label htmlFor="topic" />
+              <div className='form-group col-md-6 col-12'>
+                <label htmlFor='topic' />
                 <input
-                  type="text"
-                  className="form-control"
-                  name="topic"
-                  id="topic"
-                  placeholder="Topic"
+                  type='text'
+                  className='form-control'
+                  name='topic'
+                  id='topic'
+                  placeholder='Topic'
                   value={form.topic.value}
                   onChange={this.handleInputChange}
                   onKeyPress={this.setTags}
-                  autoComplete="true"
+                  autoComplete='true'
                   onBlur={e => {
                     this.setTags(e, true);
                   }}
@@ -336,57 +390,56 @@ export class Dashboard extends Component {
               </div>
             </div>
             {documents.tags.length > 0 && (
-              <div className="row tags-row">
-                <div className="offset-0 col-12 selected-tags-wrapper">
-                  <h3 className="selected-tags">Tags selected for you</h3>
+              <div className='row tags-row'>
+                <div className='offset-0 col-12 selected-tags-wrapper'>
+                  <h3 className='selected-tags'>Tags selected for you</h3>
                 </div>
-                <div className="col-12 tags-wrapper">
+                <div className='col-12 tags-wrapper'>
                   {documents.tags.map((tag, index) => (
-                    <span className="tag" key={index}>
+                    <span className='tag' key={index}>
                       <span
                         onClick={e => this.deleteTag(index)}
-                        title="delete"
-                        className="delete-tag"
-                      >
+                        title='delete'
+                        className='delete-tag'>
                         x
                       </span>
-                      <span className="tag-text">{tag}</span>
+                      <span className='tag-text'>{tag}</span>
                     </span>
                   ))}
                 </div>
               </div>
             )}
-            <div className="row tags-input-wrapper">
-              <div className="col-12">
+            <div className='row tags-input-wrapper'>
+              <div className='col-12'>
                 <input
                   value={form.moreTags.value}
-                  type="text"
-                  className="form-control"
-                  name="moreTags"
-                  placeholder="Enters comma seprated list of tags e.g person, animal"
+                  type='text'
+                  className='form-control'
+                  name='moreTags'
+                  placeholder='Enters comma seprated list of tags e.g person, animal'
                   onChange={this.handleInputChange}
                   onBlur={this.addMoreTags}
                 />
               </div>
             </div>
-            <div className="row d-flex justify-content-center upload-resources-heading-row">
-              <div className="offset-0 offset-md-3 col-12 col-md-9">
-                <h3 className="upload-text">Upload Resource content!</h3>
+            <div className='row d-flex justify-content-center upload-resources-heading-row'>
+              <div className='offset-0 offset-md-3 col-12 col-md-9'>
+                <h3 className='upload-text'>Upload Resource content</h3>
               </div>
             </div>
             {
-              <div className="row resources-row">
+              <div className='row resources-row'>
                 {documents[activeContent].map((resource, index) => {
                   if (activeContent === 'texts') {
                     return (
-                      <div key={index} className="text-resource resource-card">
-                        <div className="card-title">
+                      <div key={index} className='text-resource resource-card'>
+                        <div className='card-title'>
                           <h3>{resource.heading}</h3>
                         </div>
-                        <div className="card-body">
-                          <p className="p">
+                        <div className='card-body'>
+                          <p className='p'>
                             {resource.definition.slice(0, 70)}
-                            <span className="span">...</span>
+                            <span className='span'>...</span>
                           </p>
                         </div>
                       </div>
@@ -395,11 +448,11 @@ export class Dashboard extends Component {
                   if (activeContent === 'video') {
                     if (typeof resource.value === 'string') {
                       return (
-                        <div className="video-resource" key={index}>
+                        <div className='video-resource' key={index}>
                           <iframe
-                            width="100%"
-                            height="auto"
-                            className="iframe"
+                            width='100%'
+                            height='auto'
+                            className='iframe'
                             src={resource.value.replace('watch?v=', 'embed/')}
                           />
                         </div>
@@ -409,8 +462,13 @@ export class Dashboard extends Component {
                   if (activeContent === 'image') {
                     if (typeof resource.value === 'string') {
                       return (
-                        <div className="image-resource" key={index}>
-                          <img src={resource.value} alt="" width="100%" height="auto" />
+                        <div className='image-resource' key={index}>
+                          <img
+                            src={resource.value}
+                            alt=''
+                            width='100%'
+                            height='auto'
+                          />
                         </div>
                       );
                     }
@@ -418,13 +476,11 @@ export class Dashboard extends Component {
                   if (activeContent === 'pdf') {
                     if (typeof resource.value === 'string') {
                       return (
-                        <div className="pdf-resource" key={index}>
+                        <div className='pdf-resource' key={index}>
                           <iframe
-                            src={`https://docs.google.com/gview?url=${
-                              resource.value
-                            }&embedded=true`}
+                            src={`https://docs.google.com/gview?url=${resource.value}&embedded=true`}
                             style={{ width: '100%' }}
-                            frameBorder="0"
+                            frameBorder='0'
                           />
                         </div>
                       );
@@ -437,28 +493,38 @@ export class Dashboard extends Component {
                   fileSources[activeContent].map((fileSource, index) => {
                     if (activeContent === 'image') {
                       return (
-                        <div className="image-resource" key={index}>
-                          <img src={fileSource} alt="" width="100%" height="8rem" />
+                        <div className='image-resource' key={index}>
+                          <img
+                            src={fileSource}
+                            alt=''
+                            width='100%'
+                            height='8rem'
+                          />
                         </div>
                       );
                     }
 
                     if (activeContent === 'pdf') {
                       return (
-                        <div className="pdf-resource" key={index}>
+                        <div className='pdf-resource' key={index}>
                           <object
-                            type="application/pdf"
+                            type='application/pdf'
                             src={fileSource}
-                            width="100%"
-                            height="8rem"
+                            width='100%'
+                            height='8rem'
                           />
                         </div>
                       );
                     }
                     if (activeContent === 'video') {
                       return (
-                        <div className="video-resource" key={index}>
-                          <video src={fileSource} width="100%" height="8rem" controls />
+                        <div className='video-resource' key={index}>
+                          <video
+                            src={fileSource}
+                            width='100%'
+                            height='8rem'
+                            controls
+                          />
                         </div>
                       );
                     }
@@ -466,91 +532,111 @@ export class Dashboard extends Component {
               </div>
             }
 
-            <div className="row resources-btn-row">
-              <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+            <div className='row resources-btn-row'>
+              <div className='col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1'>
                 <button
-                  type="button"
-                  className={`text-btn btn ${activeContent === 'texts' ? 'active' : ''}`}
-                  onClick={() => this.handleResourceBtnClick('text')}
-                >
-                  {activeContent === 'texts' ? <FiCheck className="check" /> : ''}
+                  type='button'
+                  className={`text-btn btn ${
+                    activeContent === 'texts' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('text')}>
+                  {activeContent === 'texts' ? (
+                    <FiCheck className='check' />
+                  ) : (
+                    ''
+                  )}
                   Texts
                 </button>
                 <button
-                  type="button"
-                  className={`pdf-btn btn ${activeContent === 'pdf' ? 'active' : ''}`}
-                  onClick={() => this.handleResourceBtnClick('pdf')}
-                >
-                  {activeContent === 'pdf' ? <FiCheck className="check" /> : ''}
+                  type='button'
+                  className={`pdf-btn btn ${
+                    activeContent === 'pdf' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('pdf')}>
+                  {activeContent === 'pdf' ? <FiCheck className='check' /> : ''}
                   Pdfs
                 </button>
                 <button
-                  type="button"
-                  className={`image-btn btn ${activeContent === 'image' ? 'active' : ''}`}
-                  onClick={() => this.handleResourceBtnClick('image')}
-                >
-                  {activeContent === 'image' ? <FiCheck className="check" /> : ''}
+                  type='button'
+                  className={`image-btn btn ${
+                    activeContent === 'image' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('image')}>
+                  {activeContent === 'image' ? (
+                    <FiCheck className='check' />
+                  ) : (
+                    ''
+                  )}
                   Images
                 </button>
                 <button
-                  type="button"
-                  className={`video-btn btn ${activeContent === 'video' ? 'active' : ''}`}
-                  onClick={() => this.handleResourceBtnClick('video')}
-                >
-                  {activeContent === 'video' ? <FiCheck className="check" /> : ''}
+                  type='button'
+                  className={`video-btn btn ${
+                    activeContent === 'video' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('video')}>
+                  {activeContent === 'video' ? (
+                    <FiCheck className='check' />
+                  ) : (
+                    ''
+                  )}
                   Videos
                 </button>
               </div>
             </div>
-            <div className="row content-row">
+            <div className='row content-row'>
               <div
                 className={`offset-md-1 offset-0 col-md-11 col-12 text-content content ${
                   activeContent === 'texts' ? 'show' : ''
-                }`}
-              >
-                <div className="text-content-form-group form-group col-md-11 col-12">
-                  <FiEdit className="edit-icon" />
+                }`}>
+                <div className='text-content-form-group form-group col-md-11 col-12'>
+                  <FiEdit className='edit-icon' />
                   <input
-                    type="text"
+                    type='text'
                     value={form.heading.value}
                     onChange={this.handleInputChange}
-                    placeholder="Heading"
-                    name="heading"
-                    autoComplete="true"
-                    className="form-control text-form-control"
+                    placeholder='Heading'
+                    name='heading'
+                    autoComplete='true'
+                    className='form-control text-form-control'
                   />
                 </div>
-                <div className="text-content-form-group form-group col-md-11 col-12">
-                  <FiEdit2 className="edit-icon" />
+                <div className='text-content-form-group form-group col-md-11 col-12'>
+                  <FiEdit2 className='edit-icon' />
                   <textarea
-                    className="form-control text-form-control"
-                    name="excerpt"
-                    id="excerpt"
+                    className='form-control text-form-control'
+                    name='excerpt'
+                    id='excerpt'
                     rows={3}
                     onChange={this.handleInputChange}
-                    placeholder="Excerpt"
+                    placeholder='Excerpt'
                     value={form.excerpt.value}
                   />
                 </div>
-                <div className="form-group text-content-form-group  col-md-11 col-12">
-                  <FiEdit3 className="edit-icon" />
+                <div className='form-group text-content-form-group  col-md-11 col-12'>
+                  <FiEdit3 className='edit-icon' />
                   <textarea
-                    className="form-control text-form-control"
-                    name="definition"
-                    id="definition"
-                    rows="5"
+                    className='form-control text-form-control'
+                    name='definition'
+                    id='definition'
+                    rows='5'
                     onChange={this.handleInputChange}
-                    placeholder="Definition"
+                    placeholder='Definition'
                     value={form.definition.value}
                   />
                 </div>
-                <div className="form-group col-md-10 col-12 form-group-btn">
+                <div className='form-group col-md-10 col-12 form-group-btn'>
                   <button
-                    type="button"
-                    disabled={!(form.heading.valid && form.excerpt.valid && form.definition.valid)}
-                    className="add-text-btn btn"
-                    onClick={() => this.AddResources('', true)}
-                  >
+                    type='button'
+                    disabled={
+                      !(
+                        form.heading.valid &&
+                        form.excerpt.valid &&
+                        form.definition.valid
+                      )
+                    }
+                    className='add-text-btn btn'
+                    onClick={() => this.AddResources('', true)}>
                     Add resources
                   </button>
                 </div>
@@ -558,64 +644,61 @@ export class Dashboard extends Component {
               <div
                 className={`offset-1 col-10 pdf-content content ${
                   activeContent === 'pdf' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  <div className="form-group input-wrapper col-md-11 col-10">
+                }`}>
+                <div className='row'>
+                  <div className='form-group input-wrapper col-md-11 col-10'>
                     <input
-                      type="text"
-                      className="form-control title"
-                      name="pdfTitle"
+                      type='text'
+                      className='form-control title'
+                      name='pdfTitle'
                       value={form.pdfTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
+                      autoComplete='true'
+                      placeholder='Title'
                       onChange={this.handleInputChange}
                     />
                     <input
-                      type="text"
-                      id="proxy"
-                      className="form-control"
-                      name="pdf"
+                      type='text'
+                      id='proxy'
+                      className='form-control'
+                      name='pdf'
                       value={form.pdf.value}
-                      autoComplete="true"
+                      autoComplete='true'
                       onChange={this.handleInputChange}
-                      placeholder="http://"
+                      placeholder='http://'
                     />
                     <div
-                      className="icon-helper"
-                      title="Attach a file"
+                      className='icon-helper'
+                      title='Attach a file'
                       onClick={() => {
                         this.pdfFile.current.click();
-                      }}
-                    >
-                      <FiPlus size={30} className="add-icon" />
+                      }}>
+                      <FiPlus size={30} className='add-icon' />
                     </div>
-                    <ul className="list pdf-list">
+                    <ul className='list pdf-list'>
                       {form.pdf.files.map((file, index) => (
-                        <li key={index} className="list-item pdf-list-item">
+                        <li key={index} className='list-item pdf-list-item'>
                           {file.name}
                         </li>
                       ))}
                     </ul>
                     <input
                       ref={this.pdfFile}
-                      type="file"
-                      name="pdfFile"
-                      className="file"
+                      type='file'
+                      name='pdfFile'
+                      className='file'
                       onChange={this.handleInputChange}
-                      value=""
+                      value=''
                       multiple
-                      accept="application/pdf,.doc"
+                      accept='application/pdf,.doc'
                     />
                   </div>
                 </div>
-                <div className="form-group col-10 form-group-btn btn-wrapper">
+                <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
-                    type="button"
+                    type='button'
                     disabled={!(form.pdf.valid && form.pdfTitle.valid)}
                     onClick={() => this.AddResources('pdf')}
-                    className="add-pdf-btn btn"
-                  >
+                    className='add-pdf-btn btn'>
                     Add resources
                   </button>
                 </div>
@@ -623,64 +706,61 @@ export class Dashboard extends Component {
               <div
                 className={`offset-1 col-10 image-content content ${
                   activeContent === 'image' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  <div className="form-group input-wrapper col-md-11 col-10">
+                }`}>
+                <div className='row'>
+                  <div className='form-group input-wrapper col-md-11 col-10'>
                     <input
-                      type="text"
-                      className="form-control title"
-                      name="imageTitle"
+                      type='text'
+                      className='form-control title'
+                      name='imageTitle'
                       value={form.imageTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
+                      autoComplete='true'
+                      placeholder='Title'
                       onChange={this.handleInputChange}
                     />
                     <input
-                      type="text"
-                      id="proxy"
-                      className="form-control"
-                      name="image"
+                      type='text'
+                      id='proxy'
+                      className='form-control'
+                      name='image'
                       value={form.image.value}
                       onChange={this.handleInputChange}
-                      placeholder="http://"
-                      autoComplete="true"
+                      placeholder='http://'
+                      autoComplete='true'
                     />
                     <div
-                      className="icon-helper"
-                      title="Attach a file"
+                      className='icon-helper'
+                      title='Attach a file'
                       onClick={() => {
                         this.imageFile.current.click();
-                      }}
-                    >
-                      <FiPlus size={30} className="add-icon" />
+                      }}>
+                      <FiPlus size={30} className='add-icon' />
                     </div>
-                    <ul className="list pdf-list">
+                    <ul className='list pdf-list'>
                       {form.image.files.map((file, index) => (
-                        <li key={index} className="list-item pdf-list-item">
+                        <li key={index} className='list-item pdf-list-item'>
                           {file.name}
                         </li>
                       ))}
                     </ul>
                     <input
                       ref={this.imageFile}
-                      type="file"
-                      name="imageFile"
-                      className="file"
+                      type='file'
+                      name='imageFile'
+                      className='file'
                       onChange={this.handleInputChange}
                       multiple
-                      value=""
-                      accept="image/*"
+                      value=''
+                      accept='image/*'
                     />
                   </div>
                 </div>
-                <div className="form-group col-10 form-group-btn btn-wrapper">
+                <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
-                    type="button"
+                    type='button'
                     disabled={!(form.image.valid && form.imageTitle.valid)}
                     onClick={() => this.AddResources('image')}
-                    className="add-image-btn btn"
-                  >
+                    className='add-image-btn btn'>
                     Add resources
                   </button>
                 </div>
@@ -688,78 +768,80 @@ export class Dashboard extends Component {
               <div
                 className={`offset-1 col-10 video-content content ${
                   activeContent === 'video' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  <div className="form-group input-wrapper col-md-11 col-10">
+                }`}>
+                <div className='row'>
+                  <div className='form-group input-wrapper col-md-11 col-10'>
                     <input
-                      type="text"
-                      className="form-control title"
-                      name="videoTitle"
+                      type='text'
+                      className='form-control title'
+                      name='videoTitle'
                       value={form.videoTitle.value}
-                      autoComplete="true"
-                      placeholder="Title"
+                      autoComplete='true'
+                      placeholder='Title'
                       onChange={this.handleInputChange}
                     />
                     <input
-                      type="text"
-                      placeholder="http://"
-                      id="proxy"
-                      className="form-control"
-                      name="video"
+                      type='text'
+                      placeholder='http://'
+                      id='proxy'
+                      className='form-control'
+                      name='video'
                       value={form.video.value}
                       onChange={this.handleInputChange}
-                      autoComplete="true"
+                      autoComplete='true'
                     />
                     <div
-                      className="icon-helper"
-                      title="Attach a file"
+                      className='icon-helper'
+                      title='Attach a file'
                       onClick={() => {
                         this.videoFile.current.click();
-                      }}
-                    >
-                      <FiPlus size={30} className="add-icon" />
+                      }}>
+                      <FiPlus size={30} className='add-icon' />
                     </div>
-                    <ul className="list pdf-list">
+                    <ul className='list pdf-list'>
                       {form.video.files.map((file, index) => (
-                        <li key={index} className="list-item pdf-list-item">
+                        <li key={index} className='list-item pdf-list-item'>
                           {file.name}
                         </li>
                       ))}
                     </ul>
                     <input
                       ref={this.videoFile}
-                      type="file"
-                      name="videoFile"
-                      className="file"
+                      type='file'
+                      name='videoFile'
+                      className='file'
                       onChange={this.handleInputChange}
-                      value=""
+                      value=''
                       multiple
-                      accept="video/mp4,video/x-m4v,video/*"
+                      accept='video/mp4,video/x-m4v,video/*'
                     />
                   </div>
                 </div>
-                <div className="form-group col-10 form-group-btn btn-wrapper">
+                <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
-                    type="button"
+                    type='button'
                     disabled={!(form.video.valid && form.videoTitle.valid)}
                     onClick={() => this.AddResources('video')}
-                    className="add-video-btn btn"
-                  >
+                    className='add-video-btn btn'>
                     Add resources
                   </button>
                 </div>
               </div>
             </div>
-            <div className="row upload-btn-row">
-              <div className="form-group col-8 offset-3 btn-wrapper">
+            <div className='row upload-btn-row'>
+              <div className='form-group col-8 offset-3 btn-wrapper'>
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_LOADING ? (
-                  <button type="submit" className="btn upload-btn">
-                    <Loader type="Circles" color="#00BFFF" height="20" width="100" />
+                  <button type='submit' className='btn upload-btn'>
+                    <Loader
+                      type='Circles'
+                      color='#00BFFF'
+                      height='20'
+                      width='100'
+                    />
                   </button>
                 ) : (
                   <button
-                    type="submit"
+                    type='submit'
                     disabled={
                       (documents.texts.length < 1 &&
                         documents.pdf.length < 1 &&
@@ -767,13 +849,12 @@ export class Dashboard extends Component {
                         documents.video.length < 1) ||
                       !form.topic.value
                     }
-                    className="btn upload-btn"
-                  >
+                    className='btn upload-btn'>
                     Upload all
                   </button>
                 )}
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS && (
-                  <Dialog message="Upload successful" />
+                  <Dialog message='Upload successful' />
                 )}
                 {dash.type === dashActionTypes.UPLOAD_RESOURCES_FAILED && (
                   <Dialog message={dash.error} />
@@ -788,12 +869,12 @@ export class Dashboard extends Component {
 }
 
 const mapStatesToProps = states => ({
-  dash: states.dash,
+  dash: states.dash
 });
 const mapDispatchToProps = dispatch => ({
-  uploadResources: document => dispatch(uploadResources(document)),
+  uploadResources: document => dispatch(uploadResources(document))
 });
 export default connect(
   mapStatesToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Dashboard);

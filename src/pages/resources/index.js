@@ -235,7 +235,7 @@ class AccountComponent extends React.Component {
     return (
       <section className="Resources .container-fluid">
         <div className="row d-flex justify-content-center upload-resources-heading-row">
-          <div className="offset-0 offset-md-3 col-12 col-md-9">
+          <div className="offset-0 col-12 col-md-9">
             <h3 className="upload-text">Resources</h3>
           </div>
         </div>

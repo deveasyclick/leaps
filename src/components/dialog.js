@@ -14,7 +14,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction="up" ref={ref} {...props} />
+));
 export default function AlertDialog({ message, title }) {
   const [open, setOpen] = React.useState(true);
   const classes = useStyles();
@@ -34,7 +36,9 @@ export default function AlertDialog({ message, title }) {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent className={classes.root}>
-          <DialogContentText id="alert-dialog-description">{message}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            {message}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
@@ -45,3 +49,50 @@ export default function AlertDialog({ message, title }) {
     </div>
   );
 }
+
+export const Dialog2 = ({
+ message, title, handleNo, handleYes 
+}) => {
+  const [open, setOpen] = React.useState(true);
+  function handleClose() {
+    setOpen(false);
+  }
+  return (
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {message}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              handleNo();
+              handleClose();
+            }}
+            color="primary"
+          >
+            No
+          </Button>
+          <Button
+            onClick={() => {
+              handleYes();
+              handleClose();
+            }}
+            color="primary"
+            autoFocus
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
