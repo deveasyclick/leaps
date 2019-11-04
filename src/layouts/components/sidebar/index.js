@@ -22,7 +22,7 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    const user = storage.getToken();
+    const user = storage.get('user');
     if (user) {
       this.setState({ user });
     }
@@ -35,7 +35,7 @@ class Sidebar extends Component {
       prevProps.dash.type !== this.props.dash.type
       && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
     ) {
-      const user = storage.getToken();
+      const user = storage.get('user');
       if (user) {
         this.setState({ user });
       }

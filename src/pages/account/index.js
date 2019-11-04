@@ -209,7 +209,7 @@ class AccountComponent extends React.Component {
   }
 
   componentDidMount() {
-    const user = storage.getToken();
+    const user = storage.get('user');
     const { form, toSubmit } = this.state;
     let { imgSrc } = this.state;
     if (user) {

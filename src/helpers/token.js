@@ -1,18 +1,20 @@
-
-export const saveToken = (obj) => {
+export const set = (name, obj) => {
   const data = JSON.parse(localStorage.getItem('leaps')) || {};
-  data.token = obj;
+  data[name] = obj;
   localStorage.setItem('leaps', JSON.stringify(data));
 };
 
-export const getToken = () => {
+export const get = (name) => {
   const data = JSON.parse(localStorage.getItem('leaps')) || {};
-  const token = data.token || null;
-  return token;
+  return data[name] || null;
 };
 
-export const clearToken = () => {
+export const remove = (name) => {
   const data = JSON.parse(localStorage.getItem('leaps'));
-  delete data.token;
+  delete data[name];
   localStorage.setItem('leaps', JSON.stringify(data));
+};
+
+export const clear = () => {
+  localStorage.removeItem('leaps');
 };

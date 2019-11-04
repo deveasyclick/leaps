@@ -45,7 +45,7 @@ export class Dashboard extends Component {
       },
       showedResources: 'texts',
       fileSources: { video: [], image: [] },
-      dialogClicked:false,
+      dialogClicked: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -59,8 +59,7 @@ export class Dashboard extends Component {
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
     this.displayFiles = this.displayFiles.bind(this);
     this.addMoreTags = this.addMoreTags.bind(this);
-   this.handleDialogNoClicked = this.handleDialogNoClicked.bind(this);
-   this.handleDialogYesClicked = this.handleDialogYesClicked.bind(this)
+    this.handleDialogNoClicked = this.handleDialogNoClicked.bind(this);
   }
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
@@ -197,7 +196,7 @@ export class Dashboard extends Component {
 
   onSubmit(ev) {
     ev.preventDefault();
-    this.setState({dialogClicked:true});
+    this.setState({ dialogClicked: true });
   }
   displayFiles(fileType) {
     if (fileType === 'texts') {
@@ -244,15 +243,30 @@ export class Dashboard extends Component {
           image: [],
           video: [],
           tags: []
+        },
+        form: {
+          subject: { value: 'health education', valid: true },
+          topic: { value: '', valid: false },
+          heading: { value: '', valid: false },
+          excerpt: { value: '', valid: false },
+          definition: { value: '', valid: false },
+          pdf: { value: '', files: [], valid: false },
+          image: { value: '', files: [], valid: false },
+          video: { value: '', files: [], valid: false },
+          pdfTitle: { value: '', valid: false },
+          imageTitle: { value: '', valid: false },
+          videoTitle: { value: '', valid: false },
+          tags: { value: '', valid: false },
+          moreTags: { value: '', valid: false }
         }
       });
     }
   }
 
-  handleDialogYesClicked(){
+  handleDialogNoClicked() {
     const { form, documents } = this.state;
     const { uploadResources: upload } = this.props;
-    const user = storage.getToken();
+    const user = storage.get('user');
 
     documents.user_name = user.name;
     documents.user_email = user.email;
@@ -264,39 +278,7 @@ export class Dashboard extends Component {
       form.tags.value.split(',').filter(val => val !== '')
     );
     upload(documents);
-    this.setState({dialogClicked:false});
-  }
-  handleDialogNoClicked(){
-    const { form, documents } = this.state;
-    const { uploadResources: upload } = this.props;
-    const user = storage.getToken();
-
-    documents.user_name = user.name;
-    documents.user_email = user.email;
-    documents.user_id = user.uid;
-    documents.user_country = user.country;
-    documents.subject = form.subject.value;
-    documents.topic = form.topic.value;
-    documents.tags = documents.tags.concat(
-      form.tags.value.split(',').filter(val => val !== '')
-    );
-    upload(documents);
-    this.setState({form: {
-      subject: { value: 'health education', valid: true },
-      topic: { value: '', valid: false },
-      heading: { value: '', valid: false },
-      excerpt: { value: '', valid: false },
-      definition: { value: '', valid: false },
-      pdf: { value: '', files: [], valid: false },
-      image: { value: '', files: [], valid: false },
-      video: { value: '', files: [], valid: false },
-      pdfTitle: { value: '', valid: false },
-      imageTitle: { value: '', valid: false },
-      videoTitle: { value: '', valid: false },
-      tags: { value: '', valid: false },
-      moreTags: { value: '', valid: false }
-    },})
-    this.setState({dialogClicked:false});
+    this.setState({ dialogClicked: false });
   }
   handleResourceBtnClick(type) {
     let showedResources = 'texts';
@@ -354,7 +336,14 @@ export class Dashboard extends Component {
     return (
       <div className='container-fluid Dashboard'>
         <div className='row'>
-          {dialogClicked && <Dialog2 handleYes={this.handleDialogYesClicked} handleNo={this.handleDialogNoClicked} title='Resource action' message={`Do you still want to add other resource type i.e (pdf, images & videos relating to this ${form.topic.value})`} />}
+          {dialogClicked && (
+            <Dialog2
+              handleYes={() => {}}
+              handleNo={this.handleDialogNoClicked}
+              title='Resource action'
+              message={`Do you still want to add other resource type i.e (pdf, images & videos) to the topic ${form.topic.value}?`}
+            />
+          )}
           <form
             onSubmit={this.onSubmit}
             className='content offset-0 offset-md-2 col-md-8 col-12 form'>

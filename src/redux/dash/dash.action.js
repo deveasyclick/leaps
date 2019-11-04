@@ -169,8 +169,8 @@ export const uploadResources = docs => async (dispatch) => {
       error: err.message,
     });
   }
-  // eslint-disable-next-line
   try {
+    // eslint-disable-next-line
     await updateUserUpload(docs);
   } catch (err) {
     console.log('err', err);
@@ -181,7 +181,7 @@ export const updateUserDetails = obj => async (dispatch) => {
   dispatch({
     type: dashActions.UPDATE_DETAILS_LOADING,
   });
-  const user = storage.getToken();
+  const user = storage.get('user');
   const storageRef = firebaseStorage.ref();
   const imageRef = storageRef.child(`images/${obj.image.name}`);
   try {
@@ -212,7 +212,7 @@ export const updateUserDetails = obj => async (dispatch) => {
       user.image = downloadUrl || obj.image;
       user.country = obj.country;
       user.name = obj.name;
-      storage.saveToken(user);
+      storage.set('user', user);
       dispatch({
         type: dashActions.UPDATE_DETAILS_SUCCESS,
         data: user,
@@ -333,12 +333,18 @@ export const fetchResearchers = () => async (dispatch) => {
   dispatch({
     type: dashActions.FETCH_RESEARCHERS_LOADING,
   });
+  const admin = storage.get('user');
   db.collection('web_users')
     .where('category', '==', 'researcher')
     .onSnapshot(
       (querySnapshot) => {
         const researchers = [];
-        querySnapshot.forEach(doc => researchers.push(doc.data()));
+        querySnapshot.forEach((doc) => {
+          const researcher = doc.data();
+          if (admin && admin.country === researcher.country) {
+            researchers.push(researcher);
+          }
+        });
         dispatch({
           type: dashActions.FETCH_RESEARCHERS_SUCCESS,
           data: researchers,
@@ -489,13 +495,17 @@ export const fetchTeachers = () => async (dispatch) => {
     type: dashActions.FETCH_TEACHERS_LOADING,
   });
 
+  const admin = storage.get('user');
   db.collection('app_users')
     .where('isStudent', '==', false)
     .onSnapshot(
       (querySnapshot) => {
         const teachers = [];
         querySnapshot.forEach((doc) => {
-          teachers.push(doc.data());
+          const teacher = doc.data();
+          if (admin && admin.country === teacher.country) {
+            teachers.push(doc.data());
+          }
         });
         dispatch({
           type: dashActions.FETCH_TEACHERS_SUCCESS,

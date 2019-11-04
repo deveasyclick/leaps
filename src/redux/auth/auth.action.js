@@ -34,7 +34,7 @@ export const signup = obj => async (dispatch) => {
     user.file_pending = 0;
     user.file_approved = 0;
     user.approved = false;
-    storage.saveToken(user);
+    storage.set('user', user);
     dispatch({ type: authActions.SIGNUP_SUCCESS, data: user });
   } catch (err) {
     dispatch({ type: authActions.SIGNUP_FAILED, error: err.message });
@@ -63,7 +63,7 @@ export const login = obj => async (dispatch) => {
       .where('uid', '==', data.user.uid)
       .get();
     query.forEach((doc) => {
-      user = storage.saveToken(doc.data());
+      user = storage.set('user', doc.data());
       dispatch({ type: authActions.LOGIN_SUCCESS, data: user });
     });
   } catch (err) {
@@ -76,7 +76,7 @@ export const checkAuth = () => (dispatch) => {
   auth.onAuthStateChanged(
     (user) => {
       if (user) {
-        const localUser = storage.getToken() || user;
+        const localUser = storage.get('user') || user;
         dispatch({ type: authActions.CHECK_AUTH_SUCCESS, data: localUser });
       } else {
         dispatch({
@@ -118,7 +118,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: authActions.LOGOUT_LOADING });
   try {
     await auth.signOut();
-    storage.clearToken();
+    storage.clear();
     dispatch({ type: authActions.LOGOUT_SUCCESS });
   } catch (err) {
     dispatch({ type: authActions.LOGOUT_FAILED, error: err.message });

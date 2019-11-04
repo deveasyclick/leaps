@@ -56,6 +56,7 @@
                 margin-right: 5px;
                 position: relative;
                 margin-right: 1rem;
+                display: inline-block;
 
                 .tag-text {
                     display: inline-block;
@@ -83,7 +84,7 @@
         }
     }
 
-    .resources-row{
+    .resources-row {
         width: 50rem;
         max-width: 50rem;
         max-height: 10rem;
@@ -93,7 +94,7 @@
         white-space: nowrap;
 
 
-        .text-resource{
+        .text-resource {
             width: 25%;
             background: white;
             border-radius: 5px;
@@ -102,11 +103,13 @@
             height: 8rem;
             display: inline-block;
             margin-right: 10px;
-            .card-title{
+
+            .card-title {
                 overflow: hidden;
             }
-            .card-body{
-                .p{
+
+            .card-body {
+                .p {
                     overflow: hidden;
                     height: 5rem;
                     margin-bottom: 0;
@@ -115,29 +118,33 @@
                     word-break: break-all;
                     white-space: normal;
 
-                        .span{
-                            display: inline-block;
-                            text-align: left;
-                            font-size: 20px;
-                            line-height: 0;
-                            color: #b1b1b1;
-                        }
+                    .span {
+                        display: inline-block;
+                        text-align: left;
+                        font-size: 20px;
+                        line-height: 0;
+                        color: #b1b1b1;
+                    }
                 }
             }
         }
-        .video-resource{
+
+        .video-resource {
             width: 25%;
             margin-right: 10px;
             display: inline-block;
-            .iframe{
+
+            .iframe {
                 border: none;
                 border-radius: 20px;
             }
-            video{
+
+            video {
                 height: 8rem;
             }
         }
-        .image-resource{
+
+        .image-resource {
             width: 13rem;
             border-radius: 5px;
             border: solid 1px gainsboro;
@@ -145,26 +152,30 @@
             display: inline-block;
             margin-right: 10px;
 
-            img{
+            img {
                 display: block;
                 height: 8rem;
                 object-fit: cover;
             }
         }
 
-        .pdf-resource{
-          width: 13rem;
-          border-radius: 5px;
-          border: solid 1px gainsboro;
-          height: 8rem;
-          display: inline-block;
-          margin-right: 10px;
+        .pdf-resource {
+            width: 13rem;
+            border-radius: 5px;
+            border: solid 1px gainsboro;
+            height: 8rem;
+            display: inline-block;
+            margin-right: 10px;
 
-          iframe,object{height: 8rem;}
+            iframe,
+            object {
+                height: 8rem;
+            }
         }
     }
-    .tags-input-wrapper{
-        .form-control{
+
+    .tags-input-wrapper {
+        .form-control {
             background: $white;
             box-shadow: 0px 1px 1px $box-shadow-colo-1;
             padding: 7px 15px;
@@ -172,9 +183,10 @@
             border-radius: 5px;
             border: none;
             cursor: pointer;
-            width: 100%;   
+            width: 100%;
         }
     }
+
     .upload-resources-heading-row {
         margin-bottom: 1rem;
 
@@ -230,8 +242,9 @@
     .content-row {
         .text-content {
             padding-left: 2.7rem;
+
             @media (max-width: $mobile-max-screen) {
-             padding-left: 0.9rem;
+                padding-left: 0.9rem;
             }
 
             &-form-group {
@@ -272,14 +285,15 @@
         .video-content {
             padding-left: 0;
 
-            .input-wrapper{
+            .input-wrapper {
                 margin-left: 3rem;
                 padding-right: 18px;
 
-                .title{
+                .title {
                     margin-bottom: 15px;
                 }
-                .icon-helper{
+
+                .icon-helper {
                     position: absolute;
                     top: 3.5rem;
                     right: 1.5rem;
@@ -295,15 +309,16 @@
                     cursor: pointer;
                 }
 
-                .file{
+                .file {
                     display: none;
                 }
 
-                @media (max-width:$mobile-max-screen){
+                @media (max-width:$mobile-max-screen) {
                     margin-left: 0;
                     padding-left: 0;
                 }
             }
+
             .or {
                 @media (max-width: $mobile-max-screen) {
                     text-align: center;
@@ -323,11 +338,13 @@
                     }
                 }
             }
-            .icon-container{
+
+            .icon-container {
                 @media (max-width:$mobile-max-screen) {
                     padding-right: 0;
                 }
             }
+
             .image-wrapper,
             .pdf-wrapper,
             .video-wrapper {

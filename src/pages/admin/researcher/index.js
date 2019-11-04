@@ -15,51 +15,9 @@ import {
   updateResources,
 } from '../../../redux/dash/dash.action';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
+import * as storage from '../../../helpers/token';
 import 'react-table/react-table.css';
 
-const Icon = styled.div`
-  position: relative;
-  .icon {
-    cursor: pointer;
-  }
-  .caret {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-right: solid 10px transparent;
-    border-left: solid 10px transparent;
-    border-bottom: 10px solid #eaeaea;
-    top: -10px;
-    left: 46px;
-  }
-
-  .approved-pending {
-    position: absolute;
-    list-style: none;
-    padding: 0;
-    border-radius: 10px;
-    display: none;
-    top: 2.4rem;
-    left: -42px;
-    width: 7rem;
-    background: #eaeaea;
-    z-index: 100;
-    .list {
-      cursor: pointer;
-      padding: 5px;
-      text-align: center;
-
-      &:hover {
-        /*background: #e6e6e6;*/
-        background: #6b59da;
-        color: white;
-      }
-    }
-    .first-list {
-      border-bottom: solid 1px #d0cccc;
-    }
-  }
-`;
 class AdminDashboard extends Component {
   constructor(props) {
     super(props);
@@ -87,7 +45,7 @@ class AdminDashboard extends Component {
 
   handleResourceBtnClick(type) {
     let activeContent = 'texts';
-    const researcher = JSON.parse(localStorage.getItem('researcher'));
+    const researcher = storage.get('researcher');
     switch (type) {
       case 'image':
         activeContent = 'image';

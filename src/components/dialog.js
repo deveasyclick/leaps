@@ -14,9 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Transition = React.forwardRef((props, ref) => (
-  <Slide direction="up" ref={ref} {...props} />
-));
+
 export default function AlertDialog({ message, title }) {
   const [open, setOpen] = React.useState(true);
   const classes = useStyles();
@@ -28,7 +26,6 @@ export default function AlertDialog({ message, title }) {
     <div>
       <Dialog
         open={open}
-        TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -87,7 +84,6 @@ export const Dialog2 = ({
               handleClose();
             }}
             color="primary"
-            autoFocus
           >
             Yes
           </Button>

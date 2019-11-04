@@ -6,6 +6,7 @@ import { IoMdCheckmarkCircle } from 'react-icons/io';
 import ReactTable from 'react-table';
 import styled from 'styled-components';
 import Image from '../../../assets/images/favicon.png';
+import * as storage from '../../../helpers/token';
 import {
   fetchResearchers,
   fetchTeachers,
@@ -114,7 +115,7 @@ class AdminDashboard extends Component {
   }
 
   researcherClicked(researcher) {
-    localStorage.setItem('researcher', JSON.stringify(researcher));
+    storage.set('researcher', JSON.stringify(researcher));
     this.props.history.push('/researcher');
   }
 
