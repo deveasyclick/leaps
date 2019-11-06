@@ -1,20 +1,23 @@
 @import '../../../styles/style.scss';
-.Nav{
+
+.Nav {
     position: fixed;
     top: 0;
     z-index: 1000;
     transition: all 1s ease 0s;
-    @media (max-width:1200px){
+
+    @media (max-width:1200px) {
         width: 100% !important;
     }
-    .desktop-nav{
+
+    .desktop-nav {
         background: $white;
         height: 60px;
         border-bottom: solid 1px $header-border-color;
-        color:$black;
+        color: $black;
 
 
-        .logout-icon-wrapper{
+        .logout-icon-wrapper {
             cursor: pointer;
             height: 40px;
             width: 40px;
@@ -22,15 +25,18 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            color:$sidebar-color;
-            &:hover{
+            color: $sidebar-color;
+
+            &:hover {
                 background: $light-gray;
             }
         }
-        .search-wrapper{
+
+        .search-wrapper {
             margin-right: 35px;
             min-width: 239px;
-            .search{
+
+            .search {
                 border-radius: 20px;
                 border: none;
                 box-shadow: 0 0 2px 0px grey;
@@ -38,34 +44,38 @@
                 outline: none;
                 cursor: pointer;
                 display: none;
-                @media (min-width:$mobile-min-screen){
+
+                @media (min-width:$mobile-min-screen) {
                     display: flex;
                 }
             }
-            .search-icon-wrapper{
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    display: none;
 
-                    &:hover{
-                        background: $light-gray;
-                    }
-                .search-icon{
+            .search-icon-wrapper {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                cursor: pointer;
+                display: none;
+
+                &:hover {
+                    background: $light-gray;
+                }
+
+                .search-icon {
                     cursor: pointer;
                 }
+
                 @media (max-width:$mobile-max-screen) {
                     display: flex;
                 }
             }
-            
+
         }
-        
-        .times-icon-wrapper{
+
+        .times-icon-wrapper {
             height: 40px;
             width: 40px;
             border-radius: 50%;
@@ -76,15 +86,25 @@
             cursor: pointer;
             margin-right: 20px;
 
-            &:hover{
-                background:$light-gray;
+            &:hover {
+                background: $light-gray;
             }
         }
-        .site-section{
+
+        .site-section {
             margin-bottom: 0;
             height: 40px;
             display: flex;
             align-items: center;
+        }
+    }
+
+    .desktop-notice-nav {
+        .notice-text {
+            background: #f36060;
+            color: white;
+            text-align: center;
+            padding: 5px;
         }
     }
 }

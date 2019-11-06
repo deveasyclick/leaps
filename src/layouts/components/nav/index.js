@@ -9,6 +9,9 @@ import navActionTypes from '../../../redux/nav/nav.action-type';
 import * as authActions from '../../../redux/auth/auth.action';
 import authActionTypes from '../../../redux/auth/auth.actionTypes';
 import { Dialog2 as SignoutDialog } from '../../../components/dialog';
+import dashActionTypes from '../../../redux/dash/dash.actionTypes';
+import { fetchResearcher } from '../../../redux/dash/dash.action';
+import * as storage from '../../../helpers/token';
 
 import './nav.scss';
 
@@ -21,7 +24,7 @@ export class Nav extends PureComponent {
     this.handleNo = this.handleNo.bind(this);
     this.handleYes = this.handleYes.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.state = { dialogClicked: false };
+    this.state = { dialogClicked: false, user: null };
   }
 
   handleNavClick() {
@@ -61,6 +64,24 @@ export class Nav extends PureComponent {
     );
   }
 
+  componentDidMount() {
+    const user = storage.get('user');
+    if (user) {
+      this.setState({ user });
+    }
+  }
+
+  componentDidUpdate() {
+    const { user } = this.state;
+    if (
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS
+      && JSON.stringify(user) !== JSON.stringify(this.props.dash.data)
+    ) {
+      const user = this.props.dash.data;
+      this.setState({ user });
+    }
+  }
+
   renderDropdown() {
     const { nav } = this.props;
     if (nav.show) {
@@ -87,11 +108,11 @@ export class Nav extends PureComponent {
     const {
  auth, nav, width, search 
 } = this.props;
-    const { dialogClicked } = this.state;
+    const { dialogClicked, user } = this.state;
     const navStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
     };
-    if (auth.type === authActionTypes.LOGIN_SUCCESS) {
+    if (auth.type === authActionTypes.LOGOUT_SUCCESS) {
       return <Redirect to="/login" />;
     }
     return (
@@ -143,6 +164,16 @@ export class Nav extends PureComponent {
             </div>
           </div>
         </div>
+        {user && !user.approved && (
+          <div className="desktop-notice-nav row d-flex align-items-center">
+            <div className="col-12 notice-text-col">
+              <h3 className="notice-text">
+                Your account is not yet approved, you won't be able to upload
+                resources
+              </h3>
+            </div>
+          </div>
+        )}
       </section>
     );
   }
@@ -151,10 +182,12 @@ export class Nav extends PureComponent {
 const mapStateToProps = states => ({
   nav: states.nav,
   auth: states.auth,
+  dash: states.dash,
 });
 const mapDispatchToProps = dispatch => ({
   toggleNav: obj => dispatch(navActions.toggleNav(obj)),
   logout: () => dispatch(authActions.logout()),
+  getResearcher: uid => dispatch(fetchResearcher(uid)),
 });
 export default connect(
   mapStateToProps,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FiUser, FiCheck } from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
 import { IoMdCheckmarkCircle, IoMdCloseCircle } from 'react-icons/io';
 import Loader from 'react-loader-spinner';
 import * as storage from '../../helpers/token';
@@ -263,12 +263,14 @@ class AccountComponent extends React.Component {
                     <br />
                     {user && user.approved && !user.isAdmin && (
                       <small className="is-pending">
-                        verified &nbsp;
-                        {user.verified ? (
-                          <IoMdCheckmarkCircle color="green" size={16} />
-                        ) : (
-                          <IoMdCloseCircle color="#c36060" size={16} />
-                        )}
+                        approved &nbsp;
+                        <IoMdCheckmarkCircle color="green" size={16} />
+                      </small>
+                    )}
+                    {user && !user.approved && !user.isAdmin && (
+                      <small className="is-pending">
+                        not approved &nbsp;
+                        <IoMdCloseCircle color="#c36060" size={16} />
                       </small>
                     )}
                   </div>

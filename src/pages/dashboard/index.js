@@ -350,16 +350,6 @@ export class Dashboard extends Component {
       form.video.files.length > 0;
     return (
       <div className='container-fluid Dashboard'>
-        {user && !user.approved && (
-          <div className='row not-approved-notice-row'>
-            <div className='col-12 notice-text-col'>
-              <h3 className='notice-text'>
-                Your account is not yet approved, you won't be able to upload
-                resources
-              </h3>
-            </div>
-          </div>
-        )}
         <div className='row'>
           {dialogClicked && (
             <Dialog2
@@ -646,9 +636,8 @@ export class Dashboard extends Component {
                       !(
                         form.heading.valid &&
                         form.excerpt.valid &&
-                        form.definition.valid &&
-                        user.approved
-                      )
+                        form.definition.valid
+                      ) || !user.approved
                     }
                     className='add-text-btn btn'
                     onClick={() => this.AddResources('', true)}>
@@ -712,7 +701,11 @@ export class Dashboard extends Component {
                   <button
                     type='button'
                     disabled={
-                      !(form.pdf.valid && form.pdfTitle.valid && user.approved)
+                      !(
+                        form.pdf.valid &&
+                        form.pdfTitle.valid &&
+                        user.approved
+                      ) || !user.approved
                     }
                     onClick={() => this.AddResources('pdf')}
                     className='add-pdf-btn btn'>
@@ -780,7 +773,7 @@ export class Dashboard extends Component {
                         form.image.valid &&
                         form.imageTitle.valid &&
                         user.approved
-                      )
+                      ) || !user.approved
                     }
                     onClick={() => this.AddResources('image')}
                     className='add-image-btn btn'>
@@ -848,7 +841,7 @@ export class Dashboard extends Component {
                         form.video.valid &&
                         form.videoTitle.valid &&
                         user.approved
-                      )
+                      ) || !user.approved
                     }
                     onClick={() => this.AddResources('video')}
                     className='add-video-btn btn'>
