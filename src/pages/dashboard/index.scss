@@ -11,6 +11,21 @@
         margin-bottom: 1rem;
     }
 
+    .not-approved-notice-row {
+        .notice-text-col {
+            padding-left: 3rem;
+            padding-right: 3rem;
+
+            .notice-text {
+                background: #dc6969;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 20px;
+            }
+        }
+    }
+
     .form {
         margin-top: 2rem;
 

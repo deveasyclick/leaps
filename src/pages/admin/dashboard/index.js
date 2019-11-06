@@ -115,8 +115,7 @@ class AdminDashboard extends Component {
   }
 
   researcherClicked(researcher) {
-    storage.set('researcher', JSON.stringify(researcher));
-    this.props.history.push('/researcher');
+    this.props.history.push(`/researcher/${researcher.uid}`);
   }
 
   componentDidMount() {
@@ -146,7 +145,11 @@ class AdminDashboard extends Component {
         Header: 'Name',
         id: 'name',
         accessor: d => (hideNav ? d.surname : `${d.surname} ${d.firstname}`), // String-based value accessors!
-        Cell: props => <span className="name cell">{props.value}</span>, // Custom cell components!
+        Cell: props => (
+          <div style={{ textAlign: 'left' }} className="name cell">
+            {props.value}
+          </div>
+        ), // Custom cell components!
       },
       {
         Header: 'School',
@@ -304,22 +307,22 @@ class AdminDashboard extends Component {
           ))}
         </div>
         <div className="row teachers-heading-row">
-          <h3 className="teachers-title">Teachers</h3>
+          <div className="col">
+            <h3 className="teachers-title">Teachers</h3>
+          </div>
         </div>
 
-        <div className="teachers-row row">
-          <div className="col-12 pl-0">
-            <div className="row">
-              <div className="col-6 left-col">
-                <div>
-                  <span>{teachers.length}</span>
-                  <span> Teachers</span>
-                </div>
-              </div>
-              <div className="col-6 right-col" />
+        <div className="row">
+          <div className="col-6 left-col">
+            <div>
+              <span>{teachers.length}</span>
+              <span> Teachers</span>
             </div>
           </div>
-          <div className="col-12 pl-0">
+          <div className="col-6 right-col" />
+        </div>
+        <div className="teachers-row row">
+          <div className="col-12">
             <ReactTable
               defaultPageSize={10}
               minRows={10}

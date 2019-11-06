@@ -202,6 +202,9 @@
         .pdf-content,
         .image-content,
         .video-content {
+            &:not(.show) {
+                display: none;
+            }
 
             .text-resource.odd {
                 padding-bottom: 50px !important;

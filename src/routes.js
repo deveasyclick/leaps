@@ -29,7 +29,7 @@ function App() {
           />
           <AdminLayout exact path="/admin" component={AdminDashboard} />
           <AdminLayout exact path="/admin/account" component={Account} />
-          <AdminLayout exact path="/researcher" component={Reseacher} />
+          <AdminLayout exact path="/researcher/:uid" component={Reseacher} />
           <Route
             path={[
               '/login',

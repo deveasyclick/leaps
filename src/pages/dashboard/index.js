@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner';
 import { isURL } from 'validator';
 import { validator } from '../../helpers/utils';
 import * as storage from '../../helpers/token';
-import { uploadResources } from '../../redux/dash/dash.action';
+import { uploadResources, fetchResearcher } from '../../redux/dash/dash.action';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import Dialog from '../../components/dialog';
 import { Dialog2 } from '../../components/dialog';
@@ -31,6 +31,7 @@ export class Dashboard extends Component {
         tags: { value: '', valid: false },
         moreTags: { value: '', valid: false }
       },
+      user: null,
       toSubmit: {},
       activeContent: 'texts',
       temporaryFiles: [],
@@ -226,9 +227,18 @@ export class Dashboard extends Component {
     });
   }
   componentDidUpdate(prevProps, prevStates) {
+    let { user } = this.state;
     if (prevStates.activeContent !== this.state.activeContent) {
       this.setState({ temporaryFiles: [] });
     }
+    if (
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS &&
+      JSON.stringify(user) !== JSON.stringify(this.props.dash.data)
+    ) {
+      const user = this.props.dash.data;
+      this.setState({ user });
+    }
+
     if (
       prevProps.dash.type !== this.props.dash.type &&
       this.props.dash.type === dashActionTypes.UPLOAD_RESOURCES_SUCCESS
@@ -262,7 +272,12 @@ export class Dashboard extends Component {
       });
     }
   }
-
+  componentDidMount() {
+    const { getResearcher } = this.props;
+    const user = storage.get('user');
+    this.setState({ user });
+    getResearcher(user.uid);
+  }
   handleDialogNoClicked() {
     const { form, documents } = this.state;
     const { uploadResources: upload } = this.props;
@@ -311,7 +326,8 @@ export class Dashboard extends Component {
       moreAdded,
       fileSources,
       showedResources,
-      dialogClicked
+      dialogClicked,
+      user
     } = this.state;
     // const { type, error } = this.props;
     // const formKeys = Object.keys(form);
@@ -332,13 +348,22 @@ export class Dashboard extends Component {
     const videoIsValid =
       (isURL(form.video.value) && form.topic.valid) ||
       form.video.files.length > 0;
-
     return (
       <div className='container-fluid Dashboard'>
+        {user && !user.approved && (
+          <div className='row not-approved-notice-row'>
+            <div className='col-12 notice-text-col'>
+              <h3 className='notice-text'>
+                Your account is not yet approved, you won't be able to upload
+                resources
+              </h3>
+            </div>
+          </div>
+        )}
         <div className='row'>
           {dialogClicked && (
             <Dialog2
-              handleYes={() => {}}
+              handleYes={() => this.setState({ dialogClicked: false })}
               handleNo={this.handleDialogNoClicked}
               title='Resource action'
               message={`Do you still want to add other resource type i.e (pdf, images & videos) to the topic ${form.topic.value}?`}
@@ -621,7 +646,8 @@ export class Dashboard extends Component {
                       !(
                         form.heading.valid &&
                         form.excerpt.valid &&
-                        form.definition.valid
+                        form.definition.valid &&
+                        user.approved
                       )
                     }
                     className='add-text-btn btn'
@@ -685,7 +711,9 @@ export class Dashboard extends Component {
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
                     type='button'
-                    disabled={!(form.pdf.valid && form.pdfTitle.valid)}
+                    disabled={
+                      !(form.pdf.valid && form.pdfTitle.valid && user.approved)
+                    }
                     onClick={() => this.AddResources('pdf')}
                     className='add-pdf-btn btn'>
                     Add resources
@@ -747,7 +775,13 @@ export class Dashboard extends Component {
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
                     type='button'
-                    disabled={!(form.image.valid && form.imageTitle.valid)}
+                    disabled={
+                      !(
+                        form.image.valid &&
+                        form.imageTitle.valid &&
+                        user.approved
+                      )
+                    }
                     onClick={() => this.AddResources('image')}
                     className='add-image-btn btn'>
                     Add resources
@@ -809,7 +843,13 @@ export class Dashboard extends Component {
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
                   <button
                     type='button'
-                    disabled={!(form.video.valid && form.videoTitle.valid)}
+                    disabled={
+                      !(
+                        form.video.valid &&
+                        form.videoTitle.valid &&
+                        user.approved
+                      )
+                    }
                     onClick={() => this.AddResources('video')}
                     className='add-video-btn btn'>
                     Add resources
@@ -861,7 +901,8 @@ const mapStatesToProps = states => ({
   dash: states.dash
 });
 const mapDispatchToProps = dispatch => ({
-  uploadResources: document => dispatch(uploadResources(document))
+  uploadResources: document => dispatch(uploadResources(document)),
+  getResearcher: uid => dispatch(fetchResearcher(uid))
 });
 export default connect(
   mapStatesToProps,

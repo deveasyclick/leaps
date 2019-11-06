@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { FiClock, FiMoreVertical, FiCheck } from 'react-icons/fi';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
-import styled from 'styled-components';
 import Image from '../../../assets/images/favicon.png';
 import {
   fetchResearcher,
@@ -45,7 +44,7 @@ class AdminDashboard extends Component {
 
   handleResourceBtnClick(type) {
     let activeContent = 'texts';
-    const researcher = storage.get('researcher');
+    const { researcher } = this.state;
     switch (type) {
       case 'image':
         activeContent = 'image';
@@ -81,9 +80,11 @@ class AdminDashboard extends Component {
       prevProps.dash.type !== this.props.dash.type
       && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS
     ) {
+      const researcher = this.props.dash.data;
       this.setState({
-        researcher: this.props.dash.data,
+        researcher,
       });
+      this.fetchResearchersTexts(researcher);
     }
 
     if (
@@ -120,11 +121,10 @@ class AdminDashboard extends Component {
     }
     if (
       prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.UPDATE_RESEARCHER_DETAILS_SUCCESS
+      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_IMAGES_SUCCESS
     ) {
-      const researcher = localStorage.getItem('researcher');
       this.setState({
-        researcher,
+        resources: { ...this.state.resources, images: this.props.dash.data },
       });
     }
   }
@@ -171,17 +171,13 @@ class AdminDashboard extends Component {
   }
 
   componentDidMount() {
-    const researcher = JSON.parse(localStorage.getItem('researcher'));
-    if (researcher) {
-      this.setState({ researcher });
-      this.fetchResearchersTexts(researcher);
+    const researcherUid = this.props.match.params.uid;
+    if (researcherUid) {
+      const { getResearcher } = this.props;
+      getResearcher(researcherUid);
     } else {
       this.props.history.replace('/admin');
     }
-  }
-
-  componentWillUnmount() {
-    localStorage.removeItem('researcher');
   }
 
   render() {

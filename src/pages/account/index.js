@@ -12,6 +12,7 @@ import {
   fetchResearcherPdfs,
   fetchResearcherTexts,
   fetchResearcherVideos,
+  fetchResearcher,
 } from '../../redux/dash/dash.action';
 import Dialog from '../../components/dialog';
 import countries from '../../json/country-by-abbreviation.json';
@@ -126,7 +127,27 @@ class AccountComponent extends React.Component {
         accountInfo: { ...this.state.accountInfo, failed: true },
       });
     }
-    console.log(this.state);
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS
+    ) {
+      const user = this.props.dash.data;
+      const { form, toSubmit } = this.state;
+      let { imgSrc } = this.state;
+      if (user) {
+        form.category.value = toSubmit.category = user.category;
+        form.category.valid = true;
+        form.name.value = toSubmit.name = user.name;
+        form.name.valid = true;
+        form.country.value = toSubmit.country = user.country;
+        form.country.valid = true;
+        form.email.value = toSubmit.email = user.email;
+        form.email.valid = true;
+        imgSrc = toSubmit.image = user.image || '';
+        this.setState({ form, imgSrc, user });
+        this.fetchResearcherTexts(user);
+      }
+    }
   }
 
   handleResourceBtnClick(type) {
@@ -209,22 +230,9 @@ class AccountComponent extends React.Component {
   }
 
   componentDidMount() {
+    const { getResearcher } = this.props;
     const user = storage.get('user');
-    const { form, toSubmit } = this.state;
-    let { imgSrc } = this.state;
-    if (user) {
-      form.category.value = toSubmit.category = user.category;
-      form.category.valid = true;
-      form.name.value = toSubmit.name = user.name;
-      form.name.valid = true;
-      form.country.value = toSubmit.country = user.country;
-      form.country.valid = true;
-      form.email.value = toSubmit.email = user.email;
-      form.email.valid = true;
-      imgSrc = toSubmit.image = user.image || '';
-      this.setState({ form, imgSrc, user });
-      this.fetchResearcherTexts(user);
-    }
+    getResearcher(user.uid);
   }
 
   render() {
@@ -235,6 +243,9 @@ class AccountComponent extends React.Component {
     const formKeys = Object.keys(form);
     const validCount = formKeys.filter(k => form[k].valid === true).length;
     const formIsValid = validCount === formKeys.length;
+    if (this.props.dash.type === dashActionTypes.FETCH_RESEARCHERS_LOADING) {
+      return <p>Laoding</p>;
+    }
     return (
       <section className="Account .container-fluid">
         <div className="row">
@@ -250,7 +261,7 @@ class AccountComponent extends React.Component {
                       {user.category || 'researcher'}
                     </small>
                     <br />
-                    {user && 'verified' in user && (
+                    {user && user.approved && !user.isAdmin && (
                       <small className="is-pending">
                         verified &nbsp;
                         {user.verified ? (
@@ -408,6 +419,7 @@ const mapDispatchToProps = dispatch => ({
   fetchResearcherVideos: obj => dispatch(fetchResearcherVideos(obj)),
   fetchResearcherTexts: obj => dispatch(fetchResearcherTexts(obj)),
   fetchResearcherPdfs: obj => dispatch(fetchResearcherPdfs(obj)),
+  getResearcher: uid => dispatch(fetchResearcher(uid)),
 });
 
 export default connect(
