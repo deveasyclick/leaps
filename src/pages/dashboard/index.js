@@ -275,8 +275,10 @@ export class Dashboard extends Component {
   componentDidMount() {
     const { getResearcher } = this.props;
     const user = storage.get('user');
-    this.setState({ user });
-    getResearcher(user.uid);
+    if (user) {
+      this.setState({ user });
+      getResearcher(user.uid);
+    }
   }
   handleDialogNoClicked() {
     const { form, documents } = this.state;
@@ -630,19 +632,27 @@ export class Dashboard extends Component {
                   />
                 </div>
                 <div className='form-group col-md-10 col-12 form-group-btn'>
-                  <button
-                    type='button'
-                    disabled={
-                      !(
-                        form.heading.valid &&
-                        form.excerpt.valid &&
-                        form.definition.valid
-                      ) || !user.approved
-                    }
-                    className='add-text-btn btn'
-                    onClick={() => this.AddResources('', true)}>
-                    Add resources
-                  </button>
+                  {user && user.approved ? (
+                    <button
+                      type='button'
+                      disabled={
+                        !(
+                          form.heading.valid &&
+                          form.excerpt.valid &&
+                          form.definition.valid &&
+                          form.topic.value &&
+                          form.tags.value
+                        )
+                      }
+                      className='add-text-btn btn'
+                      onClick={() => this.AddResources('', true)}>
+                      Add resources
+                    </button>
+                  ) : (
+                    <button type='button' disabled className='add-text-btn btn'>
+                      Add resources
+                    </button>
+                  )}
                 </div>
               </div>
               <div
@@ -698,19 +708,26 @@ export class Dashboard extends Component {
                   </div>
                 </div>
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
-                  <button
-                    type='button'
-                    disabled={
-                      !(
-                        form.pdf.valid &&
-                        form.pdfTitle.valid &&
-                        user.approved
-                      ) || !user.approved
-                    }
-                    onClick={() => this.AddResources('pdf')}
-                    className='add-pdf-btn btn'>
-                    Add resources
-                  </button>
+                  {user && user.approved ? (
+                    <button
+                      type='button'
+                      disabled={
+                        !(
+                          form.pdf.valid &&
+                          form.pdfTitle.valid &&
+                          form.topic.value &&
+                          form.tags.value
+                        )
+                      }
+                      onClick={() => this.AddResources('pdf')}
+                      className='add-pdf-btn btn'>
+                      Add resources
+                    </button>
+                  ) : (
+                    <button type='button' disabled className='add-pdf-btn btn'>
+                      Add resources
+                    </button>
+                  )}
                 </div>
               </div>
               <div
@@ -766,19 +783,29 @@ export class Dashboard extends Component {
                   </div>
                 </div>
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
-                  <button
-                    type='button'
-                    disabled={
-                      !(
-                        form.image.valid &&
-                        form.imageTitle.valid &&
-                        user.approved
-                      ) || !user.approved
-                    }
-                    onClick={() => this.AddResources('image')}
-                    className='add-image-btn btn'>
-                    Add resources
-                  </button>
+                  {user && user.approved ? (
+                    <button
+                      type='button'
+                      disabled={
+                        !(
+                          form.image.valid &&
+                          form.imageTitle.valid &&
+                          form.topic.value &&
+                          form.tags.value
+                        )
+                      }
+                      onClick={() => this.AddResources('image')}
+                      className='add-image-btn btn'>
+                      Add resources
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      disabled
+                      className='add-image-btn btn'>
+                      Add resources
+                    </button>
+                  )}
                 </div>
               </div>
               <div
@@ -834,19 +861,29 @@ export class Dashboard extends Component {
                   </div>
                 </div>
                 <div className='form-group col-10 form-group-btn btn-wrapper'>
-                  <button
-                    type='button'
-                    disabled={
-                      !(
-                        form.video.valid &&
-                        form.videoTitle.valid &&
-                        user.approved
-                      ) || !user.approved
-                    }
-                    onClick={() => this.AddResources('video')}
-                    className='add-video-btn btn'>
-                    Add resources
-                  </button>
+                  {user && user.approved ? (
+                    <button
+                      type='button'
+                      disabled={
+                        !(
+                          form.video.valid &&
+                          form.videoTitle.valid &&
+                          form.topic.value &&
+                          form.tags.value
+                        )
+                      }
+                      onClick={() => this.AddResources('video')}
+                      className='add-video-btn btn'>
+                      Add resources
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      disabled
+                      className='add-video-btn btn'>
+                      Add resources
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

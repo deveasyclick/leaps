@@ -164,9 +164,9 @@ export class Nav extends PureComponent {
             </div>
           </div>
         </div>
-        {user && !user.approved && (
+        {user && !user.isAdmin && !user.approved && (
           <div className="desktop-notice-nav row d-flex align-items-center">
-            <div className="col-12 notice-text-col">
+            <div className="p-0 col-12 notice-text-col">
               <h3 className="notice-text">
                 Your account is not yet approved, you won't be able to upload
                 resources

@@ -14,7 +14,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 export default function AlertDialog({ message, title }) {
   const [open, setOpen] = React.useState(true);
   const classes = useStyles();
@@ -38,7 +37,7 @@ export default function AlertDialog({ message, title }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={handleClose} color="primary">
             Ok
           </Button>
         </DialogActions>
