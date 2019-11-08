@@ -639,9 +639,7 @@ export class Dashboard extends Component {
                         !(
                           form.heading.valid &&
                           form.excerpt.valid &&
-                          form.definition.valid &&
-                          form.topic.value &&
-                          form.tags.value
+                          form.definition.valid
                         )
                       }
                       className='add-text-btn btn'
@@ -711,14 +709,7 @@ export class Dashboard extends Component {
                   {user && user.approved ? (
                     <button
                       type='button'
-                      disabled={
-                        !(
-                          form.pdf.valid &&
-                          form.pdfTitle.valid &&
-                          form.topic.value &&
-                          form.tags.value
-                        )
-                      }
+                      disabled={!(form.pdf.valid && form.pdfTitle.valid)}
                       onClick={() => this.AddResources('pdf')}
                       className='add-pdf-btn btn'>
                       Add resources
@@ -786,14 +777,7 @@ export class Dashboard extends Component {
                   {user && user.approved ? (
                     <button
                       type='button'
-                      disabled={
-                        !(
-                          form.image.valid &&
-                          form.imageTitle.valid &&
-                          form.topic.value &&
-                          form.tags.value
-                        )
-                      }
+                      disabled={!(form.image.valid && form.imageTitle.valid)}
                       onClick={() => this.AddResources('image')}
                       className='add-image-btn btn'>
                       Add resources
@@ -864,14 +848,7 @@ export class Dashboard extends Component {
                   {user && user.approved ? (
                     <button
                       type='button'
-                      disabled={
-                        !(
-                          form.video.valid &&
-                          form.videoTitle.valid &&
-                          form.topic.value &&
-                          form.tags.value
-                        )
-                      }
+                      disabled={!(form.video.valid && form.videoTitle.valid)}
                       onClick={() => this.AddResources('video')}
                       className='add-video-btn btn'>
                       Add resources

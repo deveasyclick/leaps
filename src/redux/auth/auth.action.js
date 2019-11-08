@@ -44,7 +44,6 @@ export const signup = obj => async (dispatch) => {
 export const login = obj => async (dispatch) => {
   dispatch({ type: authActions.LOGIN_LOADING });
   let data;
-  let user;
   let query;
   try {
     query = await db
@@ -63,7 +62,8 @@ export const login = obj => async (dispatch) => {
       .where('uid', '==', data.user.uid)
       .get();
     query.forEach((doc) => {
-      user = storage.set('user', doc.data());
+      const user = doc.data();
+      storage.set('user', user);
       dispatch({ type: authActions.LOGIN_SUCCESS, data: user });
     });
   } catch (err) {

@@ -51,6 +51,7 @@ export class ProtectedLayout extends React.Component {
             || type === authActionTypes.SIGNUP_SUCCESS
             || type === authActionTypes.LOGIN_SUCCESS
           ) {
+            // return console.log('data', data);
             if (data.isAdmin) {
               return (
                 <Redirect

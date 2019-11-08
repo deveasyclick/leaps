@@ -33,6 +33,7 @@ export class ProtectedLayout extends React.Component {
       marginLeft:
         nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '20%' : '0',
     };
+
     return (
       <Route
         {...rest}
@@ -52,6 +53,16 @@ export class ProtectedLayout extends React.Component {
             || type === authActionTypes.SIGNUP_SUCCESS
             || type === authActionTypes.LOGIN_SUCCESS
           ) {
+            if (!data.isAdmin) {
+              return (
+                <Redirect
+                  to={{
+                    pathname: '/',
+                    states: { from: matchProps.location },
+                  }}
+                />
+              );
+            }
             return (
               <React.Fragment>
                 <Sidebar />
