@@ -16,17 +16,18 @@ export const signup = obj => async (dispatch) => {
         uid: data.user.uid,
         name: obj.name,
         country: obj.country,
-        category: 'researcher',
+        category: 'Content provider',
         verified: false,
         isAdmin: false,
-        uploads: 0,
-        approved: 0,
-        pending: 0,
+        file_uploads: 0,
+        file_approved: 0,
+        file_pending: 0,
+        approved: false,
       });
     user.name = obj.name;
     user.email = obj.email;
     user.uid = data.user.uid;
-    user.category = 'researcher';
+    user.category = 'Content provider';
     user.verified = false;
     user.country = obj.country;
     user.isAdmin = false;

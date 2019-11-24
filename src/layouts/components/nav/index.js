@@ -3,7 +3,7 @@ import { FiSearch, FiMenu, FiLogOut } from 'react-icons/fi';
 import { GoThreeBars, GoX } from 'react-icons/go';
 import { IoMdTime } from 'react-icons/io';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import * as navActions from '../../../redux/nav/nav.action';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 import * as authActions from '../../../redux/auth/auth.action';
@@ -24,7 +24,7 @@ export class Nav extends PureComponent {
     this.handleNo = this.handleNo.bind(this);
     this.handleYes = this.handleYes.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.state = { dialogClicked: false, user: null };
+    this.state = { dialogClicked: false, user: null, activePath: '' };
   }
 
   handleNavClick() {
@@ -71,13 +71,20 @@ export class Nav extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    const { user } = this.state;
-    if (
-      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS
-      && JSON.stringify(user) !== JSON.stringify(this.props.dash.data)
-    ) {
-      const user = this.props.dash.data;
+  componentDidUpdate(prevProps) {
+    const { user, activePath } = this.state;
+    const path = this.props.match.path.replace(/^\//g, '');
+    if (path.toUpperCase() !== activePath.toUpperCase()) {
+      if (path) {
+        this.setState({
+          activePath: path.charAt(0).toUpperCase() + path.slice(1),
+        });
+      } else {
+        this.setState({ activePath: path });
+      }
+    }
+    if (JSON.stringify(storage.get('user')) !== JSON.stringify(user)) {
+      const user = storage.get('user');
       this.setState({ user });
     }
   }
@@ -108,7 +115,7 @@ export class Nav extends PureComponent {
     const {
  auth, nav, width, search 
 } = this.props;
-    const { dialogClicked, user } = this.state;
+    const { dialogClicked, user, activePath } = this.state;
     const navStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
     };
@@ -137,7 +144,9 @@ export class Nav extends PureComponent {
                 <FiMenu size={21} className="times-icon" />
               )}
             </div>
-            <h1 className="d-flex site-section">Dashboard</h1>
+            <h1 className="d-flex site-section">
+              {activePath === '' ? 'Dashboard' : activePath}
+            </h1>
           </div>
           <div className="col-6 col-md-4 d-flex justify-content-center align-items-center">
             <div className="search-wrapper">
@@ -192,4 +201,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Nav);
+)(withRouter(Nav));

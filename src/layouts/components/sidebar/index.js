@@ -6,6 +6,7 @@ import { FiUser, FiCommand, FiBookOpen } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/images/logo-only_mobile.png';
 import * as storage from '../../../helpers/token';
+import { fetchResearcher } from '../../../redux/dash/dash.action';
 import navActionTypes from '../../../redux/nav/nav.action-type';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
 
@@ -22,9 +23,11 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
+    const { getResearcher } = this.props;
     const user = storage.get('user');
     if (user) {
       this.setState({ user });
+      getResearcher(user.uid);
     }
     const { pathname } = window.location;
     navs.forEach((nav, index) => (nav.path === pathname ? this.setState({ activeLink: index }) : null),);
@@ -33,12 +36,10 @@ class Sidebar extends Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
+      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_SUCCESS
     ) {
-      const user = storage.get('user');
-      if (user) {
-        this.setState({ user });
-      }
+      const user = this.props.dash.data;
+      this.setState({ user });
     }
   }
 
@@ -83,7 +84,10 @@ class Sidebar extends Component {
           </div>
           <div className="user-details">
             <p className="user-name">{user.name}</p>
-            <small className="user-role">{user.category}</small>
+            <small className="user-role">
+              {!user.isAdmin && user.category ? user.category : ''}
+              {user.isAdmin && user.category ? 'Quality manager' : ''}
+            </small>
           </div>
         </div>
         <div className="menu-wrapper">
@@ -126,7 +130,9 @@ const mapStateToProps = states => ({
   nav: states.nav,
   dash: states.dash,
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  getResearcher: uid => dispatch(fetchResearcher(uid)),
+});
 
 export default connect(
   mapStateToProps,

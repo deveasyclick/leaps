@@ -135,7 +135,9 @@ class AccountComponent extends React.Component {
       const { form, toSubmit } = this.state;
       let { imgSrc } = this.state;
       if (user) {
-        form.category.value = toSubmit.category = user.category;
+        form.category.value = toSubmit.category = !user.isAdmin
+          ? 'Content provider'
+          : 'Quality manager';
         form.category.valid = true;
         form.name.value = toSubmit.name = user.name;
         form.name.valid = true;
@@ -258,7 +260,8 @@ class AccountComponent extends React.Component {
                     <strong className="address">{user.country}</strong>
                     <br />
                     <small className="address">
-                      {user.category || 'researcher'}
+                      {user.isAdmin ? 'Quality manager' : ''}
+                      {user.category && !user.isAdmin ? user.category : ''}
                     </small>
                     <br />
                     {user && user.approved && !user.isAdmin && (

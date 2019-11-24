@@ -343,7 +343,7 @@ class AdminDashboard extends Component {
                 && resources.texts.map((resource, index) => {
                   const resourcesRef = React.createRef();
                   return (
-                    <div key={index} className="col-md-3 col-12 col-sm-4">
+                    <div key={index} className="col-md-4 col-12 col-sm-4">
                       <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>

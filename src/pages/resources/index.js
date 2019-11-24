@@ -293,7 +293,7 @@ class AccountComponent extends React.Component {
               <div className="row">
                 {resources.texts.length > 0
                   && resources.texts.map((resource, index) => (
-                    <div key={index} className="col-md-3 col-12 col-sm-4">
+                    <div key={index} className="col-md-4 col-12 col-sm-4">
                       <div className="text-resource resource-card">
                         <div className="card-title">
                           <h3>
@@ -313,7 +313,7 @@ class AccountComponent extends React.Component {
                           </p>
                         </div>
                         <div className="card-subject">
-                          <h4>
+                          <h4 className="h4">
                             {resource.subject.slice(0, 27)}
                             {resource.subject.length > 22 ? (
                               <small className="ellipse">...</small>

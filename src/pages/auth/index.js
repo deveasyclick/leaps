@@ -7,6 +7,7 @@ import authActionTypes from '../../redux/auth/auth.actionTypes';
 import { login, signup, sendResetPassword } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
 import Dialog from '../../components/dialog';
+import AuthImage from '../../assets/images/tech.jpeg';
 
 import './style.scss';
 
@@ -34,6 +35,7 @@ export class Auth extends Component {
       signup: {
         email: { value: '', valid: false },
         password: { value: '', valid: false },
+        confirm_password:{value:'',valid:false},
         country: { value: 'Kenya', valid: true },
         name: { value: '', valid: false },
       },
@@ -63,7 +65,10 @@ export class Auth extends Component {
     const form = this.state[activePage];
     const formKeys = Object.keys(form);
     const validCount = formKeys.filter(k => form[k].valid === true).length;
-    return validCount === formKeys.length;
+    if(activePage === "signup"){
+    return validCount === formKeys.length && form.password.value === form.confirm_password.value;
+    }
+    return validCount === formKeys.length;   
   }
 
   onSigninSubmit(e) {
@@ -188,11 +193,30 @@ export class Auth extends Component {
     return (
       <section className="Login2 container-fluid">
         <div className="row">
-          <div className="offset-md-4 col-md-4 col-12 content-container">
+          <div className="col-md-8 col-12 left-column">
+            <h4>leaps</h4>
+
+            <div className="hero-text">
+              <h1 className="hero-text__text">Sign {activePage === "signin" ? 'In' : 'Up'} related</h1>
+              <h1 className="hero-text__text">onboarding here!</h1>
+            </div>
+          </div>
+          <div className="col-md-4 col-12 content-container">
             <div className="row">
               <div className="col-12">
                 <div className="title">
+                {
+                  activePage === "signin" &&
                   <h1>Sign in to your account</h1>
+                }
+                {
+                  activePage === "signup" &&
+                  <h1>Create new account</h1>
+                }
+                {
+                  activePage === "forgot" &&
+                  <h1>Reset your password</h1>
+                }
                 </div>
                 <div className="tab-control">
                   <button
@@ -350,6 +374,26 @@ export class Auth extends Component {
                 {showSignupInvalid && !signup.password.valid && (
                   <p className="input-error-text">
                     Password field cannot be empty
+                  </p>
+                )}
+              </div>
+              <div className="form-group col-12">
+                <input
+                  type="password"
+                  className="form-control"
+                  name="confirm_password"
+                  placeholder="Enter password again"
+                  value={signup.confirm_password.value}
+                  onChange={this.handleSignupInputChange}
+                />
+                {showSignupInvalid && !signup.confirm_password.value && (
+                  <p className="input-error-text">
+                    Reset password field cannot be empty
+                  </p>
+                )}
+                {showSignupInvalid && signup.password.value && signup.confirm_password.value && signup.password.value !== signup.confirm_password.value && (
+                  <p className="input-error-text">
+                    Password do not match
                   </p>
                 )}
               </div>

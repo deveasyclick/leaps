@@ -39,12 +39,16 @@
                     padding: 5px;
                 }
 
+                .card-subject .h4 {
+                    margin-bottom: 0;
+                }
+
                 .card-title {
                     overflow: hidden;
                 }
 
                 .card-body {
-                    border-bottom: solid 1px #e6e6e6;
+                    margin-bottom: 3rem;
 
                     .p {
                         overflow: hidden;
@@ -84,6 +88,7 @@
             font-weight: bolder;
             font-size: 1.5rem;
             text-align: center;
+            color: $app-dominant-color-deep;
 
             @media (max-width: $mobile-max-screen) {
                 font-size: 1.3rem;

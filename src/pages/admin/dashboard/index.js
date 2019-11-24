@@ -256,7 +256,7 @@ class AdminDashboard extends Component {
       <section className="container Admin">
         <div className="row">
           <div className="col">
-            <h3 className="researchers-title">Researchers</h3>
+            <h3 className="researchers-title">Content providers</h3>
           </div>
         </div>
         <div className="row cards-row">

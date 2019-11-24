@@ -32,6 +32,14 @@
         .form-group {
             margin-bottom: 20px;
 
+            .subject-label {
+                margin-left: 18px;
+            }
+
+            .topic-label {
+                margin-left: 12px;
+            }
+
             .form-control {
                 background: $white;
                 box-shadow: 0px 1px 1px $box-shadow-colo-1;
@@ -209,6 +217,7 @@
             padding: 1rem;
             font-weight: bolder;
             font-size: 1.5rem;
+            color: $app-dominant-color-deep;
 
             @media (max-width: $mobile-max-screen) {
                 font-size: 1.3rem;

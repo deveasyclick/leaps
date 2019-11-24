@@ -82,6 +82,10 @@ export class Login extends Component {
     return (
       <section className='Login container-fluid'>
         <div className='row'>
+        <div className="col-12 col-md-6">
+          <img src="" />
+        </div>
+        <div className="col-12 col-md-6">
           <div className='col-md-7 right-container'>
             <div className='container'>
               <div className='row'>
@@ -200,6 +204,7 @@ export class Login extends Component {
               </div>
             </form>
           </div>
+        </div>
         </div>
       </section>
     );

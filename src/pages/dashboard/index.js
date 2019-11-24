@@ -236,7 +236,11 @@ export class Dashboard extends Component {
       JSON.stringify(user) !== JSON.stringify(this.props.dash.data)
     ) {
       const user = this.props.dash.data;
+      storage.set('user', user);
       this.setState({ user });
+      if (user.isAdmin) {
+        this.props.history.push('/admin');
+      }
     }
 
     if (
@@ -366,6 +370,9 @@ export class Dashboard extends Component {
             className='content offset-0 offset-md-2 col-md-8 col-12 form'>
             <div className='row'>
               <div className='form-group col-12 col-md-6 subject-topic-row'>
+                <label className='subject-label' htmlFor='subject'>
+                  Subject
+                </label>
                 <select
                   value={form.subject.value}
                   onChange={this.handleInputChange}
@@ -378,7 +385,9 @@ export class Dashboard extends Component {
                 </select>
               </div>
               <div className='form-group col-md-6 col-12'>
-                <label htmlFor='topic' />
+                <label className='topic-label' htmlFor='topic'>
+                  Topic
+                </label>
                 <input
                   type='text'
                   className='form-control'
@@ -430,7 +439,7 @@ export class Dashboard extends Component {
             </div>
             <div className='row d-flex justify-content-center upload-resources-heading-row'>
               <div className='offset-0 offset-md-3 col-12 col-md-9'>
-                <h3 className='upload-text'>Upload Resource content</h3>
+                <h3 className='upload-text'>Upload resource</h3>
               </div>
             </div>
             {
