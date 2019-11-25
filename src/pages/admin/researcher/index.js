@@ -289,7 +289,7 @@ class AdminDashboard extends Component {
           </div>
         </div>
         <div className="row resources-btn-row">
-          <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+          <div className="col-md-8 col-12 offset-0 d-flex btn-wrapper offset-md-1">
             <button
               type="button"
               className={`text-btn btn ${
@@ -297,7 +297,6 @@ class AdminDashboard extends Component {
               }`}
               onClick={() => this.handleResourceBtnClick('text')}
             >
-              {activeContent === 'texts' ? <FiCheck className="check" /> : ''}
               Texts
             </button>
             <button
@@ -307,7 +306,6 @@ class AdminDashboard extends Component {
               }`}
               onClick={() => this.handleResourceBtnClick('pdf')}
             >
-              {activeContent === 'pdf' ? <FiCheck className="check" /> : ''}
               Pdfs
             </button>
             <button
@@ -317,7 +315,6 @@ class AdminDashboard extends Component {
               }`}
               onClick={() => this.handleResourceBtnClick('image')}
             >
-              {activeContent === 'image' ? <FiCheck className="check" /> : ''}
               Images
             </button>
             <button
@@ -327,7 +324,6 @@ class AdminDashboard extends Component {
               }`}
               onClick={() => this.handleResourceBtnClick('video')}
             >
-              {activeContent === 'video' ? <FiCheck className="check" /> : ''}
               Videos
             </button>
           </div>
@@ -346,7 +342,7 @@ class AdminDashboard extends Component {
                     <div key={index} className="col-md-4 col-12 col-sm-4">
                       <div className="text-resource resource-card">
                         <div className="card-title">
-                          <h3>
+                          <h4 className="h4">
                             {' '}
                             {resource.heading.slice(0, 22)}
                             {resource.heading.length > 22 ? (
@@ -354,16 +350,18 @@ class AdminDashboard extends Component {
                             ) : (
                               ''
                             )}
-                          </h3>
+                          </h4>
                         </div>
                         <div className="card-body">
                           <p className="p">
-                            {resource.definition.slice(0, 70)}
-                            <span className="span">...</span>
+                            {resource.definition.slice(0, 250)}
+                            {resource.definition.length > 250 && (
+                              <span className="span">...</span>
+                            )}
                           </p>
                         </div>
                         <div className="card-subject">
-                          <h4>
+                          <h4 className="h4">
                             {resource.subject.slice(0, 15)}
                             {resource.subject.length > 15 ? (
                               <small className="ellipse">...</small>
@@ -371,52 +369,6 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
-                          <div className="approve-pending-popup">
-                            <ul
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="approved-pending"
-                              ref={resourcesRef}
-                            >
-                              <div className="caret" />
-                              <li
-                                className="list first-list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = false;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Approve
-                              </li>
-                              <li
-                                className="list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = true;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Pending
-                              </li>
-                            </ul>
-                            <FiMoreVertical
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="icon"
-                              size={28}
-                            />
-                          </div>
                         </div>
                         <div className="card-topic">
                           <h4>
@@ -427,6 +379,60 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
+                        </div>
+                        <hr className="hr" />
+                        <div className="card-status">
+                          <h4 className="status-indicator">
+                            {resource.isPending ? 'pending' : 'approved'}
+                          </h4>
+                          <div className="logical-block">
+                            <div className="approve-pending-popup">
+                              <ul
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="approved-pending"
+                                ref={resourcesRef}
+                              >
+                                <div className="caret" />
+                                <li
+                                  className="list first-list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = false;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Approve
+                                </li>
+                                <li
+                                  className="list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = true;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Pending
+                                </li>
+                              </ul>
+                              <FiMoreVertical
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="icon"
+                                size={28}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -475,52 +481,6 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
-                          <div className="approve-pending-popup">
-                            <ul
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="approved-pending"
-                              ref={resourcesRef}
-                            >
-                              <div className="caret" />
-                              <li
-                                className="list first-list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = false;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Approve
-                              </li>
-                              <li
-                                className="list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = true;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Pending
-                              </li>
-                            </ul>
-                            <FiMoreVertical
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="icon"
-                              size={28}
-                            />
-                          </div>
                         </div>
                         <div className="card-topic">
                           <h4>
@@ -531,6 +491,60 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
+                        </div>
+                        <hr className="hr" />
+                        <div className="card-status">
+                          <h4 className="status-indicator">
+                            {resource.isPending ? 'pending' : 'approved'}
+                          </h4>
+                          <div className="logical-block">
+                            <div className="approve-pending-popup">
+                              <ul
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="approved-pending"
+                                ref={resourcesRef}
+                              >
+                                <div className="caret" />
+                                <li
+                                  className="list first-list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = false;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Approve
+                                </li>
+                                <li
+                                  className="list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = true;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Pending
+                                </li>
+                              </ul>
+                              <FiMoreVertical
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="icon"
+                                size={28}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -580,52 +594,6 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
-                          <div className="approve-pending-popup">
-                            <ul
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="approved-pending"
-                              ref={resourcesRef}
-                            >
-                              <div className="caret" />
-                              <li
-                                className="list first-list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = false;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Approve
-                              </li>
-                              <li
-                                className="list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = true;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Pending
-                              </li>
-                            </ul>
-                            <FiMoreVertical
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="icon"
-                              size={28}
-                            />
-                          </div>
                         </div>
                         <div className="card-topic">
                           <h4>
@@ -636,6 +604,60 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
+                        </div>
+                        <hr className="hr" />
+                        <div className="card-status">
+                          <h4 className="status-indicator">
+                            {resource.isPending ? 'pending' : 'approved'}
+                          </h4>
+                          <div className="logical-block">
+                            <div className="approve-pending-popup">
+                              <ul
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="approved-pending"
+                                ref={resourcesRef}
+                              >
+                                <div className="caret" />
+                                <li
+                                  className="list first-list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = false;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Approve
+                                </li>
+                                <li
+                                  className="list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = true;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Pending
+                                </li>
+                              </ul>
+                              <FiMoreVertical
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="icon"
+                                size={28}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -688,52 +710,6 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
-                          <div className="approve-pending-popup">
-                            <ul
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="approved-pending"
-                              ref={resourcesRef}
-                            >
-                              <div className="caret" />
-                              <li
-                                className="list first-list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = false;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Approve
-                              </li>
-                              <li
-                                className="list"
-                                onClick={() => {
-                                  // eslint-disable-next-line
-                                  resource.isPending = true;
-                                  this.updateResources(resource);
-                                  resourcesRef.current.style.display = 'none';
-                                }}
-                              >
-                                Pending
-                              </li>
-                            </ul>
-                            <FiMoreVertical
-                              onMouseEnter={() => {
-                                resourcesRef.current.style.display = 'block';
-                              }}
-                              onMouseLeave={() => {
-                                resourcesRef.current.style.display = 'none';
-                              }}
-                              className="icon"
-                              size={28}
-                            />
-                          </div>
                         </div>
                         <div className="card-topic">
                           <h4>
@@ -744,6 +720,60 @@ class AdminDashboard extends Component {
                               ''
                             )}
                           </h4>
+                        </div>
+                        <hr className="hr" />
+                        <div className="card-status">
+                          <h4 className="status-indicator">
+                            {resource.isPending ? 'pending' : 'approved'}
+                          </h4>
+                          <div className="logical-block">
+                            <div className="approve-pending-popup">
+                              <ul
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="approved-pending"
+                                ref={resourcesRef}
+                              >
+                                <div className="caret" />
+                                <li
+                                  className="list first-list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = false;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Approve
+                                </li>
+                                <li
+                                  className="list"
+                                  onClick={() => {
+                                    // eslint-disable-next-line
+                                    resource.isPending = true;
+                                    this.updateResources(resource);
+                                    resourcesRef.current.style.display = 'none';
+                                  }}
+                                >
+                                  Pending
+                                </li>
+                              </ul>
+                              <FiMoreVertical
+                                onMouseEnter={() => {
+                                  resourcesRef.current.style.display = 'block';
+                                }}
+                                onMouseLeave={() => {
+                                  resourcesRef.current.style.display = 'none';
+                                }}
+                                className="icon"
+                                size={28}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

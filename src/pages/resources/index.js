@@ -241,47 +241,45 @@ class AccountComponent extends React.Component {
         </div>
         <div className="row resources-row">
           <div className="row resources-btn-row">
-            <div className="col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1">
-              <button
-                type="button"
-                className={`text-btn btn ${
-                  activeContent === 'texts' ? 'active' : ''
-                }`}
-                onClick={() => this.handleResourceBtnClick('text')}
-              >
-                {activeContent === 'texts' ? <FiCheck className="check" /> : ''}
-                Texts
-              </button>
-              <button
-                type="button"
-                className={`pdf-btn btn ${
-                  activeContent === 'pdf' ? 'active' : ''
-                }`}
-                onClick={() => this.handleResourceBtnClick('pdf')}
-              >
-                {activeContent === 'pdf' ? <FiCheck className="check" /> : ''}
-                Pdfs
-              </button>
-              <button
-                type="button"
-                className={`image-btn btn ${
-                  activeContent === 'image' ? 'active' : ''
-                }`}
-                onClick={() => this.handleResourceBtnClick('image')}
-              >
-                {activeContent === 'image' ? <FiCheck className="check" /> : ''}
-                Images
-              </button>
-              <button
-                type="button"
-                className={`video-btn btn ${
-                  activeContent === 'video' ? 'active' : ''
-                }`}
-                onClick={() => this.handleResourceBtnClick('video')}
-              >
-                {activeContent === 'video' ? <FiCheck className="check" /> : ''}
-                Videos
-              </button>
+            <div className="col-md-8 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+              <div>
+                <button
+                  type="button"
+                  className={`text-btn btn ${
+                    activeContent === 'texts' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('text')}
+                >
+                  Texts
+                </button>
+                <button
+                  type="button"
+                  className={`pdf-btn btn ${
+                    activeContent === 'pdf' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('pdf')}
+                >
+                  Pdfs
+                </button>
+                <button
+                  type="button"
+                  className={`image-btn btn ${
+                    activeContent === 'image' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('image')}
+                >
+                  Images
+                </button>
+                <button
+                  type="button"
+                  className={`video-btn btn ${
+                    activeContent === 'video' ? 'active' : ''
+                  }`}
+                  onClick={() => this.handleResourceBtnClick('video')}
+                >
+                  Videos
+                </button>
+              </div>
             </div>
           </div>
           <div className="row content-row">
@@ -308,8 +306,10 @@ class AccountComponent extends React.Component {
                         </div>
                         <div className="card-body">
                           <p className="p">
-                            {resource.definition.slice(0, 70)}
-                            <span className="span">...</span>
+                            {resource.definition.slice(0, 250)}
+                            {resource.definition.length > 250 && (
+                              <span className="span">...</span>
+                            )}
                           </p>
                         </div>
                         <div className="card-subject">

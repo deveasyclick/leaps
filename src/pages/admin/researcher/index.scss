@@ -48,54 +48,6 @@
             }
         }
 
-        .approve-pending-popup {
-            position: relative;
-
-            .icon {
-                cursor: pointer;
-            }
-
-            .caret {
-                position: absolute;
-                width: 0;
-                height: 0;
-                border-right: solid 10px transparent;
-                border-left: solid 10px transparent;
-                border-bottom: 10px solid #eaeaea;
-                top: -10px;
-                left: 46px;
-            }
-
-            .approved-pending {
-                position: absolute;
-                list-style: none;
-                padding: 0;
-                border-radius: 10px;
-                display: none;
-                top: 2.4rem;
-                left: -42px;
-                width: 7rem;
-                background: #eaeaea;
-                z-index: 100;
-
-                .list {
-                    cursor: pointer;
-                    padding: 5px;
-                    text-align: center;
-
-                    &:hover {
-                        /*background: #e6e6e6;*/
-                        background: #6b59da;
-                        color: $white;
-                    }
-                }
-
-                .first-list {
-                    border-bottom: solid 1px #d0cccc;
-                }
-            }
-        }
-
         .image {
             width: 60px;
             height: 60px;
@@ -161,7 +113,9 @@
     }
 
     .resources-btn-row {
-        margin-bottom: 2rem;
+        margin-bottom: 5rem;
+        margin-top: 2rem;
+
 
         .check {
             margin-right: 10px;
@@ -173,25 +127,28 @@
 
         .btn-wrapper {
             padding-left: 3rem;
+            justify-content: center;
+            border-bottom: solid 2px #e4e4e4;
+            margin: auto;
 
             @media (max-width: $mobile-max-screen) {
                 padding-left: 1rem;
             }
 
             .btn {
-                margin-right: 0.625rem;
-                width: 30rem !important;
+                width: 6rem !important;
                 padding: 0.4rem;
-            }
-
-            .btn:not(.active) {
                 background: none;
-                border: solid 1px $gray;
+                border-radius: 0 !important;
+                background: none;
                 color: $gray;
+                position: relative;
+                top: 2px;
             }
 
             .btn.active {
-                background: $app-dominant-color;
+                color: $app-dominant-color-deep;
+                border-bottom: solid 2px;
             }
         }
     }
@@ -214,16 +171,76 @@
                 margin-bottom: 15px;
                 background: white;
                 border-radius: 5px;
-                padding: 0px;
-                border: solid 1px #e6e6e6;
+                padding: 1rem 2rem;
+                position: relative;
 
-                .card-subject {
-                    position: relative;
+                .card-body,
+                .card-title,
+                .card-subject,
+                .card-topic {
+                    padding: 5px;
+                }
+
+                .card-subject .h4 {
+                    margin-bottom: 0;
+                }
+
+                .card-subject,
+                .card-topic,
+                .card-title .h4 {
+                    color: #716262;
+                    margin-bottom: 0;
+                }
+
+                .card-title {
+                    overflow: hidden;
+                }
+
+                .card-body {
+                    margin-bottom: 1rem;
+
+                    .p {
+                        overflow: hidden;
+                        margin-bottom: 0;
+                        display: inline-block;
+                        width: 100%;
+                        word-break: break-all;
+                        white-space: normal;
+
+                        .span {
+                            display: inline-block;
+                            text-align: left;
+                            font-size: 20px;
+                            line-height: 0;
+                            color: #b1b1b1;
+                        }
+                    }
+                }
+
+                .hr {
+                    position: absolute;
+                    width: 100%;
+                    left: 0;
+                    bottom: 40px;
+                }
+
+                .card-status {
+                    display: flex;
+                    padding: 0 5px;
+
+                    .status-indicator {
+                        width: 100%;
+                        margin-bottom: 0;
+                        color: #716262;
+                    }
+
+                    .logical-block {
+                        position: relative;
+                        left: 33px;
+                    }
 
                     .approve-pending-popup {
-                        position: absolute;
-                        right: 0;
-                        top: 5px;
+                        position: relative;
 
                         .icon {
                             cursor: pointer;
@@ -269,42 +286,9 @@
                             }
                         }
                     }
-                }
 
-                .card-body,
-                .card-title,
-                .card-subject,
-                .card-topic {
-                    padding: 5px;
-                }
-
-                .card-title {
-                    overflow: hidden;
-                }
-
-                .card-body {
-                    border-bottom: solid 1px #e6e6e6;
-
-                    .p {
-                        overflow: hidden;
-                        margin-bottom: 0;
-                        display: inline-block;
-                        width: 100%;
-                        word-break: break-all;
-                        white-space: normal;
-
-                        .span {
-                            display: inline-block;
-                            text-align: left;
-                            font-size: 20px;
-                            line-height: 0;
-                            color: #b1b1b1;
-                        }
-                    }
                 }
             }
-
-            .pdf-resource {}
 
             .image-resource {
                 img {

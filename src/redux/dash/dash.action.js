@@ -335,7 +335,7 @@ export const fetchResearchers = () => async (dispatch) => {
   });
   const admin = storage.get('user');
   db.collection('web_users')
-    .where('category', '==', 'researcher')
+    .where('category', '==', 'Content provider')
     .onSnapshot(
       (querySnapshot) => {
         const researchers = [];
