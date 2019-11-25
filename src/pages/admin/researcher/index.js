@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiClock, FiMoreVertical, FiCheck } from 'react-icons/fi';
+import { FiClock, FiMoreVertical } from 'react-icons/fi';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 import Image from '../../../assets/images/favicon.png';
 import {
@@ -14,7 +14,6 @@ import {
   updateResources,
 } from '../../../redux/dash/dash.action';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
-import * as storage from '../../../helpers/token';
 import 'react-table/react-table.css';
 
 class AdminDashboard extends Component {

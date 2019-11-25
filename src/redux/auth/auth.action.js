@@ -77,8 +77,10 @@ export const checkAuth = () => (dispatch) => {
   auth.onAuthStateChanged(
     (user) => {
       if (user) {
-        const localUser = storage.get('user') || user;
-        dispatch({ type: authActions.CHECK_AUTH_SUCCESS, data: localUser });
+        const localUser = storage.get('user');
+        if (localUser) {
+          dispatch({ type: authActions.CHECK_AUTH_SUCCESS, data: localUser });
+        }
       } else {
         dispatch({
           type: authActions.CHECK_AUTH_FAILED,

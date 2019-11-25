@@ -24,7 +24,7 @@ class Sidebar extends Component {
 
   componentDidMount() {
     const { getResearcher } = this.props;
-    const user = storage.get('user');
+    const { user } = this.props;
     if (user) {
       this.setState({ user });
       getResearcher(user.uid);
@@ -45,7 +45,7 @@ class Sidebar extends Component {
 
   render() {
     const { user, activeLink } = this.state;
-    const { nav } = this.props;
+    const { nav, data } = this.props;
     const sidebarStyle = {
       left: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '0' : '-300px',
     };

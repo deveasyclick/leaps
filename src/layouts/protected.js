@@ -47,9 +47,9 @@ export class ProtectedLayout extends React.Component {
             );
           }
           if (
-            type === authActionTypes.CHECK_AUTH_SUCCESS
-            || type === authActionTypes.SIGNUP_SUCCESS
+            type === authActionTypes.SIGNUP_SUCCESS
             || type === authActionTypes.LOGIN_SUCCESS
+            || type === authActionTypes.CHECK_AUTH_SUCCESS
           ) {
             // return console.log('data', data);
             if (data.isAdmin) {
@@ -64,9 +64,9 @@ export class ProtectedLayout extends React.Component {
             }
             return (
               <React.Fragment>
-                <Sidebar />
+                <Sidebar user={data} />
                 <div style={layoutStyle} className="Protected">
-                  <Header />
+                  <Header user={data} />
                   <div style={{ padding: '2rem' }}>
                     <Component {...matchProps} />
                   </div>

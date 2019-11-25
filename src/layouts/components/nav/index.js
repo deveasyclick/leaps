@@ -65,7 +65,7 @@ export class Nav extends PureComponent {
   }
 
   componentDidMount() {
-    const user = storage.get('user');
+    const { user } = this.props;
     if (user) {
       this.setState({ user });
     }
@@ -83,6 +83,7 @@ export class Nav extends PureComponent {
         this.setState({ activePath: path });
       }
     }
+
     if (JSON.stringify(storage.get('user')) !== JSON.stringify(user)) {
       const user = storage.get('user');
       this.setState({ user });
