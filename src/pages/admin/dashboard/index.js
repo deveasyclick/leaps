@@ -5,7 +5,7 @@ import { FiClock, FiMoreVertical } from 'react-icons/fi';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 import ReactTable from 'react-table';
 import styled from 'styled-components';
-import Image from '../../../assets/images/favicon.png';
+import Image from '../../../assets/icons/person.png';
 import * as storage from '../../../helpers/token';
 import {
   fetchResearchers,

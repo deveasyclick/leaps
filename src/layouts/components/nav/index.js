@@ -71,18 +71,8 @@ export class Nav extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { user, activePath } = this.state;
-    const path = this.props.match.path.replace(/^\//g, '');
-    if (path.toUpperCase() !== activePath.toUpperCase()) {
-      if (path) {
-        this.setState({
-          activePath: path.charAt(0).toUpperCase() + path.slice(1),
-        });
-      } else {
-        this.setState({ activePath: path });
-      }
-    }
+  componentDidUpdate() {
+    const { user } = this.state;
 
     if (JSON.stringify(storage.get('user')) !== JSON.stringify(user)) {
       const user = storage.get('user');
@@ -116,7 +106,7 @@ export class Nav extends PureComponent {
     const {
  auth, nav, width, search 
 } = this.props;
-    const { dialogClicked, user, activePath } = this.state;
+    const { dialogClicked, user } = this.state;
     const navStyle = {
       width: nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '80%' : '100%',
     };
@@ -145,9 +135,7 @@ export class Nav extends PureComponent {
                 <FiMenu size={21} className="times-icon" />
               )}
             </div>
-            <h1 className="d-flex site-section">
-              {activePath === '' ? 'Dashboard' : activePath}
-            </h1>
+            {/* <h1 className="d-flex site-section">leaPs</h1> */}
           </div>
           <div className="col-6 col-md-4 d-flex justify-content-center align-items-center">
             <div className="search-wrapper">

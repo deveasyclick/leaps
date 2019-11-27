@@ -72,7 +72,7 @@
                 padding: 0;
                 border-radius: 10px;
                 display: none;
-                top: 2.4rem;
+                top: 2rem;
                 left: -42px;
                 width: 7rem;
                 background: #eaeaea;
@@ -100,7 +100,7 @@
             width: 60px;
             height: 60px;
             border-radius: 100%;
-            border: solid 2px $app-dominant-color;
+            border: solid 1px;
 
             .img {
                 border-radius: 100%;
@@ -126,6 +126,25 @@
                 color: green;
                 margin-right: 10px;
             }
+        }
+    }
+}
+
+
+.ReactModal__Content {
+    .close-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: unset;
+        background: white;
+    }
+
+    .card {
+        width: 100%;
+
+        .label {
+            margin: 0;
         }
     }
 }
@@ -222,12 +241,6 @@
                 padding: 1rem 2rem;
                 position: relative;
 
-                .card-body,
-                .card-title,
-                .card-subject,
-                .card-topic {
-                    padding: 5px;
-                }
 
                 .card-subject .h4 {
                     margin-bottom: 0;
@@ -235,17 +248,21 @@
 
                 .card-subject,
                 .card-topic,
-                .card-title .h4 {
+                .h4 {
                     color: #716262;
                     margin-bottom: 0;
                 }
 
                 .card-title {
                     overflow: hidden;
+
+                    .title {
+                        color: #716262;
+                    }
                 }
 
                 .card-body {
-                    margin-bottom: 1rem;
+                    margin-bottom: 2rem;
 
                     .p {
                         overflow: hidden;
@@ -265,16 +282,18 @@
                     }
                 }
 
-                .hr {
+                .line {
                     position: absolute;
                     width: 100%;
                     left: 0;
-                    bottom: 40px;
+                    bottom: 50px;
+                    border: solid 1px #e4e4e4;
                 }
 
                 .card-status {
                     display: flex;
                     padding: 0 5px;
+                    padding-top: 10px;
 
                     .status-indicator {
                         width: 100%;
@@ -311,7 +330,7 @@
                             padding: 0;
                             border-radius: 10px;
                             display: none;
-                            top: 2.4rem;
+                            top: 2rem;
                             left: -42px;
                             width: 7rem;
                             background: #eaeaea;
