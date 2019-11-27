@@ -184,26 +184,47 @@ select:-webkit-autofill:focus {
     }
 
     .left-column {
-        background: url("../../assets/images/tech.jpeg") no-repeat center;
-        background-size: cover;
-        padding-left: 5rem;
-        padding-top: 3rem;
+        padding: 0 !important;
 
         @media (max-width:$mobile-max-screen) {
-                    padding-left:1rem;
+            display: none;
         }
-        .hero-text {
-            display: flex;
-            height: 80vh;
-            justify-content: center;
-            flex-direction: column;
 
-            &__text {
-                font-size: 30pt;
-                font-weight: bolder;
-                margin-bottom: 0;
+        .carousel {
+            .slide {
+
+                .img {
+                    height: 100vh;
+                    object-fit: cover;
+                }
+
+                .hero {
+                    position: absolute;
+                    width: 100%;
+                    top: 0;
+                    bottom: 0;
+                    display: flex;
+                    justify-content: center;
+                    background: rgba(123, 104, 238, 0.4);
+                    padding-top: 5rem;
+                }
+
+                .hero-text {
+                    display: flex;
+                    height: 80vh;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    &__text {
+                        font-size: 30pt;
+                        font-weight: bolder;
+                        margin-bottom: 0;
+                    }
+                }
             }
         }
+
+
     }
 
     .content-container {

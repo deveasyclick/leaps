@@ -8,6 +8,25 @@
     border-bottom: 1px solid #DFE3E8;
 }
 
+
+.ReactModal__Content {
+    .close-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: unset;
+        background: white;
+    }
+
+    .card {
+        width: 100%;
+
+        .label {
+            margin: 0;
+        }
+    }
+}
+
 .Resources {
     .resources-row {
         margin-top: 1rem;
@@ -30,13 +49,7 @@
                 background: white;
                 border-radius: 5px;
                 padding: 1rem 2rem;
-
-                .card-body,
-                .card-title,
-                .card-subject,
-                .card-topic {
-                    padding: 5px;
-                }
+                cursor: pointer;
 
                 .card-subject .h4 {
                     margin-bottom: 0;

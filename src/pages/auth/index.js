@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
+import { Carousel } from 'react-responsive-carousel';
 import Button from './components/button';
 import Loader from '../../assets/images/Spinner-1s-200px.svg';
 import authActionTypes from '../../redux/auth/auth.actionTypes';
 import { login, signup, sendResetPassword } from '../../redux/auth/auth.action';
 import { validator } from '../../helpers/utils';
 import Dialog from '../../components/dialog';
-import AuthImage from '../../assets/images/tech.jpeg';
+import authImage1 from '../../assets/images/auth-image-1.jpeg';
+import authImage2 from '../../assets/images/auth-image-2.jpg';
+import authImage3 from '../../assets/images/auth-image-3.jpg';
 
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './style.scss';
 
 const countries = ['Nigeria', 'Ethiopia', 'Kenya', 'Malawi', 'United Kingdom'];
@@ -35,7 +39,7 @@ export class Auth extends Component {
       signup: {
         email: { value: '', valid: false },
         password: { value: '', valid: false },
-        confirm_password:{value:'',valid:false},
+        confirm_password: { value: '', valid: false },
         country: { value: 'Kenya', valid: true },
         name: { value: '', valid: false },
       },
@@ -65,10 +69,13 @@ export class Auth extends Component {
     const form = this.state[activePage];
     const formKeys = Object.keys(form);
     const validCount = formKeys.filter(k => form[k].valid === true).length;
-    if(activePage === "signup"){
-    return validCount === formKeys.length && form.password.value === form.confirm_password.value;
+    if (activePage === 'signup') {
+      return (
+        validCount === formKeys.length
+        && form.password.value === form.confirm_password.value
+      );
     }
-    return validCount === formKeys.length;   
+    return validCount === formKeys.length;
   }
 
   onSigninSubmit(e) {
@@ -193,30 +200,60 @@ export class Auth extends Component {
     return (
       <section className="Login2 container-fluid">
         <div className="row">
-          <div className="col-md-8 col-12 left-column">
-            <h4>leaps</h4>
+          <div className="col-md-7 col-12 left-column">
+            <Carousel
+              showArrows={false}
+              showThumbs={false}
+              showStatus={false}
+              showIndicators={false}
+              infiniteLoop
+              autoPlay
+            >
+              <div>
+                <img className="img" src={authImage1} alt="" />
+                <div className="hero">
+                  <h4>leaps</h4>
 
-            <div className="hero-text">
-              <h1 className="hero-text__text">Sign {activePage === "signin" ? 'In' : 'Up'} related</h1>
-              <h1 className="hero-text__text">onboarding here!</h1>
-            </div>
+                  <div className="hero-text">
+                    <h3 className="hero-text__text">
+                      Verify authenticity of contents
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <img className="img" src={authImage2} alt="" />
+                <div className="hero">
+                  <h4>leaps</h4>
+
+                  <div className="hero-text">
+                    <h3 className="hero-text__text">
+                      Provide contents by collaboration
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <img className="img" src={authImage3} alt="" />
+                <div className="hero">
+                  <h4>leaps</h4>
+
+                  <div className="hero-text">
+                    <h3 className="hero-text__text">
+                      Publish content anywhere at anytime
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </Carousel>
           </div>
-          <div className="col-md-4 col-12 content-container">
+          <div className="col-md-5 col-12 content-container">
             <div className="row">
               <div className="col-12">
                 <div className="title">
-                {
-                  activePage === "signin" &&
-                  <h1>Sign in to your account</h1>
-                }
-                {
-                  activePage === "signup" &&
-                  <h1>Create new account</h1>
-                }
-                {
-                  activePage === "forgot" &&
-                  <h1>Reset your password</h1>
-                }
+                  {activePage === 'signin' && <h1>Sign in to your account</h1>}
+                  {activePage === 'signup' && <h1>Create new account</h1>}
+                  {activePage === 'forgot' && <h1>Reset your password</h1>}
                 </div>
                 <div className="tab-control">
                   <button
@@ -391,10 +428,11 @@ export class Auth extends Component {
                     Reset password field cannot be empty
                   </p>
                 )}
-                {showSignupInvalid && signup.password.value && signup.confirm_password.value && signup.password.value !== signup.confirm_password.value && (
-                  <p className="input-error-text">
-                    Password do not match
-                  </p>
+                {showSignupInvalid
+                  && signup.password.value
+                  && signup.confirm_password.value
+                  && signup.password.value !== signup.confirm_password.value && (
+                    <p className="input-error-text">Password do not match</p>
                 )}
               </div>
               <div className="form-group col-12">
@@ -498,7 +536,4 @@ const mapDispatchToProps = dispatch => ({
   resetPassword: obj => dispatch(sendResetPassword(obj)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(Auth));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Auth));
