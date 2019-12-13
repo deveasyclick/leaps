@@ -6,7 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
-import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles({
   root: {
@@ -14,11 +13,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AlertDialog({ message, title }) {
+export default function AlertDialog({
+ message, title, name, clicked 
+}) {
   const [open, setOpen] = React.useState(true);
   const classes = useStyles();
   function handleClose() {
     setOpen(false);
+    if (name === 'reset password') {
+      clicked();
+    }
   }
 
   return (

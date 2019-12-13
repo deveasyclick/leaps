@@ -84,7 +84,8 @@ export const checkAuth = () => (dispatch) => {
       } else {
         dispatch({
           type: authActions.CHECK_AUTH_FAILED,
-          error: "user doesn't exist",
+          error:
+            'An error occured while fetching user details. Check your network connection and try again',
         });
       }
     },

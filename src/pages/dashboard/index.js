@@ -9,6 +9,7 @@ import { uploadResources, fetchResearcher } from '../../redux/dash/dash.action';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import Dialog from '../../components/dialog';
 import { Dialog2 } from '../../components/dialog';
+import Tab from '../../components/tab';
 import './index.scss';
 
 const ignoredWords = ['is', 'the', 'there', 'they', 'we', 'when', 'who', 'how'];
@@ -325,6 +326,25 @@ export class Dashboard extends Component {
   }
 
   render() {
+    const tabs = [
+      {
+        label: 'Texts',
+        active: true,
+        action: () => this.handleResourceBtnClick('text')
+      },
+      {
+        label: 'Pdfs',
+        action: () => this.handleResourceBtnClick('pdf')
+      },
+      {
+        label: 'Images',
+        action: () => this.handleResourceBtnClick('image')
+      },
+      {
+        label: 'Videos',
+        action: () => this.handleResourceBtnClick('video')
+      }
+    ];
     const {
       form,
       activeContent,
@@ -548,55 +568,8 @@ export class Dashboard extends Component {
             }
 
             <div className='row resources-btn-row'>
-              <div className='col-md-10 col-12 offset-0 d-flex btn-wrapper offset-md-1'>
-                <button
-                  type='button'
-                  className={`text-btn btn ${
-                    activeContent === 'texts' ? 'active' : ''
-                  }`}
-                  onClick={() => this.handleResourceBtnClick('text')}>
-                  {activeContent === 'texts' ? (
-                    <FiCheck className='check' />
-                  ) : (
-                    ''
-                  )}
-                  Texts
-                </button>
-                <button
-                  type='button'
-                  className={`pdf-btn btn ${
-                    activeContent === 'pdf' ? 'active' : ''
-                  }`}
-                  onClick={() => this.handleResourceBtnClick('pdf')}>
-                  {activeContent === 'pdf' ? <FiCheck className='check' /> : ''}
-                  Pdfs
-                </button>
-                <button
-                  type='button'
-                  className={`image-btn btn ${
-                    activeContent === 'image' ? 'active' : ''
-                  }`}
-                  onClick={() => this.handleResourceBtnClick('image')}>
-                  {activeContent === 'image' ? (
-                    <FiCheck className='check' />
-                  ) : (
-                    ''
-                  )}
-                  Images
-                </button>
-                <button
-                  type='button'
-                  className={`video-btn btn ${
-                    activeContent === 'video' ? 'active' : ''
-                  }`}
-                  onClick={() => this.handleResourceBtnClick('video')}>
-                  {activeContent === 'video' ? (
-                    <FiCheck className='check' />
-                  ) : (
-                    ''
-                  )}
-                  Videos
-                </button>
+              <div className='col-md-11 col-12 offset-0 d-flex btn-wrapper offset-md-1'>
+                <Tab tabs={tabs} />
               </div>
             </div>
             <div className='row content-row'>
@@ -605,7 +578,6 @@ export class Dashboard extends Component {
                   activeContent === 'texts' ? 'show' : ''
                 }`}>
                 <div className='text-content-form-group form-group col-md-11 col-12'>
-                  <FiEdit className='edit-icon' />
                   <input
                     type='text'
                     value={form.heading.value}
@@ -617,7 +589,6 @@ export class Dashboard extends Component {
                   />
                 </div>
                 <div className='text-content-form-group form-group col-md-11 col-12'>
-                  <FiEdit2 className='edit-icon' />
                   <textarea
                     className='form-control text-form-control'
                     name='excerpt'
@@ -629,7 +600,6 @@ export class Dashboard extends Component {
                   />
                 </div>
                 <div className='form-group text-content-form-group  col-md-11 col-12'>
-                  <FiEdit3 className='edit-icon' />
                   <textarea
                     className='form-control text-form-control'
                     name='definition'
@@ -879,7 +849,7 @@ export class Dashboard extends Component {
                   <button type='submit' className='btn upload-btn'>
                     <Loader
                       type='Circles'
-                      color='#00BFFF'
+                      color='#FFFFFF'
                       height='20'
                       width='100'
                     />
@@ -920,7 +890,4 @@ const mapDispatchToProps = dispatch => ({
   uploadResources: document => dispatch(uploadResources(document)),
   getResearcher: uid => dispatch(fetchResearcher(uid))
 });
-export default connect(
-  mapStatesToProps,
-  mapDispatchToProps
-)(Dashboard);
+export default connect(mapStatesToProps, mapDispatchToProps)(Dashboard);

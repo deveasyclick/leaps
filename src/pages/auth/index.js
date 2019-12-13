@@ -20,7 +20,7 @@ function printError(type, error) {
   switch (type) {
     case authActionTypes.LOGIN_FAILED:
     case authActionTypes.SIGNUP_FAILED:
-    case authActionTypes.RESET_PASSWORD_FAILED:
+    case authActionTypes.SEND_RESET_PASSWORD_FAILED:
       return <Dialog title={type} message={error} />;
     case authActionTypes.LOGIN_SUCCESS:
       return <Dialog title={type} message="Success!" />;
@@ -206,13 +206,15 @@ export class Auth extends Component {
               showThumbs={false}
               showStatus={false}
               showIndicators={false}
+              interval={5000}
+              transitionTime={500}
               infiniteLoop
               autoPlay
             >
               <div>
                 <img className="img" src={authImage1} alt="" />
                 <div className="hero">
-                  <h4>leaps</h4>
+                  <h3 className="brand">leaps</h3>
 
                   <div className="hero-text">
                     <h3 className="hero-text__text">
@@ -224,7 +226,7 @@ export class Auth extends Component {
               <div>
                 <img className="img" src={authImage2} alt="" />
                 <div className="hero">
-                  <h4>leaps</h4>
+                  <h3>leaps</h3>
 
                   <div className="hero-text">
                     <h3 className="hero-text__text">
@@ -236,7 +238,7 @@ export class Auth extends Component {
               <div>
                 <img className="img" src={authImage3} alt="" />
                 <div className="hero">
-                  <h4>leaps</h4>
+                  <h3>leaps</h3>
 
                   <div className="hero-text">
                     <h3 className="hero-text__text">
@@ -514,6 +516,15 @@ export class Auth extends Component {
                   <Dialog
                     title="Forgot Password"
                     message="Password reset sent, please check your email!"
+                    name="reset password"
+                    clicked={() => {
+                      this.setState({
+                        showSigninInvalid: false,
+                        showSignupInvalid: false,
+                        showForgotPasswordInvalid: false,
+                        activePage: 'signin',
+                      });
+                    }}
                   />
                 )}
               </div>

@@ -240,26 +240,18 @@
 
         .btn-wrapper {
             padding-left: 3rem;
+            justify-content: center;
+            border-bottom: solid 2px #e4e4e4;
+            margin: auto;
 
             @media (max-width: $mobile-max-screen) {
                 padding-left: 1rem;
             }
 
-            .btn {
-                margin-right: 0.625rem;
-                width: 30rem !important;
-                padding: 0.4rem;
+            @media (max-width: $mobile-max-screen) {
+                padding-left: 1rem;
             }
 
-            .btn:not(.active) {
-                background: none;
-                border: solid 1px $gray;
-                color: $gray;
-            }
-
-            .btn.active {
-                background: $app-dominant-color;
-            }
         }
     }
 
@@ -289,7 +281,7 @@
             }
 
             .text-form-control {
-                padding: 5.5px 1.5rem !important;
+                padding: 5.5px 1rem !important;
             }
 
             .form-group-btn {
