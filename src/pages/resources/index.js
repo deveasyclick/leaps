@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import * as storage from '../../helpers/token';
 import { validator } from '../../helpers/utils';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
+import navActionTypes from '../../redux/nav/nav.action-type';
 import {
   updateUserDetails,
   fetchResearcherImages,
@@ -16,18 +17,6 @@ import {
 import './index.scss';
 
 import 'react-table/react-table.css';
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    // width: '100%'
-  },
-};
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
@@ -182,6 +171,20 @@ class AccountComponent extends React.Component {
 
   render() {
     const { activeContent, resources, selectedTextResource } = this.state;
+    const { nav } = this.props;
+    const customStyles = {
+      content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        paddingLeft:
+          nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '18rem' : '1rem',
+      },
+    };
+
     return (
       <React.Fragment>
         {selectedTextResource && (
@@ -341,7 +344,7 @@ class AccountComponent extends React.Component {
                 <div className="row">
                   {resources.pdfs.length > 0
                     && resources.pdfs.map((resource, index) => (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -364,7 +367,7 @@ class AccountComponent extends React.Component {
                             </div>
                           </div>
                           <div className="card-subject">
-                            <h4>
+                            <h4 className="h4">
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
                                 <small className="ellipse">...</small>
@@ -396,7 +399,7 @@ class AccountComponent extends React.Component {
                 <div className="row">
                   {resources.images.length > 0
                     && resources.images.map((resource, index) => (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -420,7 +423,7 @@ class AccountComponent extends React.Component {
                             </div>
                           </div>
                           <div className="card-subject">
-                            <h4>
+                            <h4 className="h4">
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
                                 <small className="ellipse">...</small>
@@ -452,7 +455,7 @@ class AccountComponent extends React.Component {
                 <div className="row">
                   {resources.videos.length > 0
                     && resources.videos.map((resource, index) => (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -471,6 +474,7 @@ class AccountComponent extends React.Component {
                                 width="100%"
                                 height="auto"
                                 className="iframe"
+                                style={{ border: 'none' }}
                                 src={resource.file_path.replace(
                                   'watch?v=',
                                   'embed/',
@@ -513,6 +517,7 @@ class AccountComponent extends React.Component {
 
 const mapStateToProps = states => ({
   dash: states.dash,
+  nav: states.nav,
 });
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUserDetails(user)),
