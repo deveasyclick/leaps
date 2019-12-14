@@ -250,16 +250,11 @@
                 .card-subject,
                 .card-topic,
                 .h4 {
-                    color: #716262;
                     margin-bottom: 0;
                 }
 
                 .card-title {
                     overflow: hidden;
-
-                    .title {
-                        color: #716262;
-                    }
                 }
 
                 .card-body {
@@ -299,7 +294,6 @@
                     .status-indicator {
                         width: 100%;
                         margin-bottom: 0;
-                        color: #716262;
                     }
 
                     .logical-block {
@@ -362,6 +356,7 @@
                 img {
                     min-height: 8rem;
                     max-height: 10rem;
+                    object-fit: cover;
                 }
             }
         }

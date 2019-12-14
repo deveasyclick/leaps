@@ -5,10 +5,7 @@ import { FiClock, FiMoreVertical } from 'react-icons/fi';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 import ReactTable from 'react-table';
 import styled from 'styled-components';
-import Image from '../../../assets/icons/person.png';
-import * as storage from '../../../helpers/token';
 import {
-  fetchResearchers,
   fetchTeachers,
   updateTeacherDetails,
 } from '../../../redux/dash/dash.action';
@@ -65,28 +62,8 @@ class AdminDashboard extends Component {
       teachers: [],
       hideNav: false,
     };
-    this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
     this.updateTeacherDetails = this.updateTeacherDetails.bind(this);
-    this.researcherClicked = this.researcherClicked.bind(this);
     this.resize = this.resize.bind(this);
-  }
-
-  handleResourceBtnClick(type) {
-    let activeContent = 'texts';
-    switch (type) {
-      case 'image':
-        activeContent = 'image';
-        break;
-      case 'video':
-        activeContent = 'video';
-        break;
-      case 'text':
-        activeContent = 'texts';
-        break;
-      default:
-        activeContent = 'pdf';
-    }
-    this.setState({ activeContent });
   }
 
   updateTeacherDetails(obj) {
@@ -97,15 +74,6 @@ class AdminDashboard extends Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHERS_SUCCESS
-    ) {
-      this.setState({
-        researchers: [...this.props.dash.data],
-      });
-    }
-
-    if (
-      prevProps.dash.type !== this.props.dash.type
       && this.props.dash.type === dashActionTypes.FETCH_TEACHERS_SUCCESS
     ) {
       this.setState({
@@ -114,14 +82,9 @@ class AdminDashboard extends Component {
     }
   }
 
-  researcherClicked(researcher) {
-    this.props.history.push(`/researcher/${researcher.uid}`);
-  }
-
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
-    const { getResearchers, getTeachers } = this.props;
-    getResearchers();
+    const { getTeachers } = this.props;
     getTeachers();
     this.resize();
   }
@@ -138,7 +101,7 @@ class AdminDashboard extends Component {
   }
 
   render() {
-    const { researchers, teachers, hideNav } = this.state;
+    const { teachers, hideNav } = this.state;
 
     const columns = [
       {
@@ -253,59 +216,7 @@ class AdminDashboard extends Component {
     ];
 
     return (
-      <section className="container Admin">
-        <div className="row">
-          <div className="col">
-            <h3 className="researchers-title">Content providers</h3>
-          </div>
-        </div>
-        <div className="row cards-row">
-          {researchers.map((researcher, index) => (
-            <div
-              className="col-12 col-md-6 col-sm-3 col-lg-4"
-              key={index}
-              onClick={() => this.researcherClicked(researcher)}
-            >
-              <div className="researcher card">
-                <div className="details-wrapper d-flex justify-content-between">
-                  <div className="details">
-                    <p className="name">{researcher.name}</p>
-                    <p className="uploads">
-                      <span className="uploads-count">
-                        {researcher.file_uploads}
-                      </span>
-                      Uploads
-                    </p>
-                  </div>
-                  <div className="image">
-                    <img
-                      src={researcher.image || Image}
-                      alt=""
-                      width="100%"
-                      className="img"
-                    />
-                  </div>
-                </div>
-                <div className="stats d-flex">
-                  <p className="pending d-flex align-items-center">
-                    <FiClock size={18} className="pending-icon" />
-                    <span className="pending-count">
-                      {researcher.file_pending}
-                    </span>
-                    pending
-                  </p>
-                  <p className="approved">
-                    <IoMdCheckmarkCircle size={18} className="approved-icon" />
-                    <span className="pending-count">
-                      {researcher.file_approved}
-                    </span>
-                    approved
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <section className="container-fluid Admin">
         <div className="row teachers-heading-row">
           <div className="col">
             <h3 className="teachers-title">Teachers</h3>
@@ -341,11 +252,7 @@ const mapPropsToState = states => ({
   dash: states.dash,
 });
 const mapPropsToDispatch = dispatch => ({
-  getResearchers: () => dispatch(fetchResearchers()),
   getTeachers: () => dispatch(fetchTeachers()),
   updateTeacherDetail: obj => dispatch(updateTeacherDetails(obj)),
 });
-export default connect(
-  mapPropsToState,
-  mapPropsToDispatch,
-)(AdminDashboard);
+export default connect(mapPropsToState, mapPropsToDispatch)(AdminDashboard);

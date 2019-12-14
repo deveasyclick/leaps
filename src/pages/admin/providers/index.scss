@@ -1,0 +1,80 @@
+@import '../../../styles/style.scss';
+
+@mixin border {
+    border: 1px solid #DFE3E8;
+}
+
+@mixin card {
+    margin-bottom: 1rem;
+    background: white;
+    @include border;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+        background: #f9fbfd;
+    }
+
+    .pending-count,
+    .uploads-count,
+    .approved-count {
+        margin: 0 3px;
+    }
+
+    .details-wrapper {
+        .details {
+            .name {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .image {
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+            border: solid 1px;
+
+            .img {
+                border-radius: 100%;
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .stats {
+        .pending {
+            padding-right: 10px;
+            border-right: solid;
+
+            .pending-icon {
+                color: gray;
+                margin-right: 5px;
+            }
+        }
+
+        .approved {
+            padding-left: 10px;
+
+            .approved-icon {
+                color: green;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.Admin {
+    .researchers-title {
+        font-size: 16pt;
+        margin-bottom: 1rem;
+    }
+
+    .cards-row {
+        .card {
+            @include card;
+        }
+    }
+}

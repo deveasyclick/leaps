@@ -523,7 +523,7 @@ class AdminDashboard extends Component {
                   && resources.pdfs.map((resource, index) => {
                     const resourcesRef = React.createRef();
                     return (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -546,7 +546,7 @@ class AdminDashboard extends Component {
                             </div>
                           </div>
                           <div className="card-subject">
-                            <h4>
+                            <h4 className="h4">
                               {resource.subject.slice(0, 15)}
                               {resource.subject.length > 15 ? (
                                 <small className="ellipse">...</small>
@@ -565,7 +565,7 @@ class AdminDashboard extends Component {
                               )}
                             </h4>
                           </div>
-                          <hr className="hr" />
+                          <div className="line" />
                           <div className="card-status">
                             <h4 className="status-indicator">
                               {resource.isPending ? 'pending' : 'approved'}
@@ -635,7 +635,7 @@ class AdminDashboard extends Component {
                   && resources.images.map((resource, index) => {
                     const resourcesRef = React.createRef();
                     return (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -659,7 +659,7 @@ class AdminDashboard extends Component {
                             </div>
                           </div>
                           <div className="card-subject">
-                            <h4>
+                            <h4 className="h4">
                               {resource.subject.slice(0, 15)}
                               {resource.subject.length > 15 ? (
                                 <small className="ellipse">...</small>
@@ -678,7 +678,7 @@ class AdminDashboard extends Component {
                               )}
                             </h4>
                           </div>
-                          <hr className="hr" />
+                          <div className="line" />
                           <div className="card-status">
                             <h4 className="status-indicator">
                               {resource.isPending ? 'pending' : 'approved'}
@@ -748,7 +748,7 @@ class AdminDashboard extends Component {
                   && resources.videos.map((resource, index) => {
                     const resourcesRef = React.createRef();
                     return (
-                      <div key={index} className="col-md-3 col-12 col-sm-4">
+                      <div key={index} className="col-md-4 col-12 col-sm-4">
                         <div className="text-resource resource-card">
                           <div className="card-title">
                             <h3>
@@ -767,6 +767,7 @@ class AdminDashboard extends Component {
                                 width="100%"
                                 height="auto"
                                 className="iframe"
+                                style={{ border: 'none' }}
                                 src={resource.file_path.replace(
                                   'watch?v=',
                                   'embed/',
@@ -775,7 +776,7 @@ class AdminDashboard extends Component {
                             </div>
                           </div>
                           <div className="card-subject">
-                            <h4>
+                            <h4 className="h4">
                               {resource.subject.slice(0, 15)}
                               {resource.subject.length > 15 ? (
                                 <small className="ellipse">...</small>
@@ -794,7 +795,7 @@ class AdminDashboard extends Component {
                               )}
                             </h4>
                           </div>
-                          <hr className="hr" />
+                          <div className="line" />
                           <div className="card-status">
                             <h4 className="status-indicator">
                               {resource.isPending ? 'pending' : 'approved'}

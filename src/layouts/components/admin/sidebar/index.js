@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiUser, FiCommand } from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
 import { IoMdPerson } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/images/logo-only_mobile.png';
-import * as storage from '../../../../helpers/token';
 import { fetchResearcher } from '../../../../redux/dash/dash.action';
 import navActionTypes from '../../../../redux/nav/nav.action-type';
-import dashActionTypes from '../../../../redux/dash/dash.actionTypes';
 
 const navs = [
-  { name: 'Dashboard', icon: FiCommand, path: '/' },
+  { name: 'Providers', icon: IoMdPerson, path: '/admin' },
+  { name: 'Teachers', icon: IoMdPerson, path: '/admin/teachers' },
   { name: 'Account', icon: IoMdPerson, path: '/admin/account' },
 ];
 
@@ -122,7 +121,4 @@ const mapDispatchToProps = dispatch => ({
   getResearcher: uid => dispatch(fetchResearcher(uid)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
