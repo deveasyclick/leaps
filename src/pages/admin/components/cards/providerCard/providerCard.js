@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 import { FiClock, FiMoreVertical } from 'react-icons/fi';
-import Image from '../../../../assets/icons/person.png';
-import './index.scss';
+import Image from '../../../../../assets/icons/person.png';
+import './providerCard.scss';
 
 export default ({ researcher, updateResearcherDetails }) => {
   const ref = React.createRef();
   return (
-    <div className="researcher provide-details-card">
+    <div className="provider-card">
       <div className="details-wrapper d-flex justify-content-between">
         <span className="card-image">
           <img

@@ -1,0 +1,49 @@
+@import '../../../../../styles/style.scss';
+
+
+.provide-stat-card {
+    width: 100%;
+    background: white;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background: #f9fbfd;
+    }
+
+    .pending-count,
+    .uploads-count,
+    .approved-count {
+        margin: 0 3px;
+    }
+
+    .stats {
+        .pending {
+            padding-right: 10px;
+            border-right: solid;
+
+            .pending-icon {
+                color: gray;
+                margin-right: 5px;
+            }
+        }
+
+        .approved {
+            padding-left: 10px;
+
+            .approved-icon {
+                color: green;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .caret-grid {
+        padding: 0;
+        list-style: none;
+    }
+
+    .icon-wrapper {
+        cursor: pointer;
+    }
+}

@@ -6,7 +6,7 @@ import {
   updateResearcherDetails,
 } from '../../../redux/dash/dash.action';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
-import Card from '../components/cards/providerDetailsCard';
+import Card from '../components/cards/providerCard/providerCard';
 import { updateUserUpload } from '../../../helpers/utils';
 import 'react-table/react-table.css';
 

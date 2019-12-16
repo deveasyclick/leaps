@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
-import Card from '../components/cards/providerDetailsCard';
+import ProviderDetailsCard from '../components/cards/provideDetailsCard/providerDetailsCard';
+import ProviderStatsCard from '../components/cards/providerStatCard/providerDetailsCard';
 
 import {
   fetchResearcher,
@@ -252,9 +253,17 @@ class AdminDashboard extends Component {
         )}
         <section className="container Researcher" id="root">
           <div className="row cards-row">
-            <div className="col-md-12 col-12 d-flex btn-wrapper">
+            <div className="col-md-6 col-12 d-flex btn-wrapper">
               {researcher && (
-                <Card
+                <ProviderDetailsCard
+                  researcher={researcher}
+                  updateResearcherDetails={this.updateResearcherDetails}
+                />
+              )}
+            </div>
+            <div className="col-md-6 col-12 d-flex btn-wrapper">
+              {researcher && (
+                <ProviderStatsCard
                   researcher={researcher}
                   updateResearcherDetails={this.updateResearcherDetails}
                 />
