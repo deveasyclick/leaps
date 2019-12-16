@@ -102,10 +102,12 @@ export const sendResetPassword = obj => (dispatch) => {
     .then((user) => {
       dispatch({ type: authActions.SEND_RESET_PASSWORD_SUCCESS, data: user });
     })
-    .catch(err => dispatch({
+    .catch((err) => {
+      dispatch({
         type: authActions.SEND_RESET_PASSWORD_FAILED,
         error: err.message,
-      }),);
+      });
+    });
 };
 
 export const resetPassword = obj => (dispatch) => {

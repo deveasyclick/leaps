@@ -1,6 +1,7 @@
 import { storage as firebaseStorage, db } from '../../config/firebase';
 import dashActions from './dash.actionTypes';
 import * as storage from '../../helpers/token';
+import { updateUserUpload } from '../../helpers/utils';
 
 export const uploadResources = docs => async (dispatch) => {
   dispatch({
@@ -386,64 +387,6 @@ export const fetchResearcher = uid => async (dispatch) => {
         });
       },
     );
-};
-
-const updateUserUpload = async (docs) => {
-  let approved = 0;
-  let pending = 0;
-  const images = await db
-    .collection('images')
-    .where('user_email', '==', docs.user_email)
-    .get();
-  images.forEach((image) => {
-    if (image.isPending) {
-      return (pending += 1);
-    }
-    approved += 1;
-  });
-  const videos = await db
-    .collection('videos')
-    .where('user_email', '==', docs.user_email)
-    .get();
-
-  videos.forEach((video) => {
-    if (video.isPending) {
-      return (pending += 1);
-    }
-    approved += 1;
-  });
-
-  const pdfs = await db
-    .collection('pdf')
-    .where('user_email', '==', docs.user_email)
-    .get();
-
-  pdfs.forEach((pdf) => {
-    if (pdf.isPending) {
-      return (pending += 1);
-    }
-    approved += 1;
-  });
-
-  const texts = await db
-    .collection('texts')
-    .where('user_email', '==', docs.user_email)
-    .get();
-
-  texts.forEach((text) => {
-    if (text.isPending) {
-      pending += 1;
-    }
-    approved += 1;
-  });
-  await db
-    .collection('web_users')
-    .doc(docs.user_id)
-    .update({
-      file_uploads: images.size + videos.size + texts.size,
-      file_pending: pending,
-      file_approved: approved,
-    });
 };
 
 export const updateTeacherDetails = obj => async (dispatch) => {

@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FiCheck, FiXCircle } from 'react-icons/fi';
-import { IoMdCheckmarkCircle } from 'react-icons/io';
+import { FiXCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
 import * as storage from '../../helpers/token';
-import { validator } from '../../helpers/utils';
 import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import navActionTypes from '../../redux/nav/nav.action-type';
 import {
@@ -12,7 +10,7 @@ import {
   fetchResearcherImages,
   fetchResearcherPdfs,
   fetchResearcherTexts,
-  fetchResearcherVideos,
+  fetchResearcherVideos
 } from '../../redux/dash/dash.action';
 import './index.scss';
 
@@ -33,8 +31,8 @@ class AccountComponent extends React.Component {
         images: [],
         pdfs: [],
         videos: [],
-        texts: [],
-      },
+        texts: []
+      }
     };
     this.imageRef = React.createRef();
     this.handleResourceBtnClick = this.handleResourceBtnClick.bind(this);
@@ -83,57 +81,57 @@ class AccountComponent extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.UPDATE_DETAILS_SUCCESS
     ) {
       this.setState({
-        accountInfo: { ...this.state.accountInfo, success: true },
+        accountInfo: { ...this.state.accountInfo, success: true }
       });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_IMAGES_SUCCESS
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_IMAGES_SUCCESS
     ) {
       this.setState({
-        resources: { ...this.state.resources, images: this.props.dash.data },
+        resources: { ...this.state.resources, images: this.props.dash.data }
       });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_PDFS_SUCCESS
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_PDFS_SUCCESS
     ) {
       this.setState({
-        resources: { ...this.state.resources, pdfs: this.props.dash.data },
+        resources: { ...this.state.resources, pdfs: this.props.dash.data }
       });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_TEXTS_SUCCESS
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_TEXTS_SUCCESS
     ) {
       this.setState({
-        resources: { ...this.state.resources, texts: this.props.dash.data },
+        resources: { ...this.state.resources, texts: this.props.dash.data }
       });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_VIDEOS_SUCCESS
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.FETCH_RESEARCHER_VIDEOS_SUCCESS
     ) {
       this.setState({
-        resources: { ...this.state.resources, videos: this.props.dash.data },
+        resources: { ...this.state.resources, videos: this.props.dash.data }
       });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
     ) {
       this.setState({ accountInfo: { success: true, failed: true } });
     }
     if (
-      prevProps.dash.type !== this.props.dash.type
-      && this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
+      prevProps.dash.type !== this.props.dash.type &&
+      this.props.dash.type === dashActionTypes.UPDATE_DETAILS_LOADING
     ) {
       this.setState({
-        accountInfo: { ...this.state.accountInfo, failed: true },
+        accountInfo: { ...this.state.accountInfo, failed: true }
       });
     }
   }
@@ -181,8 +179,8 @@ class AccountComponent extends React.Component {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         paddingLeft:
-          nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '18rem' : '1rem',
-      },
+          nav.type === navActionTypes.TOGGLE_NAV && nav.show ? '18rem' : '1rem'
+      }
     };
 
     return (
@@ -190,95 +188,88 @@ class AccountComponent extends React.Component {
         {selectedTextResource && (
           <Modal
             isOpen={this.state.open}
-            contentLabel="Minimal Modal Example"
-            style={customStyles}
-          >
-            <div className="text-resource card">
-              <div className="card-title">
-                <h3 className="title">{selectedTextResource.heading}</h3>
+            contentLabel='Minimal Modal Example'
+            style={customStyles}>
+            <div className='text-resource card'>
+              <div className='card-title'>
+                <h3 className='title'>{selectedTextResource.heading}</h3>
               </div>
-              <div className="card-body">
-                <p className="p">{selectedTextResource.definition}</p>
+              <div className='card-body'>
+                <p className='p'>{selectedTextResource.definition}</p>
               </div>
-              <div className="card-subject">
-                <h4 className="h4">{selectedTextResource.subject}</h4>
+              <div className='card-subject'>
+                <h4 className='h4'>{selectedTextResource.subject}</h4>
               </div>
-              <div className="card-topic">
+              <div className='card-topic'>
                 <h4>{selectedTextResource.topic}</h4>
               </div>
-              <div className="card-status">
-                <h4 className="status-indicator">
+              <div className='card-status'>
+                <h4 className='status-indicator'>
                   {selectedTextResource.isPending ? 'pending' : 'approved'}
                 </h4>
               </div>
             </div>
             <button
-              type="button"
-              className="close-button"
-              onClick={this.closeModal}
-            >
-              <FiXCircle size={30} color="red" />
+              type='button'
+              className='close-button'
+              onClick={this.closeModal}>
+              <FiXCircle size={30} color='red' />
             </button>
           </Modal>
         )}
-        <section className="Resources .container-fluid" id="root">
-          <div className="row d-flex justify-content-center upload-resources-heading-row">
-            <div className="offset-0 col-12 col-md-9">
-              <h3 className="upload-text">Resources</h3>
+        <section className='Resources .container-fluid' id='root'>
+          <div className='row d-flex justify-content-center upload-resources-heading-row'>
+            <div className='offset-0 col-12 col-md-9'>
+              <h3 className='upload-text'>Resources</h3>
             </div>
           </div>
-          <div className="row resources-row">
-            <div className="row resources-btn-row">
-              <div className="col-md-8 col-12 offset-0 d-flex btn-wrapper offset-md-1">
+          <div className='row resources-row'>
+            <div className='row resources-btn-row'>
+              <div className='col-md-8 col-12 offset-0 d-flex btn-wrapper offset-md-1'>
                 <div>
                   <button
-                    type="button"
+                    type='button'
                     className={`text-btn btn ${
                       activeContent === 'texts' ? 'active' : ''
                     }`}
-                    onClick={() => this.handleResourceBtnClick('text')}
-                  >
+                    onClick={() => this.handleResourceBtnClick('text')}>
                     Texts
                   </button>
                   <button
-                    type="button"
+                    type='button'
                     className={`pdf-btn btn ${
                       activeContent === 'pdf' ? 'active' : ''
                     }`}
-                    onClick={() => this.handleResourceBtnClick('pdf')}
-                  >
+                    onClick={() => this.handleResourceBtnClick('pdf')}>
                     Pdfs
                   </button>
                   <button
-                    type="button"
+                    type='button'
                     className={`image-btn btn ${
                       activeContent === 'image' ? 'active' : ''
                     }`}
-                    onClick={() => this.handleResourceBtnClick('image')}
-                  >
+                    onClick={() => this.handleResourceBtnClick('image')}>
                     Images
                   </button>
                   <button
-                    type="button"
+                    type='button'
                     className={`video-btn btn ${
                       activeContent === 'video' ? 'active' : ''
                     }`}
-                    onClick={() => this.handleResourceBtnClick('video')}
-                  >
+                    onClick={() => this.handleResourceBtnClick('video')}>
                     Videos
                   </button>
                 </div>
               </div>
             </div>
-            <div className="row content-row">
+            <div className='row content-row'>
               <div
                 className={`col-12 text-content content ${
                   activeContent === 'texts' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  {resources.texts.length > 0
-                    && resources.texts.map((resource, index) => (
+                }`}>
+                <div className='row'>
+                  {resources.texts.length > 0 &&
+                    resources.texts.map((resource, index) => (
                       <div
                         key={index}
                         onClick={() => {
@@ -286,46 +277,45 @@ class AccountComponent extends React.Component {
                             { selectedTextResource: resource },
                             () => {
                               this.openModal();
-                            },
+                            }
                           );
                         }}
-                        className="col-md-4 col-12 col-sm-4"
-                      >
-                        <div className="text-resource resource-card">
-                          <div className="card-title">
+                        className='col-md-4 col-12 col-sm-4'>
+                        <div className='text-resource resource-card'>
+                          <div className='card-title'>
                             <h3>
                               {' '}
                               {resource.heading.slice(0, 22)}
                               {resource.heading.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h3>
                           </div>
-                          <div className="card-body">
-                            <p className="p">
+                          <div className='card-body'>
+                            <p className='p'>
                               {resource.definition.slice(0, 250)}
                               {resource.definition.length > 250 && (
-                                <span className="span">...</span>
+                                <span className='span'>...</span>
                               )}
                             </p>
                           </div>
-                          <div className="card-subject">
-                            <h4 className="h4">
+                          <div className='card-subject'>
+                            <h4 className='h4'>
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h4>
                           </div>
-                          <div className="card-topic">
+                          <div className='card-topic'>
                             <h4>
                               {resource.topic.slice(0, 27)}
                               {resource.topic.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
@@ -339,48 +329,47 @@ class AccountComponent extends React.Component {
               <div
                 className={`col-12 pdf-content content ${
                   activeContent === 'pdf' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  {resources.pdfs.length > 0
-                    && resources.pdfs.map((resource, index) => (
-                      <div key={index} className="col-md-4 col-12 col-sm-4">
-                        <div className="text-resource resource-card">
-                          <div className="card-title">
+                }`}>
+                <div className='row'>
+                  {resources.pdfs.length > 0 &&
+                    resources.pdfs.map((resource, index) => (
+                      <div key={index} className='col-md-4 col-12 col-sm-4'>
+                        <div className='text-resource resource-card'>
+                          <div className='card-title'>
                             <h3>
                               {' '}
                               {resource.title.slice(0, 22)}
                               {resource.title.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h3>
                           </div>
-                          <div className="card-body">
-                            <div className="pdf-resource" key={index}>
+                          <div className='card-body'>
+                            <div className='pdf-resource' key={index}>
                               <iframe
                                 src={`https://docs.google.com/gview?url=${resource.file_path}&embedded=true`}
                                 style={{ width: '100%' }}
-                                frameBorder="0"
+                                frameBorder='0'
                               />
                             </div>
                           </div>
-                          <div className="card-subject">
-                            <h4 className="h4">
+                          <div className='card-subject'>
+                            <h4 className='h4'>
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h4>
                           </div>
-                          <div className="card-topic">
+                          <div className='card-topic'>
                             <h4>
                               {resource.topic.slice(0, 27)}
                               {resource.topic.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
@@ -394,49 +383,48 @@ class AccountComponent extends React.Component {
               <div
                 className={`col-12 image-content content ${
                   activeContent === 'image' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  {resources.images.length > 0
-                    && resources.images.map((resource, index) => (
-                      <div key={index} className="col-md-4 col-12 col-sm-4">
-                        <div className="text-resource resource-card">
-                          <div className="card-title">
+                }`}>
+                <div className='row'>
+                  {resources.images.length > 0 &&
+                    resources.images.map((resource, index) => (
+                      <div key={index} className='col-md-4 col-12 col-sm-4'>
+                        <div className='text-resource resource-card'>
+                          <div className='card-title'>
                             <h3>
                               {' '}
                               {resource.title.slice(0, 22)}
                               {resource.title.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h3>
                           </div>
-                          <div className="card-body">
-                            <div className="image-resource" key={index}>
+                          <div className='card-body'>
+                            <div className='image-resource' key={index}>
                               <img
                                 src={resource.file_path}
-                                alt=""
-                                width="100%"
-                                height="auto"
+                                alt=''
+                                width='100%'
+                                height='auto'
                               />
                             </div>
                           </div>
-                          <div className="card-subject">
-                            <h4 className="h4">
+                          <div className='card-subject'>
+                            <h4 className='h4'>
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h4>
                           </div>
-                          <div className="card-topic">
+                          <div className='card-topic'>
                             <h4>
                               {resource.topic.slice(0, 27)}
                               {resource.topic.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
@@ -450,53 +438,52 @@ class AccountComponent extends React.Component {
               <div
                 className={`col-12 video-content content ${
                   activeContent === 'video' ? 'show' : ''
-                }`}
-              >
-                <div className="row">
-                  {resources.videos.length > 0
-                    && resources.videos.map((resource, index) => (
-                      <div key={index} className="col-md-4 col-12 col-sm-4">
-                        <div className="text-resource resource-card">
-                          <div className="card-title">
+                }`}>
+                <div className='row'>
+                  {resources.videos.length > 0 &&
+                    resources.videos.map((resource, index) => (
+                      <div key={index} className='col-md-4 col-12 col-sm-4'>
+                        <div className='text-resource resource-card'>
+                          <div className='card-title'>
                             <h3>
                               {' '}
                               {resource.title.slice(0, 22)}
                               {resource.title.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h3>
                           </div>
-                          <div className="card-body">
-                            <div className="video-resource" key={index}>
+                          <div className='card-body'>
+                            <div className='video-resource' key={index}>
                               <iframe
-                                width="100%"
-                                height="auto"
-                                className="iframe"
+                                width='100%'
+                                height='auto'
+                                className='iframe'
                                 style={{ border: 'none' }}
                                 src={resource.file_path.replace(
                                   'watch?v=',
-                                  'embed/',
+                                  'embed/'
                                 )}
                               />
                             </div>
                           </div>
-                          <div className="card-subject">
+                          <div className='card-subject'>
                             <h4>
                               {resource.subject.slice(0, 27)}
                               {resource.subject.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
                             </h4>
                           </div>
-                          <div className="card-topic">
+                          <div className='card-topic'>
                             <h4>
                               {resource.topic.slice(0, 27)}
                               {resource.topic.length > 22 ? (
-                                <small className="ellipse">...</small>
+                                <small className='ellipse'>...</small>
                               ) : (
                                 ''
                               )}
@@ -517,14 +504,14 @@ class AccountComponent extends React.Component {
 
 const mapStateToProps = states => ({
   dash: states.dash,
-  nav: states.nav,
+  nav: states.nav
 });
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUserDetails(user)),
   fetchResearcherImages: obj => dispatch(fetchResearcherImages(obj)),
   fetchResearcherVideos: obj => dispatch(fetchResearcherVideos(obj)),
   fetchResearcherTexts: obj => dispatch(fetchResearcherTexts(obj)),
-  fetchResearcherPdfs: obj => dispatch(fetchResearcherPdfs(obj)),
+  fetchResearcherPdfs: obj => dispatch(fetchResearcherPdfs(obj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountComponent);

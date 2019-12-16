@@ -10,6 +10,7 @@ import dashActionTypes from '../../redux/dash/dash.actionTypes';
 import Dialog from '../../components/dialog';
 import { Dialog2 } from '../../components/dialog';
 import Tab from '../../components/tab';
+import { updateUserUpload } from '../../helpers/utils';
 import './index.scss';
 
 const ignoredWords = ['is', 'the', 'there', 'they', 'we', 'when', 'who', 'how'];
@@ -277,12 +278,19 @@ export class Dashboard extends Component {
       });
     }
   }
-  componentDidMount() {
+  async componentDidMount() {
     const { getResearcher } = this.props;
     const user = storage.get('user');
     if (user) {
       this.setState({ user });
       getResearcher(user.uid);
+      try {
+        // eslint-disable-next-line
+        const doc = { user_email: user.email, user_id: uid };
+        await updateUserUpload(doc);
+      } catch (err) {
+        console.log('err updating user upload counts', err);
+      }
     }
   }
   handleDialogNoClicked() {

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiClock, FiMoreVertical, FiXCircle } from 'react-icons/fi';
-import { IoMdCheckmarkCircle } from 'react-icons/io';
+import { FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
-import Image from '../../../assets/icons/person.png';
+import Card from '../components/cards/providerDetailsCard';
 
 import {
   fetchResearcher,
@@ -255,105 +254,10 @@ class AdminDashboard extends Component {
           <div className="row cards-row">
             <div className="col-md-12 col-12 d-flex btn-wrapper">
               {researcher && (
-                <div className="researcher card">
-                  <div className="details-wrapper d-flex justify-content-between">
-                    <span className="card-image">
-                      <img
-                        src={researcher.image ? researcher.image : Image}
-                        className="image"
-                        alt="Researcher"
-                      />
-                    </span>
-                    <div className="details">
-                      <p className="name">{researcher.name}</p>
-                      <p className="uploads">{researcher.country}</p>
-                      <p className="approved-pending">
-                        <span className="icon">
-                          {researcher.approved ? (
-                            <IoMdCheckmarkCircle className="approved-icon" />
-                          ) : (
-                            <FiClock className="pending-icon" />
-                          )}
-                        </span>
-                        <span className="pending">
-                          {researcher.approved ? 'approved' : 'not approved'}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="actions cell">
-                      <div className="approve-pending-popup">
-                        <ul
-                          onMouseEnter={() => {
-                            this.ref.current.style.display = 'block';
-                          }}
-                          onMouseLeave={() => {
-                            this.ref.current.style.display = 'none';
-                          }}
-                          className="approved-pending"
-                          ref={this.ref}
-                        >
-                          <div className="caret" />
-                          <li
-                            className="list first-list"
-                            onClick={() => {
-                              researcher.approved = true;
-                              this.updateResearcherDetails(researcher);
-                              this.ref.current.style.display = 'none';
-                            }}
-                          >
-                            Approve
-                          </li>
-                          <li
-                            className="list"
-                            onClick={() => {
-                              researcher.approved = false;
-                              this.updateResearcherDetails(researcher);
-                              this.ref.current.style.display = 'none';
-                            }}
-                          >
-                            Pending
-                          </li>
-                        </ul>
-                        <FiMoreVertical
-                          onMouseEnter={() => {
-                            this.ref.current.style.display = 'block';
-                          }}
-                          onMouseLeave={() => {
-                            this.ref.current.style.display = 'none';
-                          }}
-                          className="icon"
-                          size={20}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <p className="uploads">
-                    <span className="uploads-count">
-                      {researcher.file_uploads}
-                    </span>
-                    &nbsp;
-                    <span>Uploads</span>
-                  </p>
-                  <div className="stats d-flex">
-                    <p className="pending d-flex align-items-center">
-                      <FiClock size={18} className="pending-icon" />
-                      <span>
-                        {researcher.file_pending}
-                        &nbsp;
-                      </span>
-                      <span>pending</span>
-                    </p>
-                    <p className="approved">
-                      <IoMdCheckmarkCircle
-                        size={18}
-                        className="approved-icon"
-                      />
-                      <span>{researcher.file_approved}</span>
-                      &nbsp;
-                      <span>approved</span>
-                    </p>
-                  </div>
-                </div>
+                <Card
+                  researcher={researcher}
+                  updateResearcherDetails={this.updateResearcherDetails}
+                />
               )}
             </div>
           </div>
@@ -502,7 +406,7 @@ class AdminDashboard extends Component {
                                     resourcesRef.current.style.display = 'none';
                                   }}
                                   className="icon"
-                                  size={20}
+                                  size={28}
                                 />
                               </div>
                             </div>

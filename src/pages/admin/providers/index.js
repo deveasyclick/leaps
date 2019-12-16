@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
-import { FiClock } from 'react-icons/fi';
-import { IoMdCheckmarkCircle } from 'react-icons/io';
-import Image from '../../../assets/icons/person.png';
-import { fetchResearchers } from '../../../redux/dash/dash.action';
+import {
+  fetchResearchers,
+  updateResearcherDetails,
+} from '../../../redux/dash/dash.action';
 import dashActionTypes from '../../../redux/dash/dash.actionTypes';
+import Card from '../components/cards/providerDetailsCard';
+import { updateUserUpload } from '../../../helpers/utils';
 import 'react-table/react-table.css';
 
 class AdminDashboard extends Component {
@@ -16,6 +18,7 @@ class AdminDashboard extends Component {
       hideNav: false,
     };
     this.researcherClicked = this.researcherClicked.bind(this);
+    this.updateResearcherDetails = this.updateResearcherDetails.bind(this);
     this.resize = this.resize.bind(this);
   }
 
@@ -24,14 +27,32 @@ class AdminDashboard extends Component {
       prevProps.dash.type !== this.props.dash.type
       && this.props.dash.type === dashActionTypes.FETCH_RESEARCHERS_SUCCESS
     ) {
+      const researchers = [...this.props.dash.data];
       this.setState({
-        researchers: [...this.props.dash.data],
+        researchers,
       });
+      Promise.all(
+        researchers.map((researcher) => {
+          const doc = { user_email: researcher.email, user_id: researcher.uid };
+          return updateUserUpload(doc);
+        }),
+      )
+        .then(() => {
+          console.log('Researchers stat updated');
+        })
+        .catch((err) => {
+          console.log("An error occur updating the researcher's stats", err);
+        });
     }
   }
 
   researcherClicked(researcher) {
     this.props.history.push(`/researcher/${researcher.uid}`);
+  }
+
+  updateResearcherDetails(obj) {
+    const { updateResearcherDetail } = this.props;
+    updateResearcherDetail(obj);
   }
 
   componentDidMount() {
@@ -67,45 +88,13 @@ class AdminDashboard extends Component {
             <div
               className="col-12 col-md-6 col-sm-3 col-lg-4"
               key={index}
+              style={{ marginBottom: '20px' }}
               onClick={() => this.researcherClicked(researcher)}
             >
-              <div className="researcher card">
-                <div className="details-wrapper d-flex justify-content-between">
-                  <div className="details">
-                    <p className="name">{researcher.name}</p>
-                    <p className="uploads">
-                      <span className="uploads-count">
-                        {researcher.file_uploads}
-                      </span>
-                      Uploads
-                    </p>
-                  </div>
-                  <div className="image">
-                    <img
-                      src={researcher.image || Image}
-                      alt=""
-                      width="100%"
-                      className="img"
-                    />
-                  </div>
-                </div>
-                <div className="stats d-flex">
-                  <p className="pending d-flex align-items-center">
-                    <FiClock size={18} className="pending-icon" />
-                    <span className="pending-count">
-                      {researcher.file_pending}
-                    </span>
-                    pending
-                  </p>
-                  <p className="approved">
-                    <IoMdCheckmarkCircle size={18} className="approved-icon" />
-                    <span className="pending-count">
-                      {researcher.file_approved}
-                    </span>
-                    approved
-                  </p>
-                </div>
-              </div>
+              <Card
+                researcher={researcher}
+                updateResearcherDetails={this.updateResearcherDetails}
+              />
             </div>
           ))}
         </div>
@@ -119,5 +108,6 @@ const mapPropsToState = states => ({
 });
 const mapPropsToDispatch = dispatch => ({
   getResearchers: () => dispatch(fetchResearchers()),
+  updateResearcherDetail: obj => dispatch(updateResearcherDetails(obj)),
 });
 export default connect(mapPropsToState, mapPropsToDispatch)(AdminDashboard);
