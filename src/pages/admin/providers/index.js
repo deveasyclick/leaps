@@ -44,6 +44,13 @@ class AdminDashboard extends Component {
           console.log("An error occur updating the researcher's stats", err);
         });
     }
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_RESEARCHER_DETAILS_SUCCESS
+    ) {
+      const { getResearchers } = this.props;
+      getResearchers();
+    }
   }
 
   researcherClicked(researcher) {

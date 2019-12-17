@@ -5,6 +5,7 @@ import { FiMoreVertical, FiXCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
 import ProviderDetailsCard from '../components/cards/provideDetailsCard/providerDetailsCard';
 import ProviderStatsCard from '../components/cards/providerStatCard/providerDetailsCard';
+import { updateUserUpload } from '../../../helpers/utils';
 
 import {
   fetchResearcher,
@@ -152,6 +153,20 @@ class AdminDashboard extends Component {
       this.setState({
         resources: { ...this.state.resources, images: this.props.dash.data },
       });
+    }
+
+    if (
+      prevProps.dash.type !== this.props.dash.type
+      && this.props.dash.type === dashActionTypes.UPDATE_RESOURCES_SUCCESS
+    ) {
+      const researcherUid = this.props.match.params.uid;
+      if (researcherUid) {
+        const { researcher } = this.state;
+        const data = { user_email: researcher.email, user_id: researcher.uid };
+        updateUserUpload(data);
+      } else {
+        this.props.history.replace('/admin');
+      }
     }
   }
 
@@ -386,7 +401,8 @@ class AdminDashboard extends Component {
                                   <div className="caret" />
                                   <li
                                     className="list first-list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = false;
                                       this.updateResources(resource);
@@ -397,7 +413,8 @@ class AdminDashboard extends Component {
                                   </li>
                                   <li
                                     className="list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = true;
                                       this.updateResources(resource);
@@ -498,7 +515,8 @@ class AdminDashboard extends Component {
                                   <div className="caret" />
                                   <li
                                     className="list first-list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = false;
                                       this.updateResources(resource);
@@ -509,7 +527,8 @@ class AdminDashboard extends Component {
                                   </li>
                                   <li
                                     className="list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = true;
                                       this.updateResources(resource);
@@ -611,7 +630,8 @@ class AdminDashboard extends Component {
                                   <div className="caret" />
                                   <li
                                     className="list first-list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = false;
                                       this.updateResources(resource);
@@ -622,7 +642,8 @@ class AdminDashboard extends Component {
                                   </li>
                                   <li
                                     className="list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = true;
                                       this.updateResources(resource);
@@ -728,7 +749,8 @@ class AdminDashboard extends Component {
                                   <div className="caret" />
                                   <li
                                     className="list first-list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = false;
                                       this.updateResources(resource);
@@ -739,7 +761,8 @@ class AdminDashboard extends Component {
                                   </li>
                                   <li
                                     className="list"
-                                    onClick={() => {
+                                    onClick={(ev) => {
+                                      ev.stopPropagation();
                                       // eslint-disable-next-line
                                       resource.isPending = true;
                                       this.updateResources(resource);

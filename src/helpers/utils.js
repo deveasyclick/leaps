@@ -40,7 +40,9 @@ export const updateUserUpload = async (docs) => {
     .collection('images')
     .where('user_email', '==', docs.user_email)
     .get();
-  images.forEach((image) => {
+  let image;
+  images.forEach((doc) => {
+    image = doc.data();
     if (image.isPending) {
       pending += 1;
     } else {
@@ -52,7 +54,9 @@ export const updateUserUpload = async (docs) => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  videos.forEach((video) => {
+  let video;
+  videos.forEach((doc) => {
+    video = doc.data();
     if (video.isPending) {
       pending += 1;
     } else {
@@ -65,7 +69,9 @@ export const updateUserUpload = async (docs) => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  pdfs.forEach((pdf) => {
+  let pdf;
+  pdfs.forEach((doc) => {
+    pdf = doc.data();
     if (pdf.isPending) {
       pending += 1;
     } else {
@@ -78,7 +84,9 @@ export const updateUserUpload = async (docs) => {
     .where('user_email', '==', docs.user_email)
     .get();
 
-  texts.forEach((text) => {
+  let text;
+  texts.forEach((doc) => {
+    text = doc.data();
     if (text.isPending) {
       pending += 1;
     } else {

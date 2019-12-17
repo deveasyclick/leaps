@@ -44,6 +44,24 @@ export default (state = initialState, payload) => {
         error: payload.error,
       };
 
+    case dashActionTypes.UPDATE_RESEARCHER_DETAILS_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESEARCHER_DETAILS_LOADING,
+      };
+    case dashActionTypes.UPDATE_RESEARCHER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESEARCHER_DETAILS_SUCCESS,
+      };
+
+    case dashActionTypes.UPDATE_RESEARCHER_DETAILS_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESEARCHER_DETAILS_FAILED,
+        error: payload.error,
+      };
+
     case dashActionTypes.UPDATE_DETAILS_LOADING:
       return {
         ...state,
@@ -60,6 +78,24 @@ export default (state = initialState, payload) => {
       return {
         ...state,
         type: dashActionTypes.UPDATE_DETAILS_FAILED,
+        error: payload.error,
+      };
+
+    case dashActionTypes.UPDATE_RESOURCES_LOADING:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESOURCES_LOADING,
+      };
+    case dashActionTypes.UPDATE_RESOURCES_SUCCESS:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESOURCES_SUCCESS,
+      };
+
+    case dashActionTypes.UPDATE_RESOURCES_FAILED:
+      return {
+        ...state,
+        type: dashActionTypes.UPDATE_RESOURCES_FAILED,
         error: payload.error,
       };
 

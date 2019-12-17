@@ -9,7 +9,7 @@ export default ({ researcher, updateResearcherDetails }) => {
   const ref = React.createRef();
   return (
     <div className="provider-card">
-      <div className="details-wrapper d-flex justify-content-between">
+      <div className="details-wrapper d-flex">
         <span className="card-image">
           <img
             src={researcher.image ? researcher.image : Image}
@@ -81,6 +81,7 @@ export default ({ researcher, updateResearcherDetails }) => {
           </div>
         </div>
       </div>
+      <div className="line" />
       <p className="uploads">
         <span className="uploads-count">{researcher.file_uploads}</span>
         &nbsp;
