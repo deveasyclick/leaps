@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import './index.scss';
 import { FiUser } from 'react-icons/fi';
 import { IoMdPerson } from 'react-icons/io';
+import { MdAccountBox, MdAccountCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/images/logo-only_mobile.png';
 import { fetchResearcher } from '../../../../redux/dash/dash.action';
 import navActionTypes from '../../../../redux/nav/nav.action-type';
 
 const navs = [
-  { name: 'Providers', icon: IoMdPerson, path: '/admin' },
-  { name: 'Teachers', icon: IoMdPerson, path: '/admin/teachers' },
+  { name: 'Providers', icon: MdAccountBox, path: '/admin' },
+  { name: 'Teachers', icon: MdAccountCircle, path: '/admin/teachers' },
   { name: 'Account', icon: IoMdPerson, path: '/admin/account' },
 ];
 
