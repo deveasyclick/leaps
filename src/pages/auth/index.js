@@ -45,7 +45,9 @@ export class Auth extends Component {
       },
       forgot: { email: { value: '', valid: false } },
       signinToSubmit: {},
-      signupToSubmit: {},
+      signupToSubmit: {
+        country: 'Kenya',
+      },
       forgotPasswordToSubmit: {},
       activePage: 'signin',
       showSigninInvalid: false,
