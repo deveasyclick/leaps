@@ -12,21 +12,19 @@ Admin dashboard for uploading study resources for leaps mobile app
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React, TypeScript, 
-**Backend:** Nodejs, Express, Firebase functions 
+**Frontend:** React, Redux, 
+**Backend:** Nodejs, Typescript, Express, Firebase functions 
 **Database:** Firebase firestore
-**Storage & CDN:** AWS S3, CloudFront  
-**Deployment:** netflify
-**Others:** 
+**Deployment:** firebase
+**Others:** Material UI
 
 ## 🧑‍💻 Getting Started
 
 ### Prerequisites
 
-- Go 1.21+
-- Node.js 18+
-- PostgreSQL
-- Make (for running commands)
+- React 16+
+- Node.js 10+
+- Firebase
 
 ### Installation
 
@@ -45,16 +43,20 @@ Admin dashboard for uploading study resources for leaps mobile app
    ```
 4. Project Structure
    ```bash
-   tilvio/
-   ├── backend/       # Golang backend
-   │   ├── cmd/api/   # Main API server
-   │   ├── internal/  # Business logic
-   │   └── pkg/       # Shared packages
-   ├── frontend/      # React frontend
-   │   ├── src/
-   │   └── public/
-   ├── .env.example
-   └── Makefile
+   leaps/
+   ├── public/
+   ├── src/     
+   │   ├── assets/
+   │   └── components/
+   │   └── config/
+   │   └── helpers/
+   │   └── layouts/
+   │   └── pages/
+   ├── .eslintrc.json
+   └── .gitignore
+   └── .firebase.json
+   └── .package.json
+   └── .package-lock.json
    ```
 5. Contact
    For feedback or support: ydeniyi@gmail.com
