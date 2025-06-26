@@ -1,4 +1,4 @@
-# Tilvio
+# Leaps
 
 Admin dashboard for uploading study resources for leaps mobile app
 
